@@ -36,13 +36,13 @@
   </footer>
 
   <!-- 引入 marked.js -->
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
   <script>
     // 取得內嵌的 Markdown 內容
     const markdownContent = document.getElementById('markdown-content').textContent;
-
+    const md = window.markdownit();
     // 使用 marked.js 轉換 Markdown 成 HTML
-    const htmlContent = marked(markdownContent);
+    const htmlContent = md.render(markdownContent);
 
     // 將轉換後的 HTML 輸出到頁面中
     document.getElementById('markdown-output').innerHTML = htmlContent;
