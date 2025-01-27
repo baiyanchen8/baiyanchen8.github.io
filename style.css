@@ -51,4 +51,10 @@ body {
     padding: 1rem;
     background: #1f1f1f;
   }
+  .updated-time {
+    display: block;
+    font-size: 0.9em;
+    color: #888;
+    margin-top: 5px;
+  }
   
