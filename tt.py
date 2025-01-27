@@ -21,21 +21,32 @@ for markdown_file in input_dir.glob("*.md"):
     output_file = output_dir / f"{markdown_file.stem}.html"
 
     html_template = f"""
-    <!DOCTYPE html>
-    <html lang="zh-TW">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Markdown 轉 HTML</title>
-        <style>
-            body {{ font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }}
-            h1, h2, h3 {{ color: #333; }}
-        </style>
-    </head>
-    <body>
-        {html_content}
-    </body>
-    </html>
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{markdown_file.stem}</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header>
+    <h1>{markdown_file.stem}</h1>
+  </header>
+
+  <section>
+    <!-- 使用 script 標籤包裹 Markdown 內容 -->
+     {html_content}
+  </section>
+
+  <footer>
+    <p><a href="../index.html">回首頁</a></p>
+  </footer>
+
+
+</body>
+</html>
+
     """
 
     # 將 HTML 寫入檔案
