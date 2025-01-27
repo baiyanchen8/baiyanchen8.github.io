@@ -1,4 +1,4 @@
-fetch('assets/file-list.json')
+fetch('asserts/file-list.json')
   .then(response => response.json())
   .then(data => {
     // 動態載入圖片
