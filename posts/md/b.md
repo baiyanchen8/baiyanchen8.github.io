@@ -135,6 +135,7 @@ struct term{
 struct term matrix[item+1];
 ```
 通常，在這個表示法的第一行，也就是matrix[0]會用於放置整個矩陣的基本訊息。
+
 - matrix[0].col
 	- matrix的行數
 - matrix[0].row
