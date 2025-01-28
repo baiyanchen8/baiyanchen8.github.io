@@ -53,7 +53,7 @@ fetch('asserts/file-list.json')
       updatedTimeElement.textContent = `最後更新時間: ${updatedTime}`;
 
      const info=document.createElement('div');
-     info.classList.add('info-container');
+     info.classList.add('taJustify');
      info.appendChild(a);
      info.appendChild(pathElement); 
       // 只在 CSS 中進行排版調整，不改動 li 結構

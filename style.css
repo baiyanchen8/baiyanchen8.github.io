@@ -21,27 +21,43 @@ header h1 {
 }
 
 .info-container {
-  text-align: justify; /* 確保標題和路徑在同一行 */
+  display: flex;
+  flex-direction: row; /* 標題與路徑在同一行 */
+  justify-content: space-between; /* 保持標題和路徑一左一右 */
+  align-items: flex-start; /* 確保元素不會垂直居中 */
+  width: 100%;
+  margin-top: 5px; /* 調整間距 */
 }
+
 .a {
   text-decoration: none;
   color: #ffffff;
   display: inline-block;
+  margin-right: auto; /* 保證標題靠左對齊 */
 }
+
 .path-info {
   color: #888;
-  text-align: right; /* 更新時間右對齊 */
+  text-align: right; /* 路徑右對齊 */
   display: inline-block;
-
 }
 
 .updated-time {
-  display: block;
-  margin-top: 5px; /* 讓更新時間距離路徑有間距 */
+  display: block; /* 顯示為區塊 */
+  margin-top: 5px; /* 讓更新時間與路徑有間距 */
   font-size: 0.9rem;
   color: #888;
   text-align: right; /* 更新時間右對齊 */
 }
+.taJustify {
+  text-align: justify;
+}
+.taJustify:after {
+content: '';
+display: inline-block;
+width: 100%;
+}
+
 
 /* 導覽連結 */
 nav a {
@@ -151,8 +167,8 @@ footer {
   padding: 1rem;
   background: #1f1f1f;
 }
+
 .info-container {
-  text-align: right; /* 將內容文字靠右對齊 */
   font-size: 0.8rem; /* 小字體 */
   color: #cccccc; /* 淺灰色 */
   display: flex;
