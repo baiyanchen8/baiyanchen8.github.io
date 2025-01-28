@@ -76,7 +76,7 @@ for markdown_file in input_dir.glob("*.md"):
         </section>
 
         <footer>
-            <p><a href="../index.html">回首頁</a></p>
+            <p><a href="../../index.html">回首頁</a></p>
         </footer>
     </body>
     </html>
