@@ -27,7 +27,7 @@ fetch('asserts/file-list.json')
       const a = document.createElement('a');
       a.href = post.path;
       a.textContent = post.title;
-      
+      b=post.path;
       // 顯示修改時間，格式化為中文時間
       const updatedTime = new Date(post.updated_at).toLocaleString('zh-TW', {
         year: 'numeric',
@@ -44,6 +44,7 @@ fetch('asserts/file-list.json')
       
       // 把文章標題和修改時間加入到 list item
       li.appendChild(a);
+      li.appendChild(b);
       li.appendChild(updatedTimeElement);
       
       blogList.appendChild(li);
