@@ -52,7 +52,8 @@ fetch('asserts/file-list.json')
       updatedTimeElement.classList.add('updated-time');
       updatedTimeElement.textContent = `最後更新時間: ${updatedTime}`;
 
-      const tmp = document.createElement('div').classList.add('tmp');
+      const tmp = document.createElement('div');
+      tmp.classList.add('tmp');
       const info=document.createElement('div');
      info.classList.add('taJustify');
      info.appendChild(a);
