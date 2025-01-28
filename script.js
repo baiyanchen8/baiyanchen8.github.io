@@ -27,7 +27,7 @@ fetch('asserts/file-list.json')
       
       // 創建標題
       const a = document.createElement('a');
-      a.classList.add('al'); 
+      a.classList.add('.a'); 
 
       a.href = post.path;
       a.textContent = post.title;
