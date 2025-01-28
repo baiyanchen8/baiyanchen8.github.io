@@ -36,7 +36,6 @@ li {
   justify-content: space-between;
 }
 .a1 {
-  text-decoration: none;
   color: #ffffff;
   display: inline-block;
   margin-right: auto; /* 保證標題靠左對齊 */
