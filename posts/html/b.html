@@ -65,32 +65,34 @@
 <h2>2.3 結構(struct)&amp;連結(link list)</h2>
 <h3>2.3.1 結構(struct)</h3>
 <ul>
-<li><code>typedef struct</code>
-    <code>typedef struct{
-        char name[10];
-        int age;
-        float salary;
-    }example_use;
-    int main(int k,char *arr[]){
-        example_use asd;
-        asd.age =0;
-        printf("%d\n",asd.age); 
-        return 0;
-    }</code></li>
-<li><code>struct</code>
-    <code>struct example_2{
-        char name[10];
-        int age;
-        float salary;
-    };
-    int main(int k,char *arr[]){
-        struct example_2 as2;
-        as2.salary=1.234;
-        printf("%f",as2.salary); 
-        return 0;
-    }</code></li>
-</ul>
+<li>
+<p><code>typedef struct</code></p>
+<p><code>typedef struct{
+    char name[10];
+    int age;
+    float salary;
+}example_use;
+int main(int k,char *arr[]){
+    example_use asd;
+    asd.age =0;
+    printf("%d\n",asd.age); 
+    return 0;
+}</code>
+- <code>struct</code></p>
+<p><code>struct example_2{
+    char name[10];
+    int age;
+    float salary;
+};
+int main(int k,char *arr[]){
+    struct example_2 as2;
+    as2.salary=1.234;
+    printf("%f",as2.salary); 
+    return 0;
+}</code></p>
 <h3>2.3.2 union</h3>
+</li>
+</ul>
 <div class="codehilite"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
 
 <span class="k">union</span><span class="w"> </span><span class="nc">SampleUnion</span><span class="w"> </span><span class="p">{</span>

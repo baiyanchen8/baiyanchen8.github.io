@@ -32,6 +32,7 @@ int main() {
 ## 2.3 結構(struct)&連結(link list)
 ### 2.3.1 結構(struct)
 - `typedef struct`
+
 	```
 	typedef struct{
 		char name[10];
@@ -46,6 +47,7 @@ int main() {
 	}
 	```
 - `struct`
+
 	```
 	struct example_2{
 		char name[10];
