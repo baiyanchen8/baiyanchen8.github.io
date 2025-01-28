@@ -21,10 +21,7 @@ header h1 {
 }
 
 .info-container {
-  display: flex;
-  justify-content: space-between; /* 讓標題和路徑在同一行上，並且一左一右 */
   text-align: justify; /* 確保標題和路徑在同一行 */
-  width: 100%;
 }
 .a {
   text-decoration: none;
