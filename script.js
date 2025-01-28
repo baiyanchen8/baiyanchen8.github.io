@@ -26,7 +26,7 @@ fetch('asserts/file-list.json')
       const li = document.createElement('li');
       
       // 創建標題
-      const a = document.createElement('div');
+      const a = document.createElement('a');
       a.classList.add('.a'); // 加入 path-info 類別
 
       a.href = post.path;
