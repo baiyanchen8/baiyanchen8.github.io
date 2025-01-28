@@ -4,7 +4,7 @@ from datetime import datetime
 
 # 設定資料夾路徑
 IMAGES_DIR = "asserts/images"
-POSTS_DIR = "posts"
+POSTS_DIR = "posts/html"
 JSON_FILE = "asserts/file-list.json"
 
 def generate_file_list():

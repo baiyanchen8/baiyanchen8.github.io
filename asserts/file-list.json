@@ -8,18 +8,18 @@
     "posts": [
         {
             "title": "低頭不見抬頭見",
-            "path": "posts/低頭不見抬頭見.html",
+            "path": "posts/html/低頭不見抬頭見.html",
             "updated_at": "2025-01-28 04:19:20"
         },
         {
             "title": "a",
-            "path": "posts/a.html",
+            "path": "posts/html/a.html",
             "updated_at": "2025-01-28 12:47:23"
         },
         {
             "title": "a1",
-            "path": "posts/a1.html",
-            "updated_at": "2025-01-28 12:55:22"
+            "path": "posts/html/a1.html",
+            "updated_at": "2025-01-28 13:11:45"
         }
     ]
 }

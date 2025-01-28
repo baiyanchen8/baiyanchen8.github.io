@@ -38,10 +38,16 @@
         async function convert() {
             try {
                 // 获取外部的 Markdown 文件内容
-                const response = await fetch('/md/a.md');
+                const response = await fetch('../a.md');
                 if (!response.ok) {
                     throw new Error(`无法加载 Markdown 文件: ${response.statusText}`);
+                }else{
+                    const response = await fetch('a.md');
+                    if (!response.ok) {
+                        throw new Error(`无法加载 Markdown 文件: ${response.statusText}`);
+                    }
                 }
+                
                 let mdContent = await response.text();
 
                 // 将 `$latex$` 转为 `\(latex\)` 和 `$$latex$$` 转为 `\[latex\]`
