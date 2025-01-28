@@ -20,17 +20,25 @@ header h1 {
   margin: 0;
 }
 
-.path-info {
-  color: #cccccc; /* 淺灰色文字 */
-  font-size: 0.9rem; /* 小字體 */
-  display: block; /* 單獨占一行 */
-  margin-top: 0.5rem; /* 與上方標題稍微留空 */
+a {
+  text-decoration: none;
+  color: #ffffff;
+  display: inline-block; /* 保持在一行顯示 */
+  margin-right: 10px; /* 距離右側一些間距 */
 }
+
+.path-info {
+  display: inline-block;
+  color: #cccccc;
+  margin-left: 10px; /* 使 path 顯示於標題右側 */
+}
+
 .updated-time {
-  color: #cccccc; /* 淺灰色文字 */
-  font-size: 0.9rem; /* 小字體 */
-  display: block; /* 單獨占一行 */
-  margin-top: 0.5rem; /* 與上方標題稍微留空 */
+  display: block;
+  margin-top: 5px; /* 讓更新時間距離路徑有間距 */
+  font-size: 0.9rem;
+  color: #888;
+  text-align: right; /* 更新時間右對齊 */
 }
 
 /* 導覽連結 */

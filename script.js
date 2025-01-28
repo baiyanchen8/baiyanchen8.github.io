@@ -24,6 +24,8 @@ fetch('asserts/file-list.json')
     // 載入已排序的文章
     data.posts.forEach(post => {
       const li = document.createElement('li');
+      
+      // 創建標題
       const a = document.createElement('a');
       a.href = post.path;
       a.textContent = post.title;
@@ -42,25 +44,19 @@ fetch('asserts/file-list.json')
       const formattedPath = post.path.replace('posts/html/', 'html/');
       const pathElement = document.createElement('span');
       pathElement.classList.add('path-info'); // 加入 path-info 類別
-      pathElement.textContent = `路徑:  ${formattedPath}`;
-      pathElement.style.display = 'block'; // 顯示為區塊，換行
+      pathElement.textContent = `路徑: ${formattedPath}`;
 
       const updatedTimeElement = document.createElement('span');
       updatedTimeElement.classList.add('updated-time');
       updatedTimeElement.textContent = `最後更新時間: ${updatedTime}`;
 
-      const infoContainer = document.createElement('div');
-      infoContainer.classList.add('info-container'); // 容器類別
-      
-      infoContainer.appendChild(pathElement); // 將路徑資訊加入容器
-      infoContainer.appendChild(updatedTimeElement); // 將更新時間加入容器
-      const liContainer = document.createElement('div');
-      liContainer.appendChild(a);
-      liContainer.appendChild(infoContainer);
-      // 把文章標題和右側資訊加入到 list item
-      li.appendChild(liContainer); // 標題
+      // 只在 CSS 中進行排版調整，不改動 li 結構
+      li.appendChild(a); // 把標題加到 li 裡
+      li.appendChild(pathElement); // 把路徑加到 li 裡
+      li.appendChild(updatedTimeElement); // 把更新時間加到 li 裡
+
+      // 把列表項目加入 blogList
       blogList.appendChild(li);
-      
     });
   })
   .catch(error => console.error('無法載入 JSON：', error));
