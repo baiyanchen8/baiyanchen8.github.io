@@ -41,7 +41,7 @@ fetch('asserts/file-list.json')
       // 將完整路徑轉換為相對路徑格式
       const formattedPath = post.path.replace('posts/html/', 'html/');
       const pathElement = document.createElement('span');
-      pathElement.textContent = `路徑: ${post.path} -> ${formattedPath}`;
+      pathElement.textContent = `路徑:  ${formattedPath}`;
       pathElement.style.display = 'block'; // 顯示為區塊，換行
 
       const updatedTimeElement = document.createElement('span');
