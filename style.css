@@ -20,18 +20,17 @@ header h1 {
   margin: 0;
 }
 .info-container {
-  display: flex;
   justify-content: space-between; /* 使標題和路徑分左右對齊 */
   width: 100%;
+  align-items: center; /* 確保 title 和 path 都在同一水平行 */
 }
-
 a {
   text-decoration: none;
   color: #ffffff;
   display: inline-block;
 }
 .path-info {
-  color: #cccccc;
+  color: #888;
   text-align: right; /* 更新時間右對齊 */
 }
 
