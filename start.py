@@ -112,7 +112,7 @@ def convert_markdown_to_html():
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>{markdown_file.stem}</title>
-            <link rel="stylesheet" href="../../style.css">
+            <link rel="stylesheet" href="/style.css">
             <script type="text/javascript" async
                 src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
             </script>
@@ -128,7 +128,7 @@ def convert_markdown_to_html():
                 {html_content}
             </section>
             <footer>
-                <p><a href="../../index.html">回首頁</a></p>
+                <p><a href="/index.html">回首頁</a></p>
             </footer>
         </body>
         </html>
