@@ -17,8 +17,13 @@
     <script>hljs.highlightAll();</script>
 </head>
 <body>
-    <h1>相关示例</h1>
+    <header>
+        <h1>{markdown_file.stem}</h1>
+    </header>
     <div id="html"></div>
+    <footer>
+        <p><a href="../index.html">回首頁</a></p>
+    </footer>
     <!-- 通过 CDN 加载 marked.js -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script>
@@ -33,7 +38,7 @@
         async function convert() {
             try {
                 // 获取外部的 Markdown 文件内容
-                const response = await fetch('../md/a.md');
+                const response = await fetch('/md/a.md');
                 if (!response.ok) {
                     throw new Error(`无法加载 Markdown 文件: ${response.statusText}`);
                 }
