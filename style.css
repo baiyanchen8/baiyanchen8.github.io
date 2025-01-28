@@ -23,12 +23,9 @@ header h1 {
 a {
   text-decoration: none;
   color: #ffffff;
-  display: inline-block; /* 保持在一行顯示 */
-  margin-right: 10px; /* 距離右側一些間距 */
-}
-
-.path-info {
   display: inline-block;
+}
+.path-info {
   color: #cccccc;
   text-align: right; /* 更新時間右對齊 */
 }
