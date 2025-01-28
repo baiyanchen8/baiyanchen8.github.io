@@ -20,6 +20,14 @@ header h1 {
   margin: 0;
 }
 
+.path-info {
+  color: #cccccc; /* 淺灰色文字 */
+  font-size: 0.9rem; /* 小字體 */
+  display: block; /* 單獨占一行 */
+  margin-top: 0.5rem; /* 與上方標題稍微留空 */
+}
+
+
 /* 導覽連結 */
 nav a {
   color: #ffffff;
