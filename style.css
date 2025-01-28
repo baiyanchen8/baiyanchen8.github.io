@@ -26,7 +26,7 @@ header h1 {
   align-items: flex-start; /* 確保標題和路徑在同一行 */
   width: 100%;
 }
-a {
+.a {
   text-decoration: none;
   color: #ffffff;
   display: inline-block;

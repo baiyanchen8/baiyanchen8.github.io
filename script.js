@@ -26,7 +26,9 @@ fetch('asserts/file-list.json')
       const li = document.createElement('li');
       
       // 創建標題
-      const a = document.createElement('a');
+      const a = document.createElement('div');
+      a.classList.add('.a'); // 加入 path-info 類別
+
       a.href = post.path;
       a.textContent = post.title;
 
@@ -42,7 +44,7 @@ fetch('asserts/file-list.json')
 
       // 將完整路徑轉換為相對路徑格式
       const formattedPath = post.path.replace('posts/html/', 'html/');
-      const pathElement = document.createElement('span');
+      const pathElement = document.createElement('div');
       pathElement.classList.add('path-info'); // 加入 path-info 類別
       pathElement.textContent = `路徑: ${formattedPath}`;
 
