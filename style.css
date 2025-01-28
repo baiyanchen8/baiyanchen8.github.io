@@ -149,7 +149,9 @@ img {
   max-width: 100%;
   height: auto;
 }
-
+ul{
+  list-style-type: decimal-leading-zero;
+}
 /* 段落與標題 */
 p, h1, h2, h3, h4, h5, h6, ul, ol, li, blockquote, span, div {
   word-wrap: break-word; /* 自動換行 */
