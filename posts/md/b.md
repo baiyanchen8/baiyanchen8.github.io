@@ -124,7 +124,7 @@ struct poly add(struct poly A,struct poly B){
 
 ## 2.5 稀疏矩陣
 ### 2.5.1 抽象化資料型態
-稀疏矩陣（英語：sparse matrix），在數值分析中，<font color="ffff">是其元素大部分為零的矩陣</font>。反之，如果大部分元素都非零，則這個矩陣是稠密(dense)的。在科學與工程領域中求解線性模型時經常出現大型的稀疏矩陣。
+稀疏矩陣（英語：sparse matrix），在數值分析中，是其元素大部分為零的矩陣。反之，如果大部分元素都非零，則這個矩陣是稠密(dense)的。在科學與工程領域中求解線性模型時經常出現大型的稀疏矩陣。
 ### 2.5.2 稀疏矩陣表示方式
 ```
 struct term{
@@ -178,10 +178,10 @@ struct term *transpose(const struct term *A) {
 }
 ```
 分析:
-正常而言 bigO:$\mathcal{O}(col\times value)$
-假設 value =$col\times row$
+正常而言 bigO: $\mathcal{O}(col\times value)$
+假設 value = $col\times row$
 ⇒ $\mathcal{O}(col^2 \times row)$
-⇒太爛了
+⇒ 太爛了
 $$\frac{1}{2}$$
 ---
 
