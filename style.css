@@ -1,114 +1,93 @@
 /* 全域設定 */
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #121212; /* 黑色背景 */
-    color: #ffffff; /* 白色文字 */
-  }
-  
-  header {
-    background: #1f1f1f;
-    padding: 1rem;
-    text-align: center;
-  }
-  
-  header h1 {
-    margin: 0;
-  }
-  
-  nav a {
-    color: #ffffff;
-    margin: 0 1rem;
-    text-decoration: none;
-  }
-  
-  nav a:hover {
-    text-decoration: underline;
-  }
-  
-  section {
-    padding: 2rem;
-    margin: 0 auto;
-    max-width: 800px;
-  }
-  
-  .gallery-container {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  
-  .gallery-container img {
-    width: 100%;
-    max-width: 200px;
-    border: 2px solid #333;
-    border-radius: 5px;
-  }
-  
-  footer {
-    text-align: center;
-    padding: 1rem;
-    background: #1f1f1f;
-  }
-  .updated-time {
-    display: block;
-    font-size: 0.9em;
-    color: #888;
-    margin-top: 5px;
-  }
-  
-img {
-    max-width: 100%;
-    max-height: 400px;
-    height: auto;
-}
-body {
+  margin: 0;
   font-family: Arial, sans-serif;
-  margin: 20px;
+  background-color: #121212; /* 黑色背景 */
+  color: #ffffff; /* 白色文字 */
+  word-wrap: break-word; /* 自動換行 */
+  word-break: break-word; /* 長單詞換行 */
+  white-space: normal; /* 允許換行 */
 }
 
-h1 {
+/* 頁首 */
+header {
+  background: #1f1f1f;
+  padding: 1rem;
   text-align: center;
 }
 
-#html {
-  width: 95%;
-  margin: 0 auto;
+header h1 {
+  margin: 0;
 }
 
+/* 導覽連結 */
+nav a {
+  color: #ffffff;
+  margin: 0 1rem;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* 內容區塊 */
+section {
+  padding: 2rem;
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+/* 圖片展示區 */
+.gallery-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.gallery-container img {
+  width: 100%;
+  max-width: 200px;
+  border: 2px solid #333;
+  border-radius: 5px;
+}
+
+/* 表格設定 */
 table {
   border-collapse: collapse;
   width: 100%;
   margin-top: 20px;
   background-color: #1f1f1f; /* 深色背景 */
   color: #ffffff; /* 白色文字 */
-  border: 1px solid #333; /* 調整表格邊框顏色 */
+  border: 1px solid #333; /* 表格邊框 */
+  table-layout: auto; /* 自動調整表格寬度 */
 }
 
 th, td {
   padding: 8px;
   text-align: left;
-  border: 1px solid #333; /* 邊框顏色與背景一致 */
+  border: 1px solid #333; /* 表格邊框 */
+  word-wrap: break-word; /* 自動換行 */
+  word-break: break-word; /* 遇到長字串換行 */
+  white-space: normal; /* 正常換行 */
 }
 
 th {
-  background-color: #333333; /* 稍深的灰色，突出表頭 */
-  color: #ffffff; /* 白色文字 */
-  font-weight: bold; /* 表頭加粗 */
+  background-color: #333333; /* 深色背景的表頭 */
+  font-weight: bold; /* 表頭文字加粗 */
 }
 
 td {
-  background-color: #1f1f1f; /* 與表格背景一致 */
-  color: #ffffff; /* 白色文字 */
+  background-color: #1f1f1f;
 }
 
 tr:nth-child(even) {
-  background-color: #2a2a2a; /* 偶數行使用較淺的灰色，增加可讀性 */
+  background-color: #2a2a2a; /* 偶數行背景色 */
 }
 
 tr:hover {
-  background-color: #444444; /* 滑鼠懸停時的效果 */
+  background-color: #444444; /* 滑鼠懸停效果 */
 }
 
 /* 調整程式碼區塊的樣式 */
@@ -118,6 +97,8 @@ pre {
   padding: 10px;
   overflow: auto;
   border-radius: 5px; /* 圓角 */
+  word-wrap: break-word; /* 自動換行 */
+  word-break: break-word; /* 長字串換行 */
 }
 
 code {
@@ -126,4 +107,24 @@ code {
   color: #ffffff; /* 白色文字 */
   padding: 2px 5px; /* 增加內邊距 */
   border-radius: 3px; /* 圓角 */
+}
+
+/* 圖片 */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* 表單、段落等其他內容 */
+p, h1, h2, h3, h4, h5, h6, ul, ol, li, blockquote, span, div {
+  word-wrap: break-word; /* 自動換行 */
+  word-break: break-word; /* 長字串換行 */
+  white-space: normal; /* 允許換行 */
+}
+
+/* 頁腳 */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background: #1f1f1f;
 }
