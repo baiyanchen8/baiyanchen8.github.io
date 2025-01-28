@@ -33,35 +33,35 @@ int main() {
 ### 2.3.1 結構(struct)
 - `typedef struct`
 
-	```
-	typedef struct{
-		char name[10];
-		int age;
-		float salary;
-	}example_use;
-	int main(int k,char *arr[]){
-		example_use asd;
-		asd.age =0;
-		printf("%d\n",asd.age); 
-		return 0;
-	}
-	```
-    
+```
+typedef struct{
+    char name[10];
+    int age;
+    float salary;
+}example_use;
+int main(int k,char *arr[]){
+    example_use asd;
+    asd.age =0;
+    printf("%d\n",asd.age); 
+    return 0;
+}
+```
+
 - `struct`
 
-	```
-	struct example_2{
-		char name[10];
-		int age;
-		float salary;
-	};
-	int main(int k,char *arr[]){
-		struct example_2 as2;
-		as2.salary=1.234;
-		printf("%f",as2.salary); 
-		return 0;
-	}
-	```
+```
+struct example_2{
+    char name[10];
+    int age;
+    float salary;
+};
+int main(int k,char *arr[]){
+    struct example_2 as2;
+    as2.salary=1.234;
+    printf("%f",as2.salary); 
+    return 0;
+}
+```
 ### 2.3.2 union
 ```
 #include <stdio.h>
