@@ -38,7 +38,7 @@
         async function convert() {
             try {
                 // 获取外部的 Markdown 文件内容
-                const response = await fetch('../a.md');
+                const response = await fetch('a.md');
                 if (!response.ok) {
                     throw new Error(`无法加载 Markdown 文件: ${response.statusText}`);
                 }else{
