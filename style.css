@@ -20,52 +20,6 @@ header h1 {
   margin: 0;
 }
 
-.info-container {
-  display: flex;
-  flex-direction: row; /* 標題與路徑在同一行 */
-  justify-content: space-between; /* 保持標題和路徑一左一右 */
-  align-items: flex-start; /* 確保元素不會垂直居中 */
-  width: 100%;
-  margin-top: 5px; /* 調整間距 */
-}
-li {
-  padding: 10px 0;
-  border-bottom: 1px solid #444;
-  display: flex;
-  flex-direction: column; /* 使內容垂直排列 */
-  justify-content: space-between;
-}
-.a1 {
-  color: #ffffff;
-  display: inline-block;
-  margin-right: auto; /* 保證標題靠左對齊 */
-}
-.tmp1{
-  display: inline-block;
-}
-.path-info {
-  color: #888;
-  display: inline-block;
-}
-
-.updated-time {
-  display: block; /* 顯示為區塊 */
-  margin-top: 5px; /* 讓更新時間與路徑有間距 */
-  font-size: 0.9rem;
-  color: #888;
-  text-align: right; /* 更新時間右對齊 */
-}
-.taJustify {
-  text-align: justify;
-  height: 100%;
-}
-.taJustify:after {
-content: '';
-display: inline-block;
-width: 100%;
-}
-
-
 /* 導覽連結 */
 nav a {
   color: #ffffff;
@@ -97,6 +51,41 @@ section {
   max-width: 200px;
   border: 2px solid #333;
   border-radius: 5px;
+}
+
+/* 列表區塊 */
+li {
+  padding: 10px 0;
+  border-bottom: 1px solid #444;
+}
+
+/* 標題與路徑容器 */
+.title-path-container {
+  display: flex;
+  justify-content: space-between; /* 左右對齊 */
+  align-items: center;
+  margin-bottom: 5px; /* 與更新時間間距 */
+}
+
+/* 標題 */
+.a1 {
+  color: #ffffff;
+  text-decoration: none;
+  flex: 1; /* 自適應寬度 */
+}
+
+/* 路徑 */
+.path-info {
+  color: #888;
+  font-size: 0.9rem;
+  white-space: nowrap; /* 防止換行 */
+}
+
+/* 更新時間 */
+.updated-time {
+  color: #888;
+  font-size: 0.8rem;
+  text-align: right;
 }
 
 /* 表格設定 */
@@ -161,7 +150,7 @@ img {
   height: auto;
 }
 
-/* 表單、段落等其他內容 */
+/* 段落與標題 */
 p, h1, h2, h3, h4, h5, h6, ul, ol, li, blockquote, span, div {
   word-wrap: break-word; /* 自動換行 */
   word-break: break-word; /* 長字串換行 */
@@ -175,16 +164,11 @@ footer {
   background: #1f1f1f;
 }
 
-.info-container {
-  font-size: 0.8rem; /* 小字體 */
-  color: #cccccc; /* 淺灰色 */
-  display: flex;
-  flex-direction: column; /* 內容上下排列 */
-  align-items: flex-end; /* 靠右對齊 */
+footer a {
+  color: #ffffff;
+  text-decoration: none;
 }
 
-.info-container .path-info,
-.info-container .updated-time {
-  display: block; /* 確保每個元素占一行 */
-  margin: 0; /* 移除多餘的外距 */
+footer a:hover {
+  text-decoration: underline;
 }
