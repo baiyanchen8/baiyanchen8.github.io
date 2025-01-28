@@ -46,8 +46,8 @@ for markdown_file in input_dir.glob("*.md"):
     # MathJax 配置
     math_config = '''{
         tex2jax: {
-            inlineMath: [["$", "$"], ["\\(", "\\)"]],  // 行內公式符號
-            displayMath: [["$$", "$$"], ["\\[", "\\]"]], // 區塊公式符號
+            inlineMath: [["$", "$"]],  // 行內公式符號
+            displayMath: [["$$", "$$"]], // 區塊公式符號
             processEscapes: true, // 支援跳脫符號
             skipTags: ["script", "noscript", "style", "textarea", "pre", "code"] // 忽略這些標籤
         },
