@@ -14,7 +14,7 @@ Array由<index,value>組成
 	- `int list[]={1,2,3,4,5,6,7,8,9,10}`
 ## 2.2 動態陣列
 ### 2.2.1 一維陣列
-```c=1
+```
 int main() {
     // 使用malloc
     int *arr = (int *)malloc(5 * sizeof(int));
@@ -32,7 +32,7 @@ int main() {
 ## 2.3 結構(struct)&連結(link list)
 ### 2.3.1 結構(struct)
 - `typedef struct`
-	```c=1
+	```
 	typedef struct{
 		char name[10];
 		int age;
@@ -46,7 +46,7 @@ int main() {
 	}
 	```
 - `struct`
-	```c=1
+	```
 	struct example_2{
 		char name[10];
 		int age;
@@ -60,7 +60,7 @@ int main() {
 	}
 	```
 ### 2.3.2 union
-```c=1
+```
 #include <stdio.h>
 
 union SampleUnion {
@@ -88,7 +88,7 @@ int main() {
 ### 2.3.3 結構內部實作
 簡單而言，不用我們擔心
 ### 2.3.4 自我參考表(常見於link list)
-```c=1
+```
 struct link{
 	int value;	
 	struct link* next;
@@ -99,14 +99,14 @@ struct link{
 ### 2.4.1 抽象化資料型態
 懶得做xN，簡單而言就是可以用在很多地方
 ### 2.4.2 多項式表示方式
-```c=1
+```
 struct poly{
 	int degree;//最高級數
 	float coef[100];//每級的係數
 };
 ```
 
-```c=1
+```
 struct poly add(struct poly A,struct poly B){
 	struct poly D;
 	if (A.degree<B.degree){
@@ -126,7 +126,7 @@ struct poly add(struct poly A,struct poly B){
 ### 2.5.1 抽象化資料型態
 稀疏矩陣（英語：sparse matrix），在數值分析中，<font color="ffff">是其元素大部分為零的矩陣</font>。反之，如果大部分元素都非零，則這個矩陣是稠密(dense)的。在科學與工程領域中求解線性模型時經常出現大型的稀疏矩陣。
 ### 2.5.2 稀疏矩陣表示方式
-```c=1
+```
 struct term{
 	int col;
 	int row;
@@ -153,7 +153,7 @@ struct term matrix[item+1];
 
 ### 2.5.3 轉置矩陣
 #### transpose
-```c=1
+```
 struct term *transpose(const struct term *A) {
     struct term *B = (struct term *)malloc(
 			(A[0].value + 1) * sizeof(struct term));
@@ -186,7 +186,7 @@ $$\frac{1}{2}$$
 ---
 
 #### fast transport(use counting sort)
-```c=1
+```
 #define MAX_TERMS 101
 #define MAX_COL 10
 
@@ -233,7 +233,7 @@ void fastTranspose(Term a[], Term b[]) {
 ```
 基本上就跟counting sort 的內容非常相像
 ### 2.5.4 矩陣乘法
-```c=
+```
 #define MAX_TERMS 100
 typedef struct {
     int row;
