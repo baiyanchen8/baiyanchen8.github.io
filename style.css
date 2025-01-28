@@ -81,20 +81,36 @@ table {
   border-collapse: collapse;
   width: 100%;
   margin-top: 20px;
-}
-
-table, th, td {
-  border: 1px solid #ccc;
+  background-color: #1f1f1f; /* 深色背景 */
+  color: #ffffff; /* 白色文字 */
+  border: 1px solid #333; /* 調整表格邊框顏色 */
 }
 
 th, td {
   padding: 8px;
   text-align: left;
+  border: 1px solid #333; /* 邊框顏色與背景一致 */
 }
 
 th {
-  background-color: #f2f2f2;
+  background-color: #333333; /* 稍深的灰色，突出表頭 */
+  color: #ffffff; /* 白色文字 */
+  font-weight: bold; /* 表頭加粗 */
 }
+
+td {
+  background-color: #1f1f1f; /* 與表格背景一致 */
+  color: #ffffff; /* 白色文字 */
+}
+
+tr:nth-child(even) {
+  background-color: #2a2a2a; /* 偶數行使用較淺的灰色，增加可讀性 */
+}
+
+tr:hover {
+  background-color: #444444; /* 滑鼠懸停時的效果 */
+}
+
 /* 調整程式碼區塊的樣式 */
 pre {
   background-color: #333333; /* 灰色背景 */
