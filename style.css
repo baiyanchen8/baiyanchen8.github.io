@@ -30,7 +30,7 @@ a {
 .path-info {
   display: inline-block;
   color: #cccccc;
-  margin-left: 10px; /* 使 path 顯示於標題右側 */
+  text-align: right; /* 更新時間右對齊 */
 }
 
 .updated-time {
