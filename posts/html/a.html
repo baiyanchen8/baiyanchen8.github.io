@@ -652,9 +652,9 @@ xor <span class="math"></span>s0, <span class="math"></span>s0, <span class="mat
 3. 10 - <strong>1字串的開頭</strong>，左半部product = 左半部product - 被乘數。
 4. 11 - 1字串的中間部份，不執行運算。</p>
 <p>可以將Booth演算法想像為<strong>用連續1字串的頭bit減去尾bit</strong>，而傳統/硬體最佳化乘法器則是乘以每個bit代表的權重。
-<span class="math"></span><span class="math"></span>
+<div class="math">
 a \times 0,011,100 = a \times (2^6 - 2^2) = a \times (2^5 + 2^4 + 2^3 + 2^2 )
-<span class="math"></span><span class="math"></span></p>
+<div class="math"></p>
 <p>總結來說無號數乘法器有傳統、硬體最佳化，有號數乘法器有Booth演算法，這三種乘法器都屬於序向(sequential)電路，輸出由目前電路狀態(記憶元件)與輸入共同決定，步驟有3大點檢查(check)、動作(action)、位移(shift)。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221117_194736.jpg" /></p>
 <hr />
@@ -692,9 +692,9 @@ a \times 0,011,100 = a \times (2^6 - 2^2) = a \times (2^5 + 2^4 + 2^3 + 2^2 )
 <hr />
 <h3>浮點數的表示</h3>
 <p>"廣義"上的科學記號有不唯一的表示方式，因此正規化數(normalized number)就是規定科學記號在小數點左邊只能有一個非0的數值，而<strong>二進位的正規化數以有限硬體空間表示就稱為浮點數(floating point)</strong>。
-<span class="math"></span><span class="math"></span>
+<div class="math">
 (-1) \times 1.0101545 \times 2^{-123}
-<span class="math"></span><span class="math"></span>
+<div class="math">
 其中<span class="math"></span>1.0101545<span class="math"></span>稱為significand，小數點後的數字<span class="math"></span>0101545<span class="math"></span>稱為fraction / mantissa、<span class="math"></span>2<span class="math"></span>稱為base / radix、<span class="math"></span>-123<span class="math"></span>稱為exponent。</p>
 <p>IEEE754規範2種浮點數的表示方式，一是使用1個word的單精度格式、二是使用2個word的雙精度格式。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221123_213925.jpg" /></p>
@@ -704,9 +704,9 @@ a \times 0,011,100 = a \times (2^6 - 2^2) = a \times (2^5 + 2^4 + 2^3 + 2^2 )
 <li>有號數表示不使用2的補數，而是改用bias notation，這是因為浮點數兩數相加時會需要先比較指數部分，而<strong>無號數比較器相比2的補數比較器，速度還快</strong>，為了快速比較指數而採用bias notation，故又名excess - X，這個X就是bias值。</li>
 <li>bias notation的規則 - 給定<span class="math"></span>n<span class="math"></span>個bit的exponent，bias就是<span class="math"></span>2^{n - 1} - 1<span class="math"></span>，以8 bit為例，bias就是<span class="math"></span>2^{8 - 1} - 1 = 127 = 01,111,111<span class="math"></span>，真正填入的指數值就是計算出來的值加上bias值(偏移量)。</li>
 <li>以浮點數表示的數，其公式為
-<span class="math"></span><span class="math"></span>
+<div class="math">
 (-1)^{\text{sign}} \times (1 . \text{fraction}) \times 2^{(\text{exponent} - \text{bias})}
-<span class="math"></span><span class="math"></span></li>
+<div class="math"></li>
 <li>將10進位數轉換為單精度浮點流程 - 首先把10進位數轉換為2進位數，再來正規化，最後將計算出來的指數部分加上bias值得結果，若分數部分填不進去field的話，需要做"round"的步驟。</li>
 <li>IEEE754有定義5種數的表示方式，以單精度為例</li>
 </ol>
@@ -747,17 +747,17 @@ a \times 0,011,100 = a \times (2^6 - 2^2) = a \times (2^5 + 2^4 + 2^3 + 2^2 )
 </tbody>
 </table>
 <p>因此正規化數能表示的範圍在
-<span class="math"></span><span class="math"></span>
+<div class="math">
 +1.\underbrace{00 \ldots 00}<em 23="23" 個="個">{23 個} \times 2^{1 - \text{bias}} &lt; |x| &lt; +1.\underbrace{11 \ldots 11}</em> \times 2^{\underbrace{254 - \text{bias}}<em 23="23" 個="個">{= \text{bias}}}
-<span class="math"></span><span class="math"></span>
+<div class="math">
 非正規化數數值計算定義
-<span class="math"></span><span class="math"></span>
+<div class="math">
 (-1)^{\text{sign}} \times (0 . \text{fraction}) \times 2^{\text{min exp in normalized number}}
-<span class="math"></span><span class="math"></span>
+<div class="math">
 其中指數定義為正規化數指數負最多的值，非正規化數能表示的範圍在
-<span class="math"></span><span class="math"></span>
+<div class="math">
 +0.\underbrace{00 \ldots 01}</em> \times 2^{-126} &lt; |x| &lt; +0.\underbrace{11 \ldots 11}_{23 個} \times 2^{-126}
-<span class="math"></span><span class="math"></span></p>
+<div class="math"></p>
 <p>由於非正規化數的數值實在太小，一般非科學性值的計算都幾乎不會跑到這個區間，因此不是每種指令集都支援非正規化數的數值範圍，若指令集有支援非正規化數，而數值小到不在非正規化數能表示的範圍，稱為gradual underflow；若指令集不支援非正規化數，而數值小到不在正規化數能表示的範圍，稱為underflow；若數值大於正規化數能表示的範圍則稱為overflow。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221123_235852.jpg" /></p>
 <p>以下4種運算會產生NaN - <span class="math"></span>\frac{0}{0}, 0 \times \infty, a \times \text{NaN}, \infty - \infty<span class="math"></span>。</p>
@@ -811,14 +811,14 @@ IEEE754共有4種捨去模式 - 朝向正無限大、朝向負無限大、截尾
 </code></pre></div>
 
 <p>想法如下
-<span class="math"></span><span class="math"></span>
+<div class="math">
 \begin{align<em>}
 &amp; t_1 + t_2 &gt; 11 \ldots 11 \qquad(\text{overflow occurs})\
 \Rightarrow\;&amp; t_2 &gt; 11 \ldots 11 - t_1\
 \Rightarrow\;&amp; t_2 &gt; \overline{t_1}\
 \Rightarrow\;&amp; \overline{t_1} &lt; t_2
 \end{align</em>}
-<span class="math"></span><span class="math"></span></p>
+<div class="math"></p>
 <hr />
 <h2>ch3 效能評估</h2>
 <h3>綱要</h3>
@@ -836,53 +836,53 @@ IEEE754共有4種捨去模式 - 朝向正無限大、朝向負無限大、截尾
 1. 執行時間(execution time)、反應時間(response time) - 工作從開始到完成所花的時間，也就是program送至計算機開始執行直到執行結果的所花的時間。
 2. 生產量(throughput) - 單位時間內所完成的工作量，也就是計算機單位時間完成的program(job)的個數。</p>
 <p>本章主要考慮個人電腦，因此以以執行時間做為效能評估的標準，對電腦<span class="math"></span>X<span class="math"></span>，效能定義為執行時間的倒數
-<span class="math"></span><span class="math"></span>
+<div class="math">
 \text{Performance}_X \triangleq \frac{1}{\text{Execution Time}_X}
-<span class="math"></span><span class="math"></span>
+<div class="math">
 電腦<span class="math"></span>X<span class="math"></span>的速度是電腦<span class="math"></span>Y<span class="math"></span>的<span class="math"></span>n<span class="math"></span>倍
-<span class="math"></span><span class="math"></span>
+<div class="math">
 n = \frac{\text{Performance}_X}{\text{Performance}_Y} = \frac{\text{Execution Time}_Y}{\text{Execution Time}_X}
-<span class="math"></span><span class="math"></span></p>
+<div class="math"></p>
 <hr />
 <h3>執行時間測量</h3>
 <p>計算機從工作從開始到完成所花的時間稱為elapsed time，其中包括等待I/O的時間與處理器時間(CPU time)，CPU time又可進一步分為使用者處理器時間(user CPU time)與花在作業系統(服務使用者的程式運行)上的時間，稱為系統處理器時間(system CPU time)。當我們在run的程式個數不同，I/O time和system CPU time這兩個時間都是變動的，因此我們以user CPU time做為執行時間(execution time)的測量。</p>
 <p>使用絕對時間user CPU time，由於時間過短難以測量。而由於計算機都需要clock來同步快慢有別的訊號源，因此改使用一個cycle所花的時間長度clock cycle time作為衡量之一的參數，再乘上一個程式使用cycle的個數clock cycle就是user CPU time，而clock rate又為clock cycle time的倒數，是一秒鐘clock訊號同步的次數。
-<span class="math"></span><span class="math"></span>
+<div class="math">
 \begin{align<em>}
 \text{(user) CPU time} &amp;= \text{CPU clock cycles} \times \text{cycle time}\
 &amp;= \frac{\text{CPU clock cycles}}{\text{clock rate}}
 \end{align</em>}
-<span class="math"></span><span class="math"></span>
+<div class="math">
 欲測量一個程式使用cycle的個數clock cycle，勢必要造出counter，此counter的clock要比CPU的clock更快，才能有效取樣，理論上是行不通的，因此上式公式較難估算。將clock cycle改定義為一個程式使用的指令個數instruction count(IC)乘上平均執行每個指令所需要花的clock個數cycles per instruction(CPI)，因此user CPU time即為
-<span class="math"></span><span class="math"></span>
+<div class="math">
 \begin{align<em>}
 \text{(user) CPU time} &amp;= \text{IC} \times \text{CPI} \times \text{cycle time}\
 &amp;= \frac{\text{IC} \times \text{CPI}}{\text{clock rate}}
 \end{align</em>}
-<span class="math"></span><span class="math"></span>
+<div class="math">
 由於不同類別的指令CPI各不相同，例如乘法比起加法需要更多clock cycle數，因此在此的CPI為一加權平均值，等於第<span class="math"></span>i<span class="math"></span>類的CPI，乘以第<span class="math"></span>i<span class="math"></span>類指令佔所有指令的比例
-<span class="math"></span><span class="math"></span>
+<div class="math">
 \begin{align<em>}
 \text{CPI} &amp;\triangleq \frac{\text{CPU clock cycles}}{\text{IC}}\
 &amp;= \frac{\sum^n_{i = 1} (\text{CPI}<em i="i">i \times \text{C}_i)}{\text{IC}}\
 &amp;= \sum^n</em> (\text{CPI}_i \times \text{Freqency}_i)
 \end{align</em>}
-<span class="math"></span><span class="math"></span>
+<div class="math">
 接下來定義instruction time為平均1個指令執行時會用的CPU時間
-<span class="math"></span><span class="math"></span>
+<div class="math">
 \begin{align<em>}
 \text{instruction time} &amp;= \frac{\text{(user) CPU time}}{\text{instruction count}}\
 &amp;= \frac{\text{IC} \times \text{CPI}}{\text{clock rate}} \times \frac{1}{\text{IC}}\
 &amp;= \frac{\text{CPI}}{\text{clock rate}} = \text{CPI} \times \text{cycle time} 
 \end{align</em>}
-<span class="math"></span><span class="math"></span>
+<div class="math">
 instruction time的倒數就是instruction rate，代表單位時間內指令執行的次數，在以前常以1秒百萬次指令執行時間，作為衡量評估計算機效能的指標，但這是一個錯誤，因為MIPS沒有把每個指令的能力考量進來，像是CISC都比RISC的指令功能還強大，另外同一台電腦不同程式測量出來的MIPS也可能不同。
-<span class="math"></span><span class="math"></span>
+<div class="math">
 \begin{align<em>}
 \text{instruction time} &amp;= \frac{1}{\text{instruction rate}}\
 &amp;= \frac{1}{\text{MIPS} \times 10^6}
 \end{align</em>}
-<span class="math"></span><span class="math"></span>
+<div class="math">
 總結上述公式，整理出以下表格，以方便記憶
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221127_15364.jpg" /><br>
 對於2部不同硬體實踐架構但同一ISA的機器，當要比較效能也就是execution time時，首先要確保跑的是相同的程式(組合語言)，也就代表instruction count相同，因此真正要比的就是instruction time。</p>
@@ -892,29 +892,29 @@ instruction time的倒數就是instruction rate，代表單位時間內指令執
 <hr />
 <h3>Amdahl's law</h3>
 <p>Amdahl's law是用來計算當某一機器改善了其中一部分後的執行時間。
-<span class="math"></span><span class="math"></span>
+<div class="math">
 \text{ExTime after} = \frac{\text{ExTime affected}}{\text{Improve rate}} + \text{ExTime unaffected}
-<span class="math"></span><span class="math"></span>
+<div class="math">
 由上式可知只要改善一般較常出現的程式部份，就會比去對極少出現的部份做最佳化要來得有效，符合<a href="#指令集的4大設計原則">ch1 指令集的4大設計原則</a>其中一條 - make the common case faster。</p>
 <p>而speedup是指機器在經過某種策略的改良之後·相對於原本效能之提升程度。
-<span class="math"></span><span class="math"></span>
+<div class="math">
 \begin{align<em>}
 \text{speedup} &amp;= \frac{\text{ExTime before}}{\text{ExTime after}}\
 &amp;= \frac{\text{ExTime before}}{ \frac{\text{ExTime affected}}{\text{Improve rate}} + \text{ExTime unaffected} }\
 &amp;= \frac{1}{\frac{f}{s} + (1 - f)}, \text{ where } f : \text{ExTime affected}, s : \text{Improve rate}
 \end{align</em>}
-<span class="math"></span><span class="math"></span></p>
+<div class="math"></p>
 <hr />
 <h3>效能總評</h3>
 <p>假設工作負載中每個程式的執行次數皆相同，則使用算術平均數(AM)；若不是，則根據每個程式在工作負載中的出現頻率給予加權值，即使用加權平均數(WAM)；平均數越小，代表機器效能越好。</p>
 <p>同時評量2台以上機器的效能時，我們常會將某一部機器對某一程式的執行時間除以各機器的執行時間，稱為正規化得其比值，稱為spec ratio；spec ratio越大，代表機器效能越好。
-<span class="math"></span><span class="math"></span>
+<div class="math">
 \text{spec ratio} = \frac{\text{ExTime referenced}}{\text{ExTime measured}}
-<span class="math"></span><span class="math"></span>
+<div class="math">
 如果執行時間有被正規化，就不可再使用AM或是WAM做為總評的標準，因為會出現效能總評的矛盾，改使用幾何平均數(GM)
-<span class="math"></span><span class="math"></span>
+<div class="math">
 \text{GM} = \sqrt[n]{\Pi^n_{i = 1} \text{} \text{spec ratio}_i}
-<span class="math"></span><span class="math"></span>
+<div class="math">
 就能消除這個矛盾，因為GM具有此特性 - 先取幾何平均再正規化 = 先正規化再取幾何平均，但GM就無法預測執行時間，且算出來的結果也不這麼準，因此當題目沒指定的話，還是以使用AM、WAM為準，使用GM是不得已的標準。</p>
 <p>目前最普及的CPU效能評估程式就是SPEC(System Performance Evaluation Corporation)的benchmark(效能評估程式組)，SPEC是由許多電腦廠商建立與支援的評效程式，目的是要為現代的電腦系統提供—組標準的評效程式，以SPEC CPU2000其中包括整數程式與浮點數程式的benchmark。</p>
 <hr />
@@ -1222,17 +1222,17 @@ jump計算跳躍目的位址為<code>{NextPC[31:28], Instruction[25:0], 2'b00}</
 <p>pipeline是一種計算機的實作技術，允許多個指令同時存在於datapath裡面，使指令重疊地、平行地被執行。pipeline跟multiple cycle machine一樣，需要將single-cycle machine分成若干階段，分步驟的原則是時間要平均分配 - 一個步驟只能使用一個主要功能單元，而最長步驟的時間就是pipeline的clock cycle time。</p>
 <p><strong>pipeline並不會對單一個指令的執行時間(latency)有所幫助，反而會比single-cycle machine的latency還長</strong>，因為每個pipeline的每個stage執行結束後，會卡在"柵欄"上，等下一個clock來，柵欄"打開才能繼續執行。<strong>pipeline是藉由多個指令在pipeline中使用不同部分的硬體資源，以提高硬體使用率，以增進整體工作的生產量(throughput)</strong>。</p>
 <p>假設pipeline不會停下來(stall)，也就是理想pipeline的機器，給定週期時間<span class="math"></span>T<span class="math"></span>，<span class="math"></span>S<span class="math"></span>個stage，<span class="math"></span>N<span class="math"></span>個指令要執行，則
-<span class="math"></span><span class="math"></span>
+<div class="math">
 \text{execution time} = [(S - 1) + N] \times T
-<span class="math"></span><span class="math"></span>
+<div class="math">
 在尚未填滿pipeline的時候，沒有指令執行完畢，有<span class="math"></span>S - 1<span class="math"></span>個stage；接下來每個stage，也就是每隔一個cycle cycle就會有一條指令執行完畢。
-<span class="math"></span><span class="math"></span>
+<div class="math">
 \text{(average) CPI} \triangleq \frac{\text{clock cycles}}{\text{instruction count}} = \frac{(S - 1) + N}{N}, \text{if } N \to \infty, \text{CPI} = 1
-<span class="math"></span><span class="math"></span>
+<div class="math">
 平均CPI根據原始定義 - clock cycle個數除以指令個數計算，當指令越多時，平均CPI會趨近於1，也就是趨近single-cycle的CPI，但需要注意這裡是指平均CPI，而非單一指令執行的clock cycle數。
-<span class="math"></span><span class="math"></span>
+<div class="math">
 \text{speedup} \triangleq \frac{\text{ExTime of single-cycle machine}}{\text{ExTime of pipeline}} = \frac{S \times N \times T}{[(S - 1) + N] \times T}, \text{if } N \to \infty, \text{speedup} = S
-<span class="math"></span><span class="math"></span>
+<div class="math">
 從上式可知，pipeline的stage切越多，<span class="math"></span>S<span class="math"></span>越大，代表cycle time越短、clock rate越高，instruction rate越高，throughput(單位時間執行的指令數)越高，performance會越好。但是由於dynamic dissipation公式<span class="math"></span>P = \alpha C V_{DD}^2 f_{sw}<span class="math"></span>中，功率消耗與clock的頻率成正比，因此clock rate越高，CPU的功率就會提高，造成負面影響，這便是一個performance與power之間的trade-off。</p>
 <hr />
 <h3>pipeline的datapath設計</h3>
@@ -1585,13 +1585,13 @@ L1的hit time會決定CPU的clock cycle time，所以要盡量設計小。</p>
 2. L2下面一層就是main memory，SRAM和DRAM速度差非常多，因此會採用write-back。</p>
 <hr />
 <p>對combined cache來說，multi-level cache的extra CPI的公式有兩個版本
-<span class="math"></span><span class="math"></span>
+<div class="math">
 \begin{align<em>}
 \text{extra CPI} &amp;= \text{stall cycle per instruction}\
 &amp;= (1 + \text{lw/sw}\%) \times \underbrace{\sum^n_{i = 1} \text{MR}<em _text_stall="\text{stall" access="access" cycle="cycle" per="per">i \times \text{MP}_i}</em>}\
 &amp;= \sum^n_{i = 1} \text{MRP}_i \times \text{MP}_i
 \end{align</em>}
-<span class="math"></span><span class="math"></span>
+<div class="math">
 其中MR = miss rate、MP = miss penalty、MPR = miss rate per instruction = 平均一個指令(不管該指令是否有cache access)在執行會造成cache miss幾次。</p>
 <p>在上述公式缺條件時，有一些基礎假設
 1. 題目沒給完美CPI ⇒ pipeline的完美CPI假設1。
@@ -1600,16 +1600,16 @@ L1的hit time會決定CPU的clock cycle time，所以要盡量設計小。</p>
 <p>一般miss rate題目沒特別指名都是只global miss rate，還有另一種是local miss rate。
 1. GMR = 以CPU存取memory的次數為基準
 2. LMR = 以存取到上一層memory的次數為基準
-<span class="math"></span><span class="math"></span>
+<div class="math">
 \text{GMR}<em k="k">i = \Pi</em>^i \text{LMR}_k = \text{LMR}_1 \times \text{LMR}_2 \times \cdots \text{LMR}_i
-<span class="math"></span><span class="math"></span></p>
+<div class="math"></p>
 <p>最後在定義一個衡量標準，AMAT(average memory access time)代表CPU存取記憶體一次所需要的平均(絕對)時間。
-<span class="math"></span><span class="math"></span>
+<div class="math">
 \text{AMAT} = \underbrace{\text{T}<em L1="L1" _not="(not" _text_hit="\text{hit" in="in" stall_="stall)" time="time">1}</em>} + \underbrace{\sum^n_{i = 1} \text{MR}<em _text_stall="\text{stall" access="access" cycle="cycle" per="per">i \times \text{MP}_i}</em>}
-<span class="math"></span><span class="math"></span>
+<div class="math">
 公式為第一層cache不stall的時間與發生stall的時間的加總。</p>
 <p>可與extra CPI的公式做比較，兩者公式都有stall cycle per access的項，欲求AMAT per instruction
-<span class="math"></span><span class="math"></span>
+<div class="math">
 \begin{align<em>}
 \text{AMAT per instruction} &amp;= \text{CPU存取記憶體一次所需要的平均時間} \times \text{有存取到記憶體的指令個數}\
 &amp;= \text{AMAT} \times (1 + \text{lw/sw}\%)\
@@ -1617,7 +1617,7 @@ L1的hit time會決定CPU的clock cycle time，所以要盡量設計小。</p>
 &amp;= (1 + \text{lw/sw}\%) \times \text{T}_1 + (1 + \text{lw/sw}\%) \times \sum^n</em> \text{MR}<em i="i">i \times \text{MP}_i\
 &amp;= (1 + \text{lw/sw}\%) \times \text{T}_1 + \sum^n</em> \text{MRP}_i \times \text{MP}_i
 \end{align</em>}
-<span class="math"></span><span class="math"></span></p>
+<div class="math"></p>
 <hr />
 <h3>虛擬記憶體(virtual memory)</h3>
 <p>設計virtual memory的2大動機
@@ -1866,9 +1866,9 @@ polling主動權在CPU，而interrupt的主動權則是在I/O設備上，I/O設�
 3. <strong>time of synchronization</strong> - 處理器之間存在資料相依性，需要等處理器A執行完獲得結果給處理器B使用，處理器B才能開始執行。
 4. <strong>communication overhead</strong> - 處理器之間要交換資料，怎麼送資料，才能讓時間最短?</p>
 <p>而且並不是所有程式都可以被平行分解(concurrent program)，多處理器的效能會受限於無法平行分解程式(sequential progam)的比例。
-<span class="math"></span><span class="math"></span>
+<div class="math">
 \text{Speedup}(P) = \frac{1}{s + \frac{1 - s}{P}} \leq \frac{1}{s}, s : \text{ratio of sequential progam}
-<span class="math"></span><span class="math"></span>
+<div class="math">
 多重處理器系統分2種 - strong scaling, weak scaling
 1. strong scaling - problem size固定的前提下，便可以達到預期的speedup。
 2. weak scaling - problem size固定的前提下，無法獲得預期的speedup；但是放大problem size，處理器個數也等比例增加，此時就可達到預期的speedup。</p>

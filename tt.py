@@ -26,9 +26,9 @@ for markdown_file in input_dir.glob("*.md"):
     )
 
     # 手動處理 LaTeX 公式包裝
-    html_content = html_content.replace('$', '<span class="math">$').replace('$', '</span>')
     html_content = html_content.replace('$$', '<div class="math">').replace('$$', '</div>')
-
+    html_content = html_content.replace('$', '<span class="math">$').replace('$', '</span>')
+    
     # 生成對應的 HTML 檔案名稱
     output_file = output_dir / f"{markdown_file.stem}.html"
 
