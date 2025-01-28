@@ -5,10 +5,20 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>b</title>
-        <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="../../style.css">
         <!-- MathJax 用來渲染 LaTeX 公式 -->
         <script type="text/javascript" async
             src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+                tex2jax: {{
+                    inlineMath: [['$', '$'], ['\(', '\)']],
+                    displayMath: [['$$', '$$'], ['\[', '\]']],
+                    processEscapes: true,
+                }},
+                "HTML-CSS": {{ availableFonts: ["TeX"] }}
+            });
         </script>
     </head>
     <body>
@@ -17,12 +27,12 @@
         </header>
 
         <section>
-            <!-- 在這裡插入 Markdown 轉換後的 HTML 內容 -->
-            <h1>chap2 陣列&amp;結構</h1>
-<h2>2.1 array0</h2>
-<h3>2.1.1 抽象化資料結構</h3>
+            <!-- 插入 Markdown 轉換後的 HTML -->
+            <h1 id="chap2">chap2 陣列&amp;結構</h1>
+<h2 id="21-array0">2.1 array0</h2>
+<h3 id="211">2.1.1 抽象化資料結構</h3>
 <p>Array由<index,value>組成</p>
-<h3>2.1.2 C language 下的陣列</h3>
+<h3 id="212-c-language">2.1.2 C language 下的陣列</h3>
 <ul>
 <li>link list 的陣列<ul>
 <li><code>int *list;</code></li>
@@ -36,26 +46,26 @@
 </ul>
 </li>
 </ul>
-<h2>2.2 動態陣列</h2>
-<h3>2.2.1 一維陣列</h3>
-<p><code>c=1
+<h2 id="22">2.2 動態陣列</h2>
+<h3 id="221">2.2.1 一維陣列</h3>
+<p>```c=1
 int main() {
     // 使用malloc
-    int *arr = (int *)malloc(5 * sizeof(int));
+    int <em>arr = (int </em>)malloc(5 * sizeof(int));
     free(new_arr);
     return 0;
-}</code></p>
-<h3>2.2.2 二維陣列</h3>
-<p><img alt="" src="https://th.bing.com/th/id/R.550976ea4de76c6e83a297d5699ae843?rik=4D851ZSDlc5q%2bQ&amp;riu=http%3a%2f%2f3.bp.blogspot.com%2f-_-Izz3tAT9w%2fVQ1jX7dwU2I%2fAAAAAAAAAG8%2fba9KC3ERA30%2fs1600%2fdynamics_2d_array.png&amp;ehk=gKTgu05j9EcWHhHGTGYZaR%2brIz3DSU%2fpivQMoE7CxOk%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0" /></p>
-<h4>malloc (分配記憶體)</h4>
-<p><code>addr=(type *) malloc(length*siezof(type))</code></p>
-<h4>realloc (重新分配記憶體，用於增加記憶體長度)</h4>
-<p><code>new_addr=(type *) realloc(old_addr,new_length*siezof(type))</code></p>
-<h2>2.3 結構(struct)&amp;連結(link list)</h2>
-<h3>2.3.1 結構(struct)</h3>
-<ul>
-<li><code>typedef struct</code>
-    <code>c=1
+}</p>
+<pre><code>### 2.2.2 二維陣列
+![](https://th.bing.com/th/id/R.550976ea4de76c6e83a297d5699ae843?rik=4D851ZSDlc5q%2bQ&amp;riu=http%3a%2f%2f3.bp.blogspot.com%2f-_-Izz3tAT9w%2fVQ1jX7dwU2I%2fAAAAAAAAAG8%2fba9KC3ERA30%2fs1600%2fdynamics_2d_array.png&amp;ehk=gKTgu05j9EcWHhHGTGYZaR%2brIz3DSU%2fpivQMoE7CxOk%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0)
+#### malloc (分配記憶體)
+`addr=(type *) malloc(length*siezof(type))`
+#### realloc (重新分配記憶體，用於增加記憶體長度)
+`new_addr=(type *) realloc(old_addr,new_length*siezof(type))`
+
+## 2.3 結構(struct)&amp;連結(link list)
+### 2.3.1 結構(struct)
+- `typedef struct`
+    ```c=1
     typedef struct{
         char name[10];
         int age;
@@ -64,11 +74,12 @@ int main() {
     int main(int k,char *arr[]){
         example_use asd;
         asd.age =0;
-        printf("%d\n",asd.age); 
+        printf(&quot;%d\n&quot;,asd.age); 
         return 0;
-    }</code></li>
-<li><code>struct</code>
-    <code>c=1
+    }
+    ```
+- `struct`
+    ```c=1
     struct example_2{
         char name[10];
         int age;
@@ -77,51 +88,54 @@ int main() {
     int main(int k,char *arr[]){
         struct example_2 as2;
         as2.salary=1.234;
-        printf("%f",as2.salary); 
+        printf(&quot;%f&quot;,as2.salary); 
         return 0;
-    }</code></li>
-</ul>
-<h3>2.3.2 union</h3>
-<p>```c=1</p>
-<h1>include <stdio.h></h1>
-<p>union SampleUnion {
+    }
+    ```
+### 2.3.2 union
+```c=1
+#include &lt;stdio.h&gt;
+
+union SampleUnion {
     int intValue;
     float floatValue;
     char stringValue[20];
-};</p>
-<p>int main() {
-    union SampleUnion myUnion;</p>
-<pre><code>myUnion.intValue = 42;
-printf("Integer value: %d\n", myUnion.intValue);
+};
 
-myUnion.floatValue = 3.14;
-printf("Float value: %f\n", myUnion.floatValue);
+int main() {
+    union SampleUnion myUnion;
 
-strcpy(myUnion.stringValue, "Hello, Union!");
-printf("String value: %s\n", myUnion.stringValue);
+    myUnion.intValue = 42;
+    printf(&quot;Integer value: %d\n&quot;, myUnion.intValue);
 
-return 0;
+    myUnion.floatValue = 3.14;
+    printf(&quot;Float value: %f\n&quot;, myUnion.floatValue);
+
+    strcpy(myUnion.stringValue, &quot;Hello, Union!&quot;);
+    printf(&quot;String value: %s\n&quot;, myUnion.stringValue);
+
+    return 0;
+}
+
 </code></pre>
-<p>}</p>
-<p>```</p>
-<h3>2.3.3 結構內部實作</h3>
+<h3 id="233">2.3.3 結構內部實作</h3>
 <p>簡單而言，不用我們擔心</p>
-<h3>2.3.4 自我參考表(常見於link list)</h3>
+<h3 id="234-link-list">2.3.4 自我參考表(常見於link list)</h3>
 <p>```c=1
 struct link{
     int value;<br />
     struct link* next;
 };</p>
-<p>```</p>
-<h2>2.4 多項式</h2>
-<h3>2.4.1 抽象化資料型態</h3>
-<p>懶得做xN，簡單而言就是可以用在很多地方</p>
-<h3>2.4.2 多項式表示方式</h3>
-<p><code>c=1
+<pre><code>## 2.4 多項式
+### 2.4.1 抽象化資料型態
+懶得做xN，簡單而言就是可以用在很多地方
+### 2.4.2 多項式表示方式
+```c=1
 struct poly{
     int degree;//最高級數
     float coef[100];//每級的係數
-};</code></p>
+};
+</code></pre>
 <p>```c=1
 struct poly add(struct poly A,struct poly B){
     struct poly D;
@@ -134,20 +148,21 @@ struct poly add(struct poly A,struct poly B){
     for (i=0;i&lt;D.degree;i++){
         D.coef[i]=A.coef[i]+B.coef[i];
     }</p>
-<p>}
-```</p>
-<h2>2.5 稀疏矩陣</h2>
-<h3>2.5.1 抽象化資料型態</h3>
-<p>稀疏矩陣（英語：sparse matrix），在數值分析中，<font color="ffff">是其元素大部分為零的矩陣</font>。反之，如果大部分元素都非零，則這個矩陣是稠密(dense)的。在科學與工程領域中求解線性模型時經常出現大型的稀疏矩陣。</p>
-<h3>2.5.2 稀疏矩陣表示方式</h3>
-<p><code>c=1
+<p>}</p>
+<pre><code>
+## 2.5 稀疏矩陣
+### 2.5.1 抽象化資料型態
+稀疏矩陣（英語：sparse matrix），在數值分析中，&lt;font color=&quot;ffff&quot;&gt;是其元素大部分為零的矩陣&lt;/font&gt;。反之，如果大部分元素都非零，則這個矩陣是稠密(dense)的。在科學與工程領域中求解線性模型時經常出現大型的稀疏矩陣。
+### 2.5.2 稀疏矩陣表示方式
+```c=1
 struct term{
     int col;
     int row;
     int value;
 };
-struct term matrix[item+1];</code>
-通常，在這個表示法的第一行，也就是matrix[0]會用於放置整個矩陣的基本訊息。
+struct term matrix[item+1];
+</code></pre>
+<p>通常，在這個表示法的第一行，也就是matrix[0]會用於放置整個矩陣的基本訊息。
 - matrix[0].col
     - matrix的行數
 - matrix[0].row
@@ -211,14 +226,14 @@ struct term matrix[item+1];</code>
 </tr>
 </tbody>
 </table>
-<h3>2.5.3 轉置矩陣</h3>
-<h4>transpose</h4>
-<p><code>c=1
-struct term *transpose(const struct term *A) {
-    struct term *B = (struct term *)malloc(
+<h3 id="253">2.5.3 轉置矩陣</h3>
+<h4 id="transpose">transpose</h4>
+<p>```c=1
+struct term <em>transpose(const struct term </em>A) {
+    struct term <em>B = (struct term </em>)malloc(
             (A[0].value + 1) * sizeof(struct term));
     B[0].value = A[0].value;
-    B[0].row = A[0].col;  
+    B[0].row = A[0].col;<br />
     B[0].col = A[0].row;
     if (A[0].value &gt; 0) {
         int i, j, k;
@@ -235,62 +250,65 @@ struct term *transpose(const struct term *A) {
         }
     }
     return B;
-}</code>
-分析:
+}</p>
+<pre><code>分析:
 正常而言 bigO:$\mathcal{O}(col\times value)$
 假設 value =$col\times row$
 ⇒ $\mathcal{O}(col^2 \times row)$
 ⇒太爛了
-$$\frac{1}{2}$$</p>
-<hr />
-<h4>fast transport(use counting sort)</h4>
-<p>```c=1</p>
-<h1>define MAX_TERMS 101</h1>
-<h1>define MAX_COL 10</h1>
-<p>typedef struct {
+$$\frac{1}{2}$$
+---
+
+#### fast transport(use counting sort)
+```c=1
+#define MAX_TERMS 101
+#define MAX_COL 10
+
+typedef struct {
     int row;
     int col;
     int value;
-} Term;</p>
-<p>void fastTranspose(Term a[], Term b[]) {
-    int rowTerms[MAX_COL], startingPos[MAX_COL];</p>
-<pre><code>int numCols = a[0].col;
-int numTerms = a[0].value;
+} Term;
 
-b[0].row = numCols;
-b[0].col = a[0].row;
-b[0].value = numTerms;
+void fastTranspose(Term a[], Term b[]) {
+    int rowTerms[MAX_COL], startingPos[MAX_COL];
 
-if (numTerms &gt; 0) {
-    int i;
-    for ( i = 0; i &lt; numCols; i++) {
-        rowTerms[i] = 0;
-    }
+    int numCols = a[0].col;
+    int numTerms = a[0].value;
 
-    for ( i = 1; i &lt;= numTerms; i++) {
-        rowTerms[a[i].col]++;
-    }
+    b[0].row = numCols;
+    b[0].col = a[0].row;
+    b[0].value = numTerms;
 
-    startingPos[0] = 1;
+    if (numTerms &gt; 0) {
+        int i;
+        for ( i = 0; i &lt; numCols; i++) {
+            rowTerms[i] = 0;
+        }
 
-    for ( i = 1; i &lt; numCols; i++) {
-        startingPos[i] = startingPos[i - 1] + rowTerms[i - 1];
-    }
+        for ( i = 1; i &lt;= numTerms; i++) {
+            rowTerms[a[i].col]++;
+        }
 
-    for ( i = 1; i &lt;= numTerms; i++) {
-        int j = startingPos[a[i].col]++;
-        b[j].row = a[i].col;
-        b[j].col = a[i].row;
-        b[j].value = a[i].value;
+        startingPos[0] = 1;
+
+        for ( i = 1; i &lt; numCols; i++) {
+            startingPos[i] = startingPos[i - 1] + rowTerms[i - 1];
+        }
+
+        for ( i = 1; i &lt;= numTerms; i++) {
+            int j = startingPos[a[i].col]++;
+            b[j].row = a[i].col;
+            b[j].col = a[i].row;
+            b[j].value = a[i].value;
+        }
     }
 }
 </code></pre>
-<p>}
-```
-基本上就跟counting sort 的內容非常相像</p>
-<h3>2.5.4 矩陣乘法</h3>
+<p>基本上就跟counting sort 的內容非常相像</p>
+<h3 id="254">2.5.4 矩陣乘法</h3>
 <p>```c=</p>
-<h1>define MAX_TERMS 100</h1>
+<h1 id="define-max_terms-100">define MAX_TERMS 100</h1>
 <p>typedef struct {
     int row;
     int col;
@@ -322,7 +340,6 @@ for (int i = 0; i &lt; MAX_TERMS &amp;&amp; A[i].value != 0; ++i) {
         <footer>
             <p><a href="../index.html">回首頁</a></p>
         </footer>
-
     </body>
     </html>
     

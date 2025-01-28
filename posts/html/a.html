@@ -5,10 +5,20 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>a</title>
-        <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="../../style.css">
         <!-- MathJax 用來渲染 LaTeX 公式 -->
         <script type="text/javascript" async
             src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+        </script>
+        <script type="text/x-mathjax-config">
+            MathJax.Hub.Config({
+                tex2jax: {{
+                    inlineMath: [['$', '$'], ['\(', '\)']],
+                    displayMath: [['$$', '$$'], ['\[', '\]']],
+                    processEscapes: true,
+                }},
+                "HTML-CSS": {{ availableFonts: ["TeX"] }}
+            });
         </script>
     </head>
     <body>
@@ -17,16 +27,16 @@
         </header>
 
         <section>
-            <!-- 在這裡插入 Markdown 轉換後的 HTML 內容 -->
+            <!-- 插入 Markdown 轉換後的 HTML -->
             <hr />
 <p>title: 考研筆記 - 計算機組織 (大碩張凡)
 tags: [考研, 計算機組織]</p>
 <hr />
-<h1>考研筆記 - 計算機組織 (大碩張凡)</h1>
-<h6>tags: <code>考研</code> <code>計算機組織</code></h6>
-<h6>撰寫時間 : 2022/10/29 ~ 2022/12/30</h6>
-<h2>ch1 計算機語言</h2>
-<h3>綱要</h3>
+<h1 id="-">考研筆記 - 計算機組織 (大碩張凡)</h1>
+<h6 id="tags">tags: <code>考研</code> <code>計算機組織</code></h6>
+<h6 id="20221029-20221230">撰寫時間 : 2022/10/29 ~ 2022/12/30</h6>
+<h2 id="ch1">ch1 計算機語言</h2>
+<h3 id="_1">綱要</h3>
 <ul>
 <li>ISA = 指令集 + 根據指令集所制定硬體的規範，是製造計算機的抽象規範</li>
 <li>RISC與CISC不同指令集類型的區別</li>
@@ -64,7 +74,7 @@ tags: [考研, 計算機組織]</p>
 <li>指令集的4大設計原則</li>
 </ul>
 <hr />
-<h3>ISA</h3>
+<h3 id="isa">ISA</h3>
 <p><img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221109_194116-9.jpg" /><br>
 如上圖所示，計算機組織這門學問探討軟體與硬體的交界處那2層，如何藉由control unit, datapath(前兩者合稱processor), memory, I/O device這些由數位邏輯電路所建構的計算機架構，要能夠執行指令集中的每一道指令，也就是軟體裡面最硬的、硬體裡面最軟的部分。</p>
 <ul>
@@ -77,7 +87,7 @@ tags: [考研, 計算機組織]</p>
 </ul>
 <p>前面提及ISA = 指令集 + 根據指令集所制定硬體的規範，這些硬體包括4類 - 記憶體、暫存器、指令格式、定址模式，接下來會依序介紹</p>
 <hr />
-<h3>記憶體(memory)</h3>
+<h3 id="memory">記憶體(memory)</h3>
 <ol>
 <li><strong>功能</strong><br>
 用來儲存正在執行中的程式，包含資料(data)與程式碼(code)。</li>
@@ -91,7 +101,7 @@ MIPS任意指令都是32個bit，要把資料放到memory裡面一定會跨4個�
 <strong>Big Endian</strong>是指資料放進記憶體中的時候，<strong>最高位的位元組(MSB)會放在最低的記憶體位址上</strong>，MIPS屬於Big Endian；而Little Endian則是剛好相反，它會把最高位的位元組(MSB)放在最高的記憶體位址上，Intel x86屬於Little Endian。</li>
 </ol>
 <hr />
-<h3>暫存器(register)</h3>
+<h3 id="register">暫存器(register)</h3>
 <ol>
 <li>MIPS R2000的主處理器，只能處理整數運算，因此需要有另外2種協同處理器(coprocessor)，分別為處理浮點數運算與處理exception(程式執行到一半出錯)、interrupt(I/O設備出錯)。</li>
 <li>當程式使用比CPU暫存器還多的變數，compiler會把最常用的變數放在暫存器，其餘放在記憶體，稱為<strong>溢出暫存器(spilling register)</strong>，並<strong>利用load與store指令，在暫存器與記憶體間傳送資料</strong>。</li>
@@ -198,7 +208,7 @@ MIPS任意指令都是32個bit，要把資料放到memory裡面一定會跨4個�
 <li>欲了解剩下3種暫存器，須先了解記憶體管理</li>
 </ol>
 <hr />
-<h3>記憶體管理</h3>
+<h3 id="_2">記憶體管理</h3>
 <p>當OS把程式call到memory裡面後，分為5個記憶體的區塊 - stack, heap, static, code, reserved。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221109_194116-10.jpg" /><br>
 1. <strong>stack區</strong> - 放置local變數，雖然在procedure執行開始到結束之前local變數都不會減少，但會隨著<strong>副程式呼叫</strong>而增減，成長方向為由上往下。
@@ -215,7 +225,7 @@ MIPS任意指令都是32個bit，要把資料放到memory裡面一定會跨4個�
 <li>static pointer暫存器 - 指向正在執行procedure(stack最頂端的procedure)最後一個變數的位置，也就是整個stack最頂端的位置。</li>
 </ol>
 <hr />
-<h3>C語言compilation步驟與loader的6大執行步驟</h3>
+<h3 id="ccompilationloader6">C語言compilation步驟與loader的6大執行步驟</h3>
 <p><img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221109_194116-11.png" /><br>
 人透過高階語言寫程式，透過compiler轉為低階的assembly language，但是assembly language一樣是由英文數字組成，機器看不懂；所以就需要assembler轉為機器看得懂0101的machine language；由於各自的procedure可以各自compile, assemble，因此會產生數個machine language，以及呼叫用到library的machine language，就需要linker把這個program相關的machine language去merge起來一個大的檔案，為可執行檔；當使用者執行這個可執行檔，OS會派出另一個系統程式稱為loader，load會執行6個步驟</p>
 <ol>
@@ -227,18 +237,18 @@ MIPS任意指令都是32個bit，要把資料放到memory裡面一定會跨4個�
 <li>設定program counter的值，但並不會指向memory的code區，因為如此的話，程式執行起來控制權在程式手上，會破壞系統資源，在這種情況下若OS沒辦法掌握系統全局，系統是不安全的，所以解決方法是<strong>讓program counter指向OS的副程式start-up routine，start-up routine會call要被執行的程式</strong>，因此任意程式都是start-up routine，當程式執行完後會跳回start-up routine，這時start-up routine會呼叫另一個副程式 - exit，釋放掉程式所占用的軟硬體資源，終結程式執行。</li>
 </ol>
 <hr />
-<h3>Java的interpretation步驟</h3>
+<h3 id="javainterpretation">Java的interpretation步驟</h3>
 <p><img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221109_194116-12.jpg" /><br>
 C語言的執行流程稱為compilation(translation)，但並不是所有高階語言都遵照這個流程，但還有一部分的程式語言像是Java，執行流程稱為interpretation。首先用compiler，把Java程式轉為一種中間的語言稱為Java byte code，接著使用透過不同種的JVM(x86版,ARM版, ...)，JVM讀一行解釋給hardware聽，讓hardware執行一行，但是這樣執行效率實在太差，為了改善執行效率，所有Just In Time compiler (JIT)的出現，會把最常用到的method轉為machine code，當程式執行到最常用到的method時，就可以直接調用machine code，剩餘的就改JVM逐行解釋給解釋給hardware聽。</p>
 <hr />
-<h3>指令類型</h3>
+<h3 id="_3">指令類型</h3>
 <ol>
 <li><strong>data transfer指令</strong> - 從一個儲存體copy到另一個儲存體。在MIPS只有load(mem -&gt; CPU)和store(CPU -&gt; mem)這2個指令，其他動作靠這2個指令組合完成即可；舉例來說記憶體位置若要移轉，就需要從記憶體位置A<code>lw</code>到暫存器，再從暫存器<code>sw</code>回記憶體位置B。</li>
 <li><strong>operation指令</strong> - 對暫存器的數值做運算，分為算數和邏輯指令，算數又細分為整數與浮點數。</li>
 <li><strong>flow control指令</strong> - 正常指令是由上而下依序執行，但遇到flow control會改變預設的指令順序。分為只在自身程式跳轉的intra program、跳至其他程式的inter program、跳至OS的system call。</li>
 </ol>
 <hr />
-<h3>operation -&gt; 算數指令</h3>
+<h3 id="operation-">operation -&gt; 算數指令</h3>
 <ol>
 <li>只能執行二元運算，代表一次只能相加2個值，無法連續加超過3個數值。</li>
 <li>每個指令有3個運算元，順序為目的暫存器、來源1暫存器、來源2暫存器。</li>
@@ -249,102 +259,108 @@ C語言的執行流程稱為compilation(translation)，但並不是所有高階�
 2. 轉譯(translation)，由高階語言轉換為組合語言。
 3. 最佳化(optimization)，使用最精簡的指令使得程式碼(code)占用記憶體的空間減少，以加速程式的執行。</p>
 <p>由於編譯程式第1個與第3個步驟是NP-complete問題，機制過於複雜，因此題目上只需要執行步驟2的轉譯即可，如以下例題</p>
-<p>給定register assignment為<code>A -&gt; $s0, B -&gt; $s1, C -&gt; $s2, D -&gt; $s3, E -&gt; $s4, F -&gt; $s5</code>，與高階C語言
-<code>c
-A = B + C + D;
-E = F - A;</code>
-因此MIPS的組合語言為
-<code>assembly
-add $t0, $s1, $s2 # binary operation
+<p>給定register assignment為<code>A -&gt; $s0, B -&gt; $s1, C -&gt; $s2, D -&gt; $s3, E -&gt; $s4, F -&gt; $s5</code>，與高階C語言</p>
+<pre><code class="language-c">A = B + C + D;
+E = F - A;
+</code></pre>
+<p>因此MIPS的組合語言為</p>
+<pre><code class="language-assembly">add $t0, $s1, $s2 # binary operation
 add $s0, $t0, $s3
-sub $s4, $s5, $s0</code></p>
+sub $s4, $s5, $s0
+</code></pre>
 <hr />
-<h3>data transfer指令</h3>
+<h3 id="data-transfer">data transfer指令</h3>
 <p>對MIPS而言，資料轉移指令只有2個，一是從記憶體轉到暫存器的load，二是從暫存器轉到記憶體。要存取的記憶體地址採用基底/位移(base or displacement)表示方式，就是一個基底暫存器(base register)內容加上一個限定為"常數"資料型態的位移量。</p>
-<p>由高階語言轉換為組合語言例題如下，給定register assignment為<code>A -&gt; $s0, H -&gt; $s1</code>，與高階C語言
-<code>c
-A[12] = H + A[8]</code>
-首先理解一下機制，compiler會把必要的資訊放在可執行檔裡面，OS照做即可，所以loader的第5個步驟時就會把暫存器$s0初始化為array的起始位置；而高階語言中<code>H</code>在暫存器，<code>A</code>陣列由於數字過多，所以在記憶體裡面，因此需要先將陣列數值從memory中load進入暫存器才能執行運算，故MIPS的組合語言為
-<code>assembly
-lw $t0, 32($s0)
+<p>由高階語言轉換為組合語言例題如下，給定register assignment為<code>A -&gt; $s0, H -&gt; $s1</code>，與高階C語言</p>
+<pre><code class="language-c">A[12] = H + A[8]
+</code></pre>
+<p>首先理解一下機制，compiler會把必要的資訊放在可執行檔裡面，OS照做即可，所以loader的第5個步驟時就會把暫存器$s0初始化為array的起始位置；而高階語言中<code>H</code>在暫存器，<code>A</code>陣列由於數字過多，所以在記憶體裡面，因此需要先將陣列數值從memory中load進入暫存器才能執行運算，故MIPS的組合語言為</p>
+<pre><code class="language-assembly">lw $t0, 32($s0)
 add $t0, $s1, $t0
-sw $t0, 48($s0)</code>
-其中<code>lw, sw</code>代表load word, store word，一次存取的基本單位為word，因此offset需要乘以4才代表實際數值，計算機會將<strong>基底暫存器<code>$s0</code>的數值與offset常數<code>32</code>丟進ALU相加即為要存取memory的地址</strong>，接下來對load指令而言，會讀取該地址的data，存進暫存器<code>$t0</code>裡面。
+sw $t0, 48($s0)
+</code></pre>
+<p>其中<code>lw, sw</code>代表load word, store word，一次存取的基本單位為word，因此offset需要乘以4才代表實際數值，計算機會將<strong>基底暫存器<code>$s0</code>的數值與offset常數<code>32</code>丟進ALU相加即為要存取memory的地址</strong>，接下來對load指令而言，會讀取該地址的data，存進暫存器<code>$t0</code>裡面。
 <br><br>
-若offset並非常數，在高階語言轉組語的題目當中，我們就必須模擬計算機的行為，先將"不是常數"的offset與base register相加，給定例題 - register assignment為<code>f, g, h, i, j</code>在<code>$s0 - $s4</code>；<code>A, B</code>在<code>$s6 - $s7</code>，與高階C語言
-<code>c
-f = g - A[ B[4] ]</code>
-MIPS的組合語言為
-<code>assembly
-lw $t0, 16($s7) # t0 = B[4]
+若offset並非常數，在高階語言轉組語的題目當中，我們就必須模擬計算機的行為，先將"不是常數"的offset與base register相加，給定例題 - register assignment為<code>f, g, h, i, j</code>在<code>$s0 - $s4</code>；<code>A, B</code>在<code>$s6 - $s7</code>，與高階C語言</p>
+<pre><code class="language-c">f = g - A[ B[4] ]
+</code></pre>
+<p>MIPS的組合語言為</p>
+<pre><code class="language-assembly">lw $t0, 16($s7) # t0 = B[4]
 s11 $t0, $t0, 2 # 4 * t0 
 add $t0, $s6, $t0  # base register of array A + offset
 lw $s0, 0($t0)
-sub $s0, $s1, $s0</code>
-最後探討<code>lw,sw</code>的變化指令<code>lh, lhu, sh, lb, lbu, sb</code>。
+sub $s0, $s1, $s0
+</code></pre>
+<p>最後探討<code>lw,sw</code>的變化指令<code>lh, lhu, sh, lb, lbu, sb</code>。
 1. 在高階C語言中有<code>char, short</code>等佔較少位元的資料型態，同理也要有對應的組合語言。
 2. 與load word類似，差別只在於byte數目，由於一個word是4個byte，所以half word為2個byte，而load byte則為1個byte。
 3. <code>lh</code>與<code>lhu</code>一個視讀入資料為有號數(signed)、一個視讀入資料為無號數，因此把資料從記憶體讀入register做符號擴充(sign extension)，無號數空格直接補0，而有號數要複製MSB位元至所有空格。
 4. <code>sh, sb</code>對上<code>lh, lb</code>與<code>sw</code>對上<code>lw</code>的關係雷同，差別在於<code>lh, lb</code>是少數memory位元要讀取進入多位元的register，會有多餘空格需要考慮符號擴充；但是<code>sh, sb</code>是多位元的register填入少數memory位元，因此只需要將register靠近右邊的位元擷取出來寫入memory即可，不會有符號擴充的問題。</p>
 <hr />
-<h3>intra program的flow control指令</h3>
+<h3 id="intra-programflow-control">intra program的flow control指令</h3>
 <p>流程控制指令並不做任何運算，其唯一的目的便是改變指令執行順序，否則一般指令都是由上而下依序執行，分為2種 - 一是有條件的改變指令執行順序稱為分支(branch) ，二是無條件的改變指令執行順序稱為跳躍(jump)。而分支目的以"label"表示，<strong>label值為要跳至執行的記憶體位置</strong>；當條件成立，要跳指令時，program counter會用這個label的數值去更新。</p>
 <p>給定register assignment為<code>f, g, h, i, j</code>在<code>$s0 - $s4</code>則以下為高階C語言轉MIPS組合語言
 1. <strong>If敘述加上go to</strong><br>
-高階C語言
-<code>c
-    If (i == j) go to L1;
+高階C語言</p>
+<pre><code class="language-c">    If (i == j) go to L1;
     f = g + h;
-L1 : f = f - i;</code>
-觀察<code>if</code>語句若相等要跳，不相等不要跳，且繼續依序執行所有指令，因此用<code>beq</code>指令，則MIPS組合語言
-<code>assembly
-    beq $s3, $s4, L1 # go to L1 if i equals j
+L1 : f = f - i;
+</code></pre>
+<p>觀察<code>if</code>語句若相等要跳，不相等不要跳，且繼續依序執行所有指令，因此用<code>beq</code>指令，則MIPS組合語言</p>
+<pre><code class="language-assembly">    beq $s3, $s4, L1 # go to L1 if i equals j
     add $s0, $s1, $s2 # f = g + h (skipped if i equals j)
-L1: sub $s0, $s0, $s3 # f = f- i (always executed)</code>
-2. <strong>If else敘述</strong><br>
-高階C語言
-<code>c
-If (i == j)
+L1: sub $s0, $s0, $s3 # f = f- i (always executed)
+</code></pre>
+<ol>
+<li><strong>If else敘述</strong><br>
+高階C語言</li>
+</ol>
+<pre><code class="language-c">If (i == j)
     f = g + h;
 else
-    f = g - h;</code>
-觀察<code>if</code>語句若相等不要跳，不相等要跳，因此用<code>bne</code>指令，則MIPS組合語言
-<code>assembly
-    bne $s3, $s4, Else # go to Else if i not equals j
+    f = g - h;
+</code></pre>
+<p>觀察<code>if</code>語句若相等不要跳，不相等要跳，因此用<code>bne</code>指令，則MIPS組合語言</p>
+<pre><code class="language-assembly">    bne $s3, $s4, Else # go to Else if i not equals j
     add $s0, $s1, $s2 # f = g + h (skipped if i not equals j)
     j Exit # go to Exit
 Else: sub $s0, $s1, $s2 # f = g - h skipped if i = j)
-Exit:</code>
-3. <strong>loop敘述</strong><br>
-高階C語言
-<code>c
-Loop: g = g +. A[i];
+Exit:
+</code></pre>
+<ol>
+<li><strong>loop敘述</strong><br>
+高階C語言</li>
+</ol>
+<pre><code class="language-c">Loop: g = g +. A[i];
     i = i + j;
-    if (i != h) go to Loop;</code>
-觀察<code>if</code>語句若相等不要跳，不相等要跳，因此用<code>bne</code>指令，則MIPS組合語言
-<code>assembly
-Loop: s11 $t1, $s3, 2 # Temp reg $t1 = 4 * i
+    if (i != h) go to Loop;
+</code></pre>
+<p>觀察<code>if</code>語句若相等不要跳，不相等要跳，因此用<code>bne</code>指令，則MIPS組合語言</p>
+<pre><code class="language-assembly">Loop: s11 $t1, $s3, 2 # Temp reg $t1 = 4 * i
     add $t1, $t1, $s5 # $t1 = address of A[i]
     lw $to, O($t1) # Temporary reg $t0 = A[i]
     add $s1, $s1, $t0 # g = g + A[i]
     add $s3, $s3, $s4 #i=i+j
-    bne $s3, $s2, Loop # go to Loop if i is not equal h</code>
-4. <strong>while loop敘述</strong><br>
-高階C語言
-<code>c
-While (save[i] == k)
-    i = i + j</code>
-MIPS組合語言
-<code>assembly
-Loop: s11 $t1, $s3, 2 # Temp reg $t1 = 4 * i
+    bne $s3, $s2, Loop # go to Loop if i is not equal h
+</code></pre>
+<ol>
+<li><strong>while loop敘述</strong><br>
+高階C語言</li>
+</ol>
+<pre><code class="language-c">While (save[i] == k)
+    i = i + j
+</code></pre>
+<p>MIPS組合語言</p>
+<pre><code class="language-assembly">Loop: s11 $t1, $s3, 2 # Temp reg $t1 = 4 * i
     add $t1, $t1, $s6 # $t1 = address of save[i]
     lw $t0, 0($t1) # Temp reg $t0 = save[i]
     bne $to, $s5, Exit # go to Exit if save[i] &lt;&gt; k
     add $s3, $s3, $s4 #i = i + j
     j Loop # go to Loop
-Exit:</code></p>
+Exit:
+</code></pre>
 <hr />
-<h3>基本區塊</h3>
+<h3 id="_4">基本區塊</h3>
 <p><strong>基本區塊(basic block)是編譯程式執行最佳化的最基本單位，其定義為沒有分支與沒有分支目的的指令，若有分支也只能在區塊的最後一個指令，若有分支目的也只能在區塊的第一個指令</strong>。以上面MIPS組合語言為例，拆成1到4行、5、6行、7行之後的3個basic block。</p>
 <p>因此程式在執行時，compiler會以下3步驟
 1. 將高階語言轉會為低階語言。
@@ -352,7 +368,7 @@ Exit:</code></p>
 3. 執行各基本區塊之間的最佳化</p>
 <p>所謂最佳化就是指使用最少、最精簡的指令完成其程式要執行的功能、<strong>以減少程式碼佔用的記憶體空間並加速程式執行</strong>。</p>
 <hr />
-<h3>虛擬指令</h3>
+<h3 id="_5">虛擬指令</h3>
 <p>虛擬指令(pseudo-instruction or directive instruction)是指實際機器並不存在但組譯程式卻可以接受的指令，MIPS並不提供
 - blt (branch if less than)
 - bgt (branch if greater than)
@@ -384,25 +400,25 @@ Exit:</code></p>
 </tbody>
 </table>
 <hr />
-<h3>邏輯運算指令</h3>
+<h3 id="_6">邏輯運算指令</h3>
 <p>位移(shift)指令理論上有分邏輯上的左移與右移(sll, srl)，算數上的左移與右移(sla, sra)，邏輯與算數的差別在於邏輯視數字為無號數，算數視數字為有號數，但MIPS不存在sla指令，因為與sll功能重複。</p>
 <p>MIPS提供and / or / nor / xor指令，其中nor為先做or後做not，xor (exclusive-or)為相同數為0，相異數為1。
 - AND的特性為1跟任何數做AND為任何數；0跟任何數做AND為0，可以用作mask - 感興趣的bit保留下來，不感興趣的bit清除為0。
 - OR的特性為0跟任何數做OR為任何數；1跟任何數做OR為為1，可以用作set - 感興趣的bit設定為1，不感興趣的bit保持原狀。
 - MIPS未提供not指令，因為not指令的格式只有2個運算元的格式，可以改用<code>nor $t0 $s0 $0</code>代替，任何數與0做or都是任何數，或是改用<code>nor $t0 $s0 $s0</code>代替，自己跟自己做or還是自己，再做not，綜合以上這兩部就具有not指令的功能。
-- 若兩個數字<code>$s0, $s1</code>要互相交換，而規定只能用兩個暫存器，可以使用XOR的特性來實現
-<code>assembly
-xor $s0, $s0, $s1 # $s0 ⊕ $s1                 $s1
+- 若兩個數字<code>$s0, $s1</code>要互相交換，而規定只能用兩個暫存器，可以使用XOR的特性來實現</p>
+<pre><code class="language-assembly">xor $s0, $s0, $s1 # $s0 ⊕ $s1                 $s1
 xor $s1, $s0, $s1 # $s0 ⊕ $s1                 ($s0 ⊕ $s1) ⊕ $s1 = $s0
-xor $s0, $s0, $s1 # ($s0 ⊕ $s1) ⊕ $s0 = $s1  $s0</code></p>
+xor $s0, $s0, $s1 # ($s0 ⊕ $s1) ⊕ $s0 = $s1  $s0
+</code></pre>
 <hr />
-<h3>立即版本的指令</h3>
+<h3 id="_7">立即版本的指令</h3>
 <p>由於<strong>程式經常使用常數</strong>當作運算元<code>a = b + 5</code>，根據前面所學過的指令，就必須assign一個變數為5，並從記憶體載入這個變數到register做運算，如此就會增加指令的延遲時間，因此MIPS對幾乎每個運算指令額外設計其對應的立即版本指令(immediate instruction)。</p>
 <p>一個指令有32 bit，扣除6 bit的opcode、2個5 bit的暫存器地址，剩下能表示常數的只有16個 bits，使用2的補數來表示正數與負數，因此能表示範圍為$- 2^{15}$到$(2^{15} - 1)$，當做運算時，需要將16 bit的常數做sign extension至32 bit，才能與暫存器的數值做運算，若是邏輯類(andi)運算則視16 bit為無號數，左邊16 bit直接補0即可；若是算數類(addi)運算則將MSB向左複製擴充至32 bit。</p>
 <p>由於立即指令只能存取16-bit的數字，因此若需要將完整32-bit常數放入暫存器，就需要使用<code>lui</code>(load upper immediate)指令，其功能為將16-bit常數載入暫存器左半邊16 bit，剩下右半邊16 bit則清為0；由於<code>ori</code>是邏輯運算，加上0與任何數OR會是任何數，所以接下來就使用<code>ori</code>指令將16 bit常數載入暫存器右半邊。</p>
 <p>前面提到immediate使用2的補數表示，可以是正數與負數，因此MIPS就沒有設計<code>subi</code>指令，其功能等同於<code>addi</code>。</p>
 <hr />
-<h3>組合語言與機器語言之間轉換</h3>
+<h3 id="_8">組合語言與機器語言之間轉換</h3>
 <p>根據指令<strong>參與運算的元素不同</strong>，分為3種不同格式的機器指令表示，MIPS有3種指令格式</p>
 <table>
 <thead>
@@ -444,7 +460,7 @@ xor $s0, $s0, $s1 # ($s0 ⊕ $s1) ⊕ $s0 = $s1  $s0</code></p>
 <p>由於branch能跳的最大距離為下一個指令的地址相對上下$- 2^{15}$到$(2^{15} - 1)$個word的地方，若是超過這個位置，則可以將原本branch指令改成<strong>反向條件的branch指令加上無條件跳躍的jump指令</strong>來解決。</p>
 <p>jump指令翻譯 - 使用虛擬絕對定址法(pseudo-direct addressing)，白話來說存的是"假的"記憶體絕對位置。MIPS作業系統於記憶管理時會將$2^{32} = 2^2 \cdot 2^{30} = 4 \rm G$的記憶體空間<strong>切割成16個大小相等的256M區塊，任何一個程式只能侷限於一個區間之內</strong> (這樣的空間已經夠大了，以windows的OS來說，程式大小才幾百MB而已)，因此相同區塊內的任何指令最左邊4個bit都是相同的，jump指令最左邊的4個bit就不需要紀錄；另外由於<strong>MIPS規定記憶體存放data或是code必須alignment</strong>，一定要是4的整數倍，因此最右邊的2個bit也不需要紀錄，總結jump要跳的位置只要26個bit就能表達所有要跳的位置。</p>
 <p>當CPU執行jump指令要還原原本的地址時，只需要把頭串接(concatenate)上program counter的前4個bit，尾巴串接上2個0就可以還原出原本記憶體的位置。</p>
-<h3>程式呼叫(procedure call)</h3>
+<h3 id="procedure-call">程式呼叫(procedure call)</h3>
 <p>執行程式呼叫時有以下6大步驟
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221111_160517.jpg" />
 1. caller要把傳遞給callee的引數存入argument暫存器。
@@ -453,39 +469,39 @@ xor $s0, $s0, $s1 # ($s0 ⊕ $s1) ⊕ $s0 = $s1  $s0</code></p>
 4. 執行callee自己要做的工作。
 5. callee將要傳遞給caller的運算結果存入values for results暫存器，以C而言就是關鍵字<code>return</code>。接下來callee回復原本被破壞的save暫存器，從stack pop出原來的數值。
 6. 執行jump register指令，program counter會更新至<code>jr</code>後面的register內的數值，在此就是<code>$ra</code>值，返回procedure A的，下一個執行add指令。</p>
-<p>當procedure A呼叫procedure B，而procedure B又繼續呼叫procedure C，這樣繼續呼叫下去，稱為遞迴呼叫，此時callee既是caller，給定算階層的C語言
-<code>c
-int fact(int n){
+<p>當procedure A呼叫procedure B，而procedure B又繼續呼叫procedure C，這樣繼續呼叫下去，稱為遞迴呼叫，此時callee既是caller，給定算階層的C語言</p>
+<pre><code class="language-c">int fact(int n){
     if (n &lt; 1) return (1);
     else return (n * fact(n - 1));
-}</code>
-先決定哪些變數要存，哪些變數不要存，caller有責任存argument與temp暫存器，callee有責任存save與ra暫存器，在此情況下沒有local變數，因此只需要存argument和ra暫存器。</p>
-<p>接下來照結構翻譯即可
-```assembly
-fact:
+}
+</code></pre>
+<p>先決定哪些變數要存，哪些變數不要存，caller有責任存argument與temp暫存器，callee有責任存save與ra暫存器，在此情況下沒有local變數，因此只需要存argument和ra暫存器。</p>
+<p>接下來照結構翻譯即可</p>
+<pre><code class="language-assembly">fact:
     addi $sp, $sp, -8 # Adjust stack for 2 items
     sw $ra, 4($sp) # Save the return address
-    sw $a0, 0($sp) # Save the argument n</p>
-<pre><code>slti $t0, $a0, 1 # Test for n &lt; 1
-beq $t0, $zero, Ll # If n &gt;= 1 go to Ll
+    sw $a0, 0($sp) # Save the argument n
 
-addi $v0, $zero, 1 # Return 1
-addi $sp, $sp, 8 # Pop 2 items off stack
-jr $ra # Return to caller
-</code></pre>
-<p>Ll:
+    slti $t0, $a0, 1 # Test for n &lt; 1
+    beq $t0, $zero, Ll # If n &gt;= 1 go to Ll
+
+    addi $v0, $zero, 1 # Return 1
+    addi $sp, $sp, 8 # Pop 2 items off stack
+    jr $ra # Return to caller
+
+Ll:
     addi $a0, $a0, -1 # n ~ 1; argument gets (n - 1)
-    jal fact # Call fact with (n - 1)</p>
-<pre><code>lw $a0, 0($sp) # Return from jal: restore argument n
-lw $ra, 4($s p) # Restore the return address
-addi $sp, $sp, 8 # Adjust stack pointer to pop 2 items
+    jal fact # Call fact with (n - 1)
 
-mul $v0, $a0, $v0 # Return n*fact (n - 1)
-jr $ra # Return to the caller
+    lw $a0, 0($sp) # Return from jal: restore argument n
+    lw $ra, 4($s p) # Restore the return address
+    addi $sp, $sp, 8 # Adjust stack pointer to pop 2 items
+
+    mul $v0, $a0, $v0 # Return n*fact (n - 1)
+    jr $ra # Return to the caller
 </code></pre>
-<p>```</p>
 <hr />
-<h3>MIPS的5個定址模式</h3>
+<h3 id="mips5">MIPS的5個定址模式</h3>
 <p><strong>定址模式(addressing mode)為說明指令如何取得運算元或是指令如何計算跳躍目的位置</strong>。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221111_171841.png" /><br>
 有3種取得運算元的方法</p>
@@ -521,14 +537,14 @@ jr $ra # Return to the caller
 |程式計數器相對(PC-relative addressing)|beq, bne|PC + 指令中的常數|
 |虛擬直接(Pseudodirect addressing)|j, jal|指令的26位元與程式計數器高4位元串接|</p>
 <hr />
-<h3>不同型態的指令集</h3>
+<h3 id="_9">不同型態的指令集</h3>
 <p>有4種不同型態的指令集
 1. accumulator (one operand) - 所有運算結果都會發生在一個累積暫存器與記憶體。
 2. mem-mem (three operands) - 每個指令有3個運算元，而這3個運算元都在記憶體裡面。
 3. stack (zero operand) - 所有運算都發生在stack頂端，只能用push和pop指令存取記憶體。
 4. load-store (three operands) - 所有運算都發生在暫存器，而且每個指令都有3個運算元，MIPS屬於這種，load-store是RISC，其餘3種都是CISC。</p>
 <hr />
-<h3>指令集的4大設計原則</h3>
+<h3 id="4">指令集的4大設計原則</h3>
 <ol>
 <li>一致才會簡單(Simplicity favors regularity)<ul>
 <li>讓所有指令保持單一大小</li>
@@ -551,8 +567,8 @@ jr $ra # Return to the caller
 </li>
 </ol>
 <hr />
-<h2>ch2 計算機算數</h2>
-<h3>綱要</h3>
+<h2 id="ch2">ch2 計算機算數</h2>
+<h3 id="_10">綱要</h3>
 <ul>
 <li>有號數的sign and magnitude、1補數的缺陷</li>
 <li>2補數的MSB權重是負，其餘是正的</li>
@@ -570,7 +586,7 @@ jr $ra # Return to the caller
 <li>有號數、無號數用組語偵測overflow</li>
 </ul>
 <hr />
-<h3>數的表示</h3>
+<h3 id="_11">數的表示</h3>
 <ol>
 <li>任意進位數轉10進位數 - 先表示為<strong>係數權重表示式</strong>，權重為base^i^，再用以10進位的方式乘開並加總。</li>
 <li>10進位數轉任意進位數 - 整數部分一直除下去，除到商數等於0為止，再用倒著的順序把所有餘數串起來；小數部分一直乘下去，取浮出小數點左邊的數，乘到小數為0為止，最後將所有數串起來。</li>
@@ -594,7 +610,7 @@ jr $ra # Return to the caller
 <p>2's complement為現代計算機採用有號數的表示方式，數值為1's complement再+1，而另一種轉換方式 - <strong>從右往左邊的bit掃過去，碰到第1個1之前(包含1)保持原狀，接下來取補數</strong>。2's complement每一位元的權重<strong>除了MSB的權重是負的之外</strong>，其餘位元的權重和二進位無號數是—樣的。若二進位的2's complement整數有n個bit，則能表示的範圍為$[-2^{n-1}, 2^{n-1} - 1]$。</p>
 <p>用無號數會讓範圍檢查的組語縮短，檢查用有號數指令檢查$0 \leq x &lt; y$的判斷等用無號數指令$x &lt; y$，其原理在於任何一個負數，看成無號數，都會超過任何一個正數。</p>
 <hr />
-<h3>二進位的加法與減法與overflow</h3>
+<h3 id="overflow">二進位的加法與減法與overflow</h3>
 <ul>
 <li>二進位加法與我們習慣的10進位加法一樣，而減法也是使用加法運算，A - B = A + (-B) = A + B的2補數。</li>
 <li>由於硬體資源的限制使得運算結果無法表示時就稱為overflow，overflow發生條件為正數加正數卻是負數、負數加負數卻是正數。<ol>
@@ -604,11 +620,11 @@ jr $ra # Return to the caller
 </li>
 </ul>
 <hr />
-<h3>多媒體運算</h3>
+<h3 id="_12">多媒體運算</h3>
 <p>許多圖學系統使用3個8 bit(R、G、B三原色)，來記錄一個點的顏色，用另一個8 bits(alpha)來記錄位置。但是運算上一次只會有1 byte的資料量，若以一般1個word的方式運算，過於浪費空間，因此以64位元<strong>加法器中的進位鏈分割開來</strong>處理器一次可處理8組 8 bits 運算元、或四組16 bits運算元、或2組32bits運算元的短向量進行運算(若是MIPS 的話,一次ALU為32 bits,故可處理4組 8bits資料量)，此種運算稱為<strong>Vector或SIMD</strong>。</p>
 <p>若是有超出或低於範圍的計算結果出現時，則將結果設為以最大的值與最負的值，此種方式稱為飽和運算(saturating operations)。</p>
 <hr />
-<h3>序向電路乘法器 - 傳統、硬體最佳化、Booth演算法</h3>
+<h3 id="-booth">序向電路乘法器 - 傳統、硬體最佳化、Booth演算法</h3>
 <p>無號數的乘法分為傳統乘法器與硬體最佳化乘法器。</p>
 <p>傳統乘法器，首先會檢查乘數最右邊的bit是0還是1，是0則不做任何事情，是1則執行"積 = 被乘數 + 積"，由於運算子都是64 bit，因此也要有64 bit大的ALU，當執行完後，最後將乘數往右邊移1個bit，被乘數往左邊移1個bit(提高被乘數的權重)，並反覆執行上述步驟32次。</p>
 <p>硬體最佳化乘法器<strong>將被乘數固定起來</strong>，而改移動乘數，由於積與乘數每一次運算都是往右移，因此把乘數一同放到積(product)的64 bit暫存器的右半邊。首先會檢查product暫存器最右邊的bit是0還是1，是0則不做任何事情，是1則執行"左半部product = 被乘數 + 左半部product"，當執行完後，最後product暫存器往右移1個bit，並反覆執行上述步驟32次。</p>
@@ -625,7 +641,7 @@ $$</p>
 <p>總結來說無號數乘法器有傳統、硬體最佳化，有號數乘法器有Booth演算法，這三種乘法器都屬於序向(sequential)電路，輸出由目前電路狀態(記憶元件)與輸入共同決定，步驟有3大點檢查(check)、動作(action)、位移(shift)。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221117_194736.jpg" /></p>
 <hr />
-<h3>組合電路乘法器 - 快速、平行樹</h3>
+<h3 id="-_1">組合電路乘法器 - 快速、平行樹</h3>
 <p>接下來是使用組合電路做的乘法器，觀察乘法運算就是一個輸入是被乘數、1個的位元乘數做AND 動作的結果形成partial product，再將這些partial product相加即可，根據partial product做加法的方式分為快速乘法器與平行樹乘法器。</p>
 <p>快速乘法器速度較快的原因有3個
 1. 組合電路不需要向序向電路一樣有clock驅動。
@@ -634,7 +650,7 @@ $$</p>
 <p><img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221117_202254.jpg" />
 如左上圖，每一層依序將最右邊的bit拉下來就是答案，不需要跟別人加，有32個partial product，需要31個加法器，假設1個加法器的延遲時間是T，此電路需要經過31T的延遲時間。如右上圖，另一種架構 - 平行樹乘法器將partial product兩兩相加，此電路需要經過$log_232 = 5$T的延遲時間。但是課本上有錯誤，左邊的bit不可以直接拉下來，應該要考慮進位(此處有錯，但還是以課本為主)。</p>
 <hr />
-<h3>序向電路除法器 - 傳統、硬體最佳化</h3>
+<h3 id="-_2">序向電路除法器 - 傳統、硬體最佳化</h3>
 <p>無號數的除法分為傳統除法器與硬體最佳化除法器。</p>
 <p>傳統除法器首先會"被除數 = 被除數 - 除數"；若結果為正代表夠減，將商數左移並塞入一個1；若結果為負代表不夠減，要累加回來以還原回原來的值，並將商數左移並塞入一個0，；當執行完後，最後除數暫存器往右移1個bit，並反覆執行上述步驟33次，需要注意要做33輪，因為第1輪是白做的。</p>
 <p>硬體最佳化除法器<strong>將除數固定起來</strong>，而改移動被除數，由於被除數與餘數每一次運算都是往左移，因此把被除數一同放到餘數(remainder)的64 bit暫存器的右半邊。為了避免傳統除法器第1輪是白做的問題，首先先將remainder暫存器往左移才進入迴圈，執行"左半部remainder = 左半部remainder - 被除數"，若結果為正代表夠減，將remainder暫存器向左移並塞入一個1；若結果為負代表不夠減，要累加回來以還原回原來的值，並將remainder暫存器並塞入一個0；當執行完後，放在remainder暫存器左半部的餘數要向右移1個bit做修正。</p>
@@ -642,22 +658,21 @@ $$</p>
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221117_211940.jpg" /></p>
 <p>有號數的除法就是將除數與被除數轉為正數，使用上述無號數的除法器求得結果，若除數與被除數異號則將商數加以變號，另外MIPS規定於餘數與被除數必須同號還避免定義上的不同。</p>
 <hr />
-<h3>MIPS的乘法與除法</h3>
+<h3 id="mips">MIPS的乘法與除法</h3>
 <p>在MIPS中，乘法器與除法器共用相同的硬體，差別只在於乘法運算往右移動；除法運算往左邊移動。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221117_215643.jpg" />
-64 bit暫存器中右半部為特殊暫存器Lo，存放商數或是乘積的低位數；左半部為特殊暫存器Hi，存放餘數或是乘積的高位數，對應使用的組合語言為
-```assembly</p>
-<h1>multiplication</h1>
-<p>mult $s2, $s3 # {Hi, Lo} &lt;- $s3 * $s2
-mfhi $s0      # $s0 &lt;- Hi
-mflo $s1      # $s1 &lt;- Lo</p>
-<h1>division</h1>
-<p>div  $s2, $s3 # Lo &lt;- $s2 / $s3； Hi &lt;- $s2 % $s3 
+64 bit暫存器中右半部為特殊暫存器Lo，存放商數或是乘積的低位數；左半部為特殊暫存器Hi，存放餘數或是乘積的高位數，對應使用的組合語言為</p>
+<pre><code class="language-assembly"># multiplication
+mult $s2, $s3 # {Hi, Lo} &lt;- $s3 * $s2
 mfhi $s0      # $s0 &lt;- Hi
 mflo $s1      # $s1 &lt;- Lo
-```</p>
+# division
+div  $s2, $s3 # Lo &lt;- $s2 / $s3； Hi &lt;- $s2 % $s3 
+mfhi $s0      # $s0 &lt;- Hi
+mflo $s1      # $s1 &lt;- Lo
+</code></pre>
 <hr />
-<h3>浮點數的表示</h3>
+<h3 id="_13">浮點數的表示</h3>
 <p>"廣義"上的科學記號有不唯一的表示方式，因此正規化數(normalized number)就是規定科學記號在小數點左邊只能有一個非0的數值，而<strong>二進位的正規化數以有限硬體空間表示就稱為浮點數(floating point)</strong>。
 $$
 (-1) \times 1.0101545 \times 2^{-123}
@@ -730,7 +745,7 @@ $$</p>
 <p>以下4種運算會產生NaN - $\frac{0}{0}, 0 \times \infty, a \times \text{NaN}, \infty - \infty$。</p>
 <p>除了IEEE754浮點規定，另一種需要記憶的就是IBM format，一樣32個bit，但指數只有7個bit，bias為64，且base為16。</p>
 <hr />
-<h3>浮點數的加法與乘法</h3>
+<h3 id="_14">浮點數的加法與乘法</h3>
 <p>浮點數的加法有以下4步
 1. <strong>指數對齊 - 指數較小的數需要對齊指數較大的數</strong>。
 2. significand相加。
@@ -743,7 +758,7 @@ $$</p>
 4. 四捨五入。若四捨五入的結果會讓significant變成非正規化形式，則須再正規化一次，並檢查有無underflow或是overflow。
 5. 設定sign bit，兩運算元異號，sign bit則為1，否則為0。</p>
 <hr />
-<h3>浮點數四捨五入流程</h3>
+<h3 id="_15">浮點數四捨五入流程</h3>
 <p>從十進位開始，以方便說明，需要多保留2個bit的額外硬體空間，稱為保護位元(guard bit)和捨入位元(round bit)，簡寫為GR，若GR = 0~49則捨去；若GR = 51 ~99則進位；若<strong>GR = 50</strong>，需要再1個bit的硬體空間，稱為黏著位元(sticky bit)，若<strong>運算時round bit右邊的bit被截掉，sticky bit便會設定為1</strong>；反之，則就會根據LSB數值依據，執行"<strong>round to nearest even (unbiased rounding)"原則</strong>。</p>
 <blockquote>
 <p>sticky bit硬體上使用OR gate實現，只要被捨去的bit中有任何一個bit非0，結果就會是1。</p>
@@ -753,29 +768,29 @@ $$</p>
 IEEE754共有4種捨去模式 - 朝向正無限大、朝向負無限大、截尾(不做四捨五入)、round to nearest even，上面介紹的是round to nearest even的捨去模式，而MIPS採用此種捨去模式。</p>
 <p>由於快速傅立葉轉換經常使用大量加法和乘法，因此在一些指令集(ex : ARM)會設計乘法和加法連做的指令，IEEE754規定單一個指令既做乘又做加，只能最後結果做一次四捨五入，稱為fused multiply add。</p>
 <hr />
-<h3>浮點數額外議題</h3>
+<h3 id="_16">浮點數額外議題</h3>
 <p>實數的加法具有結合率，而浮點數的加法是用來表示實數的，卻無結合率，這是因為浮點數是用有限硬體空間來表示實數，會有精確度上面限制的問題。</p>
 <p>在無號數與有號數的正數中，右移等於除以2的冪次方運算；但<strong>有號數的負數不一定</strong>，當被移掉的bit不是全0，則"<strong>右移結果 + 1 = 商數"，因此需要將運算做修正 - 右移幾個bit，就先加上幾個bit 1的數值</strong>，例如負數除以8需要先+7做修正，再向右移3個bit；負數除以16需要先將+15做修正，再向右移4個bit。</p>
-<p>有號數用組語偵測overflow
-```assembly
-addu $t0, $tl, $t2              # $t0 = sum, but don't trap</p>
-<p>xor $t3, $t1, $t2               # Check if signs differ
+<p>有號數用組語偵測overflow</p>
+<pre><code class="language-assembly">addu $t0, $tl, $t2              # $t0 = sum, but don't trap
+
+xor $t3, $t1, $t2               # Check if signs differ
 slt $t3, $t3, $zero             # $t3 = 1 if signs differ
 bne $t3, $zero, No_overflow     # $tl, $t2 signs !=, so no overflow
                               # signs =; sign of sum match too?
 xor $t3, $t0, $t1               # $t3 negative if sum sign different
 slt $t3, $t3, $zero             # $t3 = 1 if sum sign different
 bne $t3, $zero, Overflow        # All three signs #; go to overflow
-```
-add和addu用的是同一個ALU，運算方式都一模一樣，差別只是在於對結果的解釋不同，add會偵測overflow，addu不會偵測overflow；如果一開始用add發生overflow，後面就不會執行了，會跑到OS去，OS把程式kill掉。</p>
+</code></pre>
+<p>add和addu用的是同一個ALU，運算方式都一模一樣，差別只是在於對結果的解釋不同，add會偵測overflow，addu不會偵測overflow；如果一開始用add發生overflow，後面就不會執行了，會跑到OS去，OS把程式kill掉。</p>
 <p>接下來前三行是做異號數相加一定不會有overflow；後三行是做正數加正數卻是負數，負數加負數卻是正數。</p>
-<p>無號數用組語偵測overflow
-<code>assembly
-addu $t0, $tl, $t2 # $t0 = sum
+<p>無號數用組語偵測overflow</p>
+<pre><code class="language-assembly">addu $t0, $tl, $t2 # $t0 = sum
 nor $t3, $tl, $zero # $t3 = NOT $tl
 sltu $t3, $t3, $t2 # $t3 &lt; $t2 -&gt; set t3 = 1
-bne $t3, $zero, Overflow # t3 = 1 -&gt; overflow</code>
-想法如下
+bne $t3, $zero, Overflow # t3 = 1 -&gt; overflow
+</code></pre>
+<p>想法如下
 $$
 \begin{align<em>}
 &amp; t_1 + t_2 &gt; 11 \ldots 11 \qquad(\text{overflow occurs})\
@@ -785,8 +800,8 @@ $$
 \end{align</em>}
 $$</p>
 <hr />
-<h2>ch3 效能評估</h2>
-<h3>綱要</h3>
+<h2 id="ch3">ch3 效能評估</h2>
+<h3 id="_17">綱要</h3>
 <ul>
 <li>不同的效能定義會影響評估的結果</li>
 <li>execution time = IC * CPI * cycle time</li>
@@ -796,7 +811,7 @@ $$</p>
 <li>效能總評 - 算術平均數(AM)、加權平均數(WAM)、幾何平均數(GM)</li>
 </ul>
 <hr />
-<h3>效能定義</h3>
+<h3 id="_18">效能定義</h3>
 <p>不同的效能定義會影響評估的結果，因此在實施評估前先要對效能的定義有明確的了解。個人電腦會以執行時間做為效能評估的標準；而伺服器由於服務多人，則以生產量做為效能評估的標準。
 1. 執行時間(execution time)、反應時間(response time) - 工作從開始到完成所花的時間，也就是program送至計算機開始執行直到執行結果的所花的時間。
 2. 生產量(throughput) - 單位時間內所完成的工作量，也就是計算機單位時間完成的program(job)的個數。</p>
@@ -809,7 +824,7 @@ $$
 n = \frac{\text{Performance}_X}{\text{Performance}_Y} = \frac{\text{Execution Time}_Y}{\text{Execution Time}_X}
 $$</p>
 <hr />
-<h3>執行時間測量</h3>
+<h3 id="_19">執行時間測量</h3>
 <p>計算機從工作從開始到完成所花的時間稱為elapsed time，其中包括等待I/O的時間與處理器時間(CPU time)，CPU time又可進一步分為使用者處理器時間(user CPU time)與花在作業系統(服務使用者的程式運行)上的時間，稱為系統處理器時間(system CPU time)。當我們在run的程式個數不同，I/O time和system CPU time這兩個時間都是變動的，因此我們以user CPU time做為執行時間(execution time)的測量。</p>
 <p>使用絕對時間user CPU time，由於時間過短難以測量。而由於計算機都需要clock來同步快慢有別的訊號源，因此改使用一個cycle所花的時間長度clock cycle time作為衡量之一的參數，再乘上一個程式使用cycle的個數clock cycle就是user CPU time，而clock rate又為clock cycle time的倒數，是一秒鐘clock訊號同步的次數。
 $$
@@ -855,7 +870,7 @@ $$
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221127_15449.jpg" />
 值得注意的是compiler不會影響個別指令的CPI，個別指令的CPI在硬體建構好就已決定，compiler會選擇較佳組合的指令，影響的會是平均的CPI。</p>
 <hr />
-<h3>Amdahl's law</h3>
+<h3 id="amdahls-law">Amdahl's law</h3>
 <p>Amdahl's law是用來計算當某一機器改善了其中一部分後的執行時間。
 $$
 \text{ExTime after} = \frac{\text{ExTime affected}}{\text{Improve rate}} + \text{ExTime unaffected}
@@ -870,7 +885,7 @@ $$
 \end{align</em>}
 $$</p>
 <hr />
-<h3>效能總評</h3>
+<h3 id="_20">效能總評</h3>
 <p>假設工作負載中每個程式的執行次數皆相同，則使用算術平均數(AM)；若不是，則根據每個程式在工作負載中的出現頻率給予加權值，即使用加權平均數(WAM)；平均數越小，代表機器效能越好。</p>
 <p>同時評量2台以上機器的效能時，我們常會將某一部機器對某一程式的執行時間除以各機器的執行時間，稱為正規化得其比值，稱為spec ratio；spec ratio越大，代表機器效能越好。
 $$
@@ -883,8 +898,8 @@ $$
 就能消除這個矛盾，因為GM具有此特性 - 先取幾何平均再正規化 = 先正規化再取幾何平均，但GM就無法預測執行時間，且算出來的結果也不這麼準，因此當題目沒指定的話，還是以使用AM、WAM為準，使用GM是不得已的標準。</p>
 <p>目前最普及的CPU效能評估程式就是SPEC(System Performance Evaluation Corporation)的benchmark(效能評估程式組)，SPEC是由許多電腦廠商建立與支援的評效程式，目的是要為現代的電腦系統提供—組標準的評效程式，以SPEC CPU2000其中包括整數程式與浮點數程式的benchmark。</p>
 <hr />
-<h2>ch4 單一時脈計算機</h2>
-<h3>綱要</h3>
+<h2 id="ch4">ch4 單一時脈計算機</h2>
+<h3 id="_21">綱要</h3>
 <ul>
 <li>建構計算機的規格(ISA)與方法(抽象化設計)</li>
 <li>建構計算機的基本零件 - register file, ALU(算術邏輯單元), data memory, instrunction memory, adder, sign extension unit, PC</li>
@@ -899,7 +914,7 @@ $$
 <li>multiple cycle machine - 將每個指令拆成"執行時間較平均"的步驟(一個步驟只能使用一個主要功能單元)</li>
 </ul>
 <hr />
-<h3>建構計算機的規格(ISA)與方法(抽象化設計)</h3>
+<h3 id="isa_1">建構計算機的規格(ISA)與方法(抽象化設計)</h3>
 <p>建構計算機要先搞清楚SPEC，這個SPEC就是ISA，<strong>ISA = 指令集 + 根據指令集所制定硬體邏輯的規範</strong>。我們要造計算機的指令集只有MIPS中的9個指令
 1. 記憶體存取的lw, sw
 2. 算數邏輯運算的add, sub, and, or, slt
@@ -914,7 +929,7 @@ $$
 <p>數位邏輯是拿邏輯閘當作基本元件，至於邏輯閘零件內部的細節不需要理會。</p>
 </blockquote>
 <hr />
-<h3>認識建構計算機的基本零件</h3>
+<h3 id="_22">認識建構計算機的基本零件</h3>
 <ol>
 <li>
 <p><strong>暫存器檔案(register file)</strong><br>
@@ -948,12 +963,12 @@ if input = &gt; 16 bit , use sign extension unit =&gt; 32 bit
 32 bit的特殊目的暫存器，永遠存放下一個要被執行指令所在的記憶體位址。</li>
 </ol>
 <hr />
-<h3>CPU = datapath + control unit</h3>
+<h3 id="cpu-datapath-control-unit">CPU = datapath + control unit</h3>
 <p>CPU由datapath和control unit兩個電路單元組成。
 1. <strong>datapath</strong> - 真正執行指令、處理資料的電路。
 2. <strong>control unit</strong> - 9個指令會共用datapath，所以datapath裡面的零件是9個指令所需要零件的聯集，control訊號讓不同指令在datapath裡面執行時，只會通過該指令只要通過的零件，不會通過該指令不該通過的零件。</p>
 <hr />
-<h3>個別指令的datapath</h3>
+<h3 id="datapath">個別指令的datapath</h3>
 <p>先造出個別指令所需要的datapath，造完之後再經由合併成最後一個完整的datapath，此種方式稱為divide and conquer。
 <br><br>
 RTL(Register Transfer Language)只能描述資料從某一個儲存元件出發，中間經過基本算術運算(加減乘除,add, or, not)或是不經過運算，到達另一個儲存元件，其中儲存元件可以是暫存器或是memory。接下來要用RTL來描述datapath的行為。</p>
@@ -970,15 +985,15 @@ PC-&gt; read instruction
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221203_160423.jpg" /><br>
 R-type指令的rs和rt放要運算的暫存器號碼，把這兩個暫存器號碼分別放到read register 1和read register 2，抓出兩個要運算的暫存器內容，經過ALU做適當的運算(add, subtract, add, ...)後，拉回來寫入暫存器，寫入暫存器的號碼指定為rd。</p>
 <ol>
-<li>
-<p><strong>load word指令的datapath</strong> i-type
-<code>assembler
-lw $t1 4($S2) # 將 s2[1] -&gt; t1</code>
-<img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221203_161420.jpg" /><br>
+<li><strong>load word指令的datapath</strong> i-type</li>
+</ol>
+<pre><code class="language-assembler">lw $t1 4($S2) # 將 s2[1] -&gt; t1
+</code></pre>
+<p><img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221203_161420.jpg" /><br>
 load word指令功能為讀取data memory內容並寫入暫存器，讀取記憶體的位置需要計算，I-type指令的rs放的是base register的號碼，放到read register 1，抓出base register的內容，放在ALU的上面；同時間把指令的常數imm16，經過sign extension unit擴充為32個bit，放在ALU的上面，讓ALU執行加法運算，ALU運算結果就是記憶體位址。根據這個記憶體位址到data memory把這個位址的data抓出來，送到write data，寫入暫存器。
 <br><br>
 至於rt放的是目的暫存器的號碼，所以要把rt拉到write register指定寫入暫存器的位置，另外還需要控制訊號線RegWrite設為1，才能成功寫入。</p>
-</li>
+<ol>
 <li>
 <p><strong>store word指令的datapath</strong><br>
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221203_161730.jpg" /><br>
@@ -1002,7 +1017,7 @@ I-type指令的rs, rt放的是要比兩暫存器是否相等的暫存器號碼�
 <br><br>
 PC+4代表beq下一行的指令，放在adder的上面與I-type指令的常數imm16，經過sign extension unit擴充為32個bit，再向左移2個bit，代表乘以4，放在adder的下面，兩者相加就是跳躍目的的位置。</p>
 <hr />
-<h3>合併個別指令的datapath</h3>
+<h3 id="datapath_1">合併個別指令的datapath</h3>
 <ol>
 <li>
 <p><strong>合併lw和sw指令</strong><br>
@@ -1062,12 +1077,12 @@ jump計算跳躍目的位址為<code>{NextPC[31:28], Instruction[25:0], 2'b00}</
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221203_181353.jpg" /></li>
 </ol>
 <hr />
-<h3>control unit設計方式</h3>
+<h3 id="control-unit">control unit設計方式</h3>
 <p>multi-level control意思是將控制單元拆分為多個子單元，某一些控制子單元受控於另一個控制子單元，由於電路面積大小與輸入個數呈現指數正比，因此這樣設計就可降低控制單元電路面積大小，也可以加快控制電路的速度。</p>
 <p>single-cycle machine使用multi-level control，拆成main control與ALU control兩個控制子單元，main control可藉由2個bit ALUOp的訊號線，控制ALU control。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221204_15135.jpg" /></p>
 <hr />
-<h3>設計ALU control內部電路</h3>
+<h3 id="alu-control">設計ALU control內部電路</h3>
 <p>main control根據指令中6 bit的opcode判斷出屬於哪個指令，並透過2 bit的ALUOp傳遞給ALU control。</p>
 <table>
 <thead>
@@ -1099,7 +1114,7 @@ jump計算跳躍目的位址為<code>{NextPC[31:28], Instruction[25:0], 2'b00}</
 <p>因此就可建立6個輸入對4個輸出的truth table，改部分訊號don't care以在之後步驟獲得更大的化簡。由於沒有用到ALUOp為11的訊號線，就可改01 -&gt; X1、10 -&gt; 1X；在此計算機設計中，沒有用到function field第4、5個bit因此改為X。</p>
 <p>由於輸入與輸出超過4個，無法用人工的K-map化簡，需要藉助Quine-McCluskey Tabular Method化簡，最後就可畫出最簡電路圖。</p>
 <hr />
-<h3>設計main control內部電路(不含jump的datapath)</h3>
+<h3 id="main-controljumpdatapath">設計main control內部電路(不含jump的datapath)</h3>
 <p>main control的輸入為指令中6 bit的opcode，輸出則包含4條控制MUX的訊號線，分別是RegDst, ALUSrc, MemtoReg, PCSrc (Branch中MUX的控制訊號)，以及3條控制基本元件讀寫的訊號線，分別是RegWrite, MemRead, MemWrite。</p>
 <p>嘗試從CPU架構圖去trace各個指令資料流，就可得該指令需要設定的控制訊號，不過也可從控制訊號線的名稱來快速判斷，舉例來說MemtoReg設為1，代表data memory到register file的線是true，是通的；反之，MemtoReg設為0，代表data memory到register file的線是false，不通的，而是改由ALU result傳至register file。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221204_162427.jpg" /><br>
@@ -1120,13 +1135,13 @@ jump計算跳躍目的位址為<code>{NextPC[31:28], Instruction[25:0], 2'b00}</
 <p>參照課本P383練習，由於線路與ground line或是power line短路，就可能會產生訊號線永遠是0或是1，稱為stuck-at-0 / 1 fault，會造成以下影響，考試時需要自行判斷。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221204_170055.jpg" /></p>
 <hr />
-<h3>single-cycle machine的效能評估</h3>
+<h3 id="single-cycle-machine">single-cycle machine的效能評估</h3>
 <p><a href="#效能定義">ch3 效能定義</a>中在此效能的定義方式為execution time的倒數，而execution time = IC * CPI * cycle time；對於2部不同硬體實踐架構但同一ISA的機器，當要比較效能也就是execution time時，首先要確保跑的是相同的程式(組合語言)，也就代表instruction count相同，因此真正要比的就是instruction time。</p>
 <p>single-cycle machine顧名思義每個指令都只需要1個cycle的時間就可以完成，故CPI為1；而<strong>用最長指令的時間做為single-cycle machine的minimum clock cycle time</strong>，下圖分別trace這9個指令(R-type包含5個指令)的資料流
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2023/02/20230216_220217.jpg" />
 考試上會給各種零件需要運算的時間，如此從多個路徑計算，花最久的路徑就是critical path，就可計算critical path delay。由於每個指令critical path的零件都是load word指令critical path的零件的子集合，因此load word指令所需要花的時間最長，決定了minimum clock cycle time的時間。</p>
 <hr />
-<h3>考古題觀念</h3>
+<h3 id="_23">考古題觀念</h3>
 <ul>
 <li><strong>考題 P418 第25題 成大電機 - 如何控制data memory寫入?</strong><br>
 觀察data memory寫入(sw)中的3個訊號時間來的順序</li>
@@ -1137,7 +1152,7 @@ jump計算跳躍目的位址為<code>{NextPC[31:28], Instruction[25:0], 2'b00}</
 <p>由此可知一筆要寫入memory的資料除了寫到對的位址之外，還會寫到另一筆錯誤的位址。因此data memory要加clock，用clock邊緣來觸發資料寫入，避免一筆資料寫入2個不同記憶體的位址。同理register file也應該要加clock避免同一筆資料多寫入錯誤的位址。</p>
 <p>在single-cycle machine中data memory要加clock，以同步MemWrite, Adress, Write data這三個訊號線，但在pipeline中EX/MEM的pipeline register會做好這3個訊號的同步工作。</p>
 <hr />
-<h3>練習 P389 台聯大電機</h3>
+<h3 id="p389">練習 P389 台聯大電機</h3>
 <p>第1題題目問在"避免增加critical path的前提"下，是為了避免critical path增加，而影響到single-cycle machine的performance。接下來要計算最晚產生MemWrite的contro訊號線的時間，是因為不需要讓control unit那麼快產生控制訊號，讓main control的設計更有彈性，可以使用最差的IC製程技術，讓線做的最窄，電阻最大，使control unit的晶片面積縮小，降低成本，時間慢一點沒關係，只需要在時間內產生我所需要的控制訊號就好，而不影響clock cycle time，代表不影響single-cycle machine的performance。</p>
 <p>第3題題目問"哪個訊號線需要最早產生?"，首先畫出資料流
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221204_175953.jpg" /><br>
@@ -1153,14 +1168,14 @@ jump計算跳躍目的位址為<code>{NextPC[31:28], Instruction[25:0], 2'b00}</
 </ol>
 <p>實際上，lw才是花最長的指令，而lw只會走rs和imm16那兩條，因此不可以算中間那條critical path，因此送至ALU的運算元的critical path delay為200ps，代表main control至少要在(200 - 50)ps就要將ALUOp設定好，但還是以原文書答案為主。</p>
 <hr />
-<h3>multiple cycle machine</h3>
+<h3 id="multiple-cycle-machine">multiple cycle machine</h3>
 <p>single-cycle machine固定clock cycle time為最長指令執行(lw)的時間，效率不佳，理想上是可變clock cycle time效能會最好，但實務上又造不出clock cycle time隨每個指令變動。因此退而求其次，想辦法讓長指令多用點時間，短指令少用點時間，只要有呈這個趨勢就好。</p>
 <p>實踐方式就是將每個指令拆成"執行時間較平均"的步驟。課本提供分步驟的原則 - 一個步驟只能使用一個主要功能單元；因此clock cycle time由最長的主要功能單元時間所決定。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221204_18101.jpg" /><br>
 其中IF = instruction fetch, ID = instruction decode, RF = register fetch, MA = memory access, WB = write back，個別指令所需要的CPI各不相同，需要注意切步驟時會有<strong>額外的clock cycle time的時間</strong>，這是因為每個步驟結束的時候，要把當下步驟的結果存入暫存器，在下一個clock來之後，提供給下一個步驟使用。</p>
 <hr />
-<h2>ch5 管線化計算機</h2>
-<h3>綱要</h3>
+<h2 id="ch5">ch5 管線化計算機</h2>
+<h3 id="_24">綱要</h3>
 <ul>
 <li>pipeline對latency沒幫助，而是改善throughput</li>
 <li>pipeline分為5個stage - IF, ID, EX, MEM, WB</li>
@@ -1182,7 +1197,7 @@ jump計算跳躍目的位址為<code>{NextPC[31:28], Instruction[25:0], 2'b00}</
 <li>pipeline處理exception的步驟</li>
 </ul>
 <hr />
-<h3>pipeline的特性與效能評估</h3>
+<h3 id="pipeline">pipeline的特性與效能評估</h3>
 <p>pipeline是一種計算機的實作技術，允許多個指令同時存在於datapath裡面，使指令重疊地、平行地被執行。pipeline跟multiple cycle machine一樣，需要將single-cycle machine分成若干階段，分步驟的原則是時間要平均分配 - 一個步驟只能使用一個主要功能單元，而最長步驟的時間就是pipeline的clock cycle time。</p>
 <p><strong>pipeline並不會對單一個指令的執行時間(latency)有所幫助，反而會比single-cycle machine的latency還長</strong>，因為每個pipeline的每個stage執行結束後，會卡在"柵欄"上，等下一個clock來，柵欄"打開才能繼續執行。<strong>pipeline是藉由多個指令在pipeline中使用不同部分的硬體資源，以提高硬體使用率，以增進整體工作的生產量(throughput)</strong>。</p>
 <p>假設pipeline不會停下來(stall)，也就是理想pipeline的機器，給定週期時間$T$，$S$個stage，$N$個指令要執行，則
@@ -1199,7 +1214,7 @@ $$
 $$
 從上式可知，pipeline的stage切越多，$S$越大，代表cycle time越短、clock rate越高，instruction rate越高，throughput(單位時間執行的指令數)越高，performance會越好。但是由於dynamic dissipation公式$P = \alpha C V_{DD}^2 f_{sw}$中，功率消耗與clock的頻率成正比，因此clock rate越高，CPU的功率就會提高，造成負面影響，這便是一個performance與power之間的trade-off。</p>
 <hr />
-<h3>pipeline的datapath設計</h3>
+<h3 id="pipelinedatapath">pipeline的datapath設計</h3>
 <p>根據一個步驟只能使用一個主要功能單元的原則，在MIPS指令執行時分為5個步驟
 1. IF, instruction fetch - 從instruction memory中擷取(fetch)指令。
 2. ID, instruction decode - control unit解碼指令，同時間RF, register fetch，從register file中擷取(fetch)暫存器內容。
@@ -1209,7 +1224,7 @@ $$
 <p>劃分完stage後，要在相鄰的stage之間加上pipeline register，來儲存上一stage的執行結果，並在下一clock來之後提供下一個stage使用。pipeline register以相鄰的兩個stage來命名，其容量需要能夠容納上一stage的資料。</p>
 <p>接下來會出現一個問題 - WB stage的指令無法寫入自己的目的暫存器，而是會寫入正在占用ID stage的指令的目的暫存器。解法 - 在ID stage選完的目的暫存器號碼，跟著指令沿著pipeline傳下去，最後在WD stage再往回拉，指定目的暫存器號碼。</p>
 <hr />
-<h3>pipeline的control unit設計</h3>
+<h3 id="pipelinecontrol-unit">pipeline的control unit設計</h3>
 <p>設計完pipeline的datapath，接下來是設計pipeline的control unit，與single-cycle machine的訊號線一樣，差別只在於pipeline在ID階段control unit解完碼後，這些控制訊號線需要跟隨指令沿著pipeline傳下去，直到指令執行完畢。</p>
 <p>需要注意要把原本在single-cycle machine中RegDst的MUX往下移至pipeline的EXE階段。假設main control需要花的時間特別長，dominate任何主要功能單元的時間，因此決定pipeline的clock cycle time，如果main control解完碼後，又用拉到RegDst的MUX去控制，還需要MUX的延遲時間，導致pipeline又需要多花上MUX的延遲時間，clock cycle time更長，這並不是一個很好的設計。</p>
 <p>因此把MUX往後拉，在ID階段main control專心解碼就好，不用再弄其他控制訊號線，把MUX往後移一個stage到EX階段即可，也不需要刻意移到更後面的stage，因為這會導致pipeline register要額外的空間存rd和rt這64 bit的data。</p>
@@ -1227,7 +1242,7 @@ $$
 <p>接下來探討一個問題 - 在single-cycle machine中，一個指令既要讀又要寫register file，在同一個clock發生2次硬體資源access的衝突。解決方法 - 把讀與寫的時間錯開，<strong>register file在clock前半周寫，在clock後半周讀</strong>。</p>
 <p>同理pipeline，我們把register file設計在clock前半周寫、在clock後半周讀，所以WB stage的指令在clock前半周寫，ID stage的指令在clock後半周讀，時間上會錯開，因此不會產生register file硬體資源在同一時間access的衝突。</p>
 <hr />
-<h3>pipeline的hazard</h3>
+<h3 id="pipelinehazard">pipeline的hazard</h3>
 <p>hazard為pipeline不能在下一個clock執行下一道指令的狀況，分為以下3類
 1. structural hazard<br>
 硬體資源不足，導致相同時間點多個指令存取相同硬體資源。
@@ -1238,11 +1253,11 @@ branch指令走到MEM stage才知道後面指令要跟誰，但此時後面指�
 <p>不論是哪種pipeline的hazard都可以藉由暫停(stall)來避免，但是暫停pipeline會造成clock cycle數目變長，進而影響pipeline的performance，因此接下來對各種hazard要使用更有效的解決方式，在確保能解決問題的前提下，也不會影響到過多的performance。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221213_212212.jpg" /></p>
 <hr />
-<h3>structural hazard</h3>
+<h3 id="structural-hazard">structural hazard</h3>
 <p>假設我們只有一個記憶體，而非像前面single-cycle machine或是pipeline一樣有兩個分離的記憶體，則在一指令IF階段與另一指令MEM階段時，需要同時read相同的硬體資源，造成structural hazard。</p>
 <p>解決方法1加入足夠多的硬體；解決方法2是讓先進入pipeline的指令有較高使用硬體資源的priority，而讓將會發生structural hazard後進來的指令先stall。</p>
 <hr />
-<h3>data hazard</h3>
+<h3 id="data-hazard">data hazard</h3>
 <ul>
 <li><strong>產生條件</strong><br></li>
 <li>資料存在data dependency - 後面指令的來源暫存器(rs, rt)有用到前面指令的目的暫存器(rd)。</li>
@@ -1268,16 +1283,17 @@ nop泛指不改變暫存器的內容、memory的內容、指令的執行順序�
 1. 前面指令一定要寫入暫存器，可以看在EX/MEM暫存器中控制訊號線RegWrite是否為1。
 2. 不需要forward 0號暫存器欲先計算的內容，因為0號暫存器無法寫入任何數值，永遠都是常數0，因此前面指令的目的暫存器不能是0，可以看在EX/MEM暫存器的rd數值。
 3. 前面指令的目的暫存器號碼跟後面指令的來源暫存器號碼一樣，可以看EX/MEM暫存器的rd與IF/ID暫存器的rt或是rs有沒有相同。</p>
-<p>綜合以上3個條件可得EX hazard的偵測碼
-<code>verilog
-if (EX/MEM.RegWrite &amp; (EX/MEM.RegisterRd != 0) &amp; (EX/MEM.RegisterRd = ID/EX.RegisterRs))
+<p>綜合以上3個條件可得EX hazard的偵測碼</p>
+<pre><code class="language-verilog">if (EX/MEM.RegWrite &amp; (EX/MEM.RegisterRd != 0) &amp; (EX/MEM.RegisterRd = ID/EX.RegisterRs))
     ForwardA = 10
 if (EX/MEM.RegWrite &amp; (EX/MEM.RegisterRd != 0) &amp; (EX/MEM.RegisterRd = ID/EX.RegisterRt))
-    ForwardB = 10</code>
-- <strong>MEM hazard</strong><br>
-MEM hazard的偵測碼與EX hazard的偵測碼觀念相同，差別只是將pipeline register從EX/MEM換成MEM/WB，而輸出的ForwardA、ForwardB從10改成01。此外需要再加上第4個條件 - <strong>對相同欄位中，如果EX hazard發生，就不會再發生MEM hazard</strong>，也就是對相同欄位中不存在EX hazard，因為前前一個指令的目的暫存器已經會被前一個指令的目的暫存器所複寫，所以目前指令使用的來源暫存器只會與上一個指令的目的暫存器產生data dependency。
-<code>verilog
-if (MEM/WB.RegWrite
+    ForwardB = 10
+</code></pre>
+<ul>
+<li><strong>MEM hazard</strong><br>
+MEM hazard的偵測碼與EX hazard的偵測碼觀念相同，差別只是將pipeline register從EX/MEM換成MEM/WB，而輸出的ForwardA、ForwardB從10改成01。此外需要再加上第4個條件 - <strong>對相同欄位中，如果EX hazard發生，就不會再發生MEM hazard</strong>，也就是對相同欄位中不存在EX hazard，因為前前一個指令的目的暫存器已經會被前一個指令的目的暫存器所複寫，所以目前指令使用的來源暫存器只會與上一個指令的目的暫存器產生data dependency。</li>
+</ul>
+<pre><code class="language-verilog">if (MEM/WB.RegWrite
 and (MEM/WB.RegisterRd != 0)
 and not (EX/MEM.RegWrite &amp; (EX/MEM.RegisterRd != 0) &amp; (EX/MEM.RegisterRd = ID/EX.RegisterRs))    
 and (MEM/WB.RegisterRd = ID/EX.RegisterRs))
@@ -1286,8 +1302,9 @@ if (MEM/WB.RegWrite
 and (MEM/WB.RegisterRd != 0)
 and not (EX/MEM.RegWrite &amp; (EX/MEM.RegisterRd != 0) &amp; (EX/MEM.RegisterRd = ID/EX.RegisterRt))    
 and (MEM/WB.RegisterRd = ID/EX.RegisterRt))
-    ForwardB = 01</code>
-最後在EX stage的forward unit的輸出會控制ALU運算元前面的3對1的MUX，ForwardA控制ALU第一個運算元的數值，ForwardB控制ALU第二個運算元的數值，若為00則代表不需要forwarding，按照原本在ID stage抓取的暫存器數值計算；若為01則代表存在MEM hazard，需要在前前一個指令的WB stage往前forward給目前指令，在ALU運算之前及時更正運算元；若為10則代表存在EX hazard，需要在前一個指令的MEM stage往前forward給目前指令，在ALU運算之前及時更正運算元。
+    ForwardB = 01
+</code></pre>
+<p>最後在EX stage的forward unit的輸出會控制ALU運算元前面的3對1的MUX，ForwardA控制ALU第一個運算元的數值，ForwardB控制ALU第二個運算元的數值，若為00則代表不需要forwarding，按照原本在ID stage抓取的暫存器數值計算；若為01則代表存在MEM hazard，需要在前前一個指令的WB stage往前forward給目前指令，在ALU運算之前及時更正運算元；若為10則代表存在EX hazard，需要在前一個指令的MEM stage往前forward給目前指令，在ALU運算之前及時更正運算元。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221213_231756.jpg" /></p>
 <blockquote>
 <p>需要注意當pipleline的stage數越多，解決data hazard的代價就越大。</p>
@@ -1300,24 +1317,24 @@ and (MEM/WB.RegisterRd = ID/EX.RegisterRt))
 <p>首先需要有一個hazard detection unit的控制單元來偵測是否需要stall指令。課本沒有實踐hazard detection unit的內部電路，但有寫偵測碼來描述電路行為。
 1. 前面指令為lw指令，可以看在ID/EX暫存器中控制訊號線MemRead是否為1。
 2. 前面指令的目的暫存器與目前指令的來源暫存器rs, rt是否相同。</p>
-<p>綜合以上3個條件可得load-use data hazard的偵測碼
-<code>verilog
-if (ID/EX.MemRead and
+<p>綜合以上3個條件可得load-use data hazard的偵測碼</p>
+<pre><code class="language-verilog">if (ID/EX.MemRead and
    ((ID/EX.RegisterRt = IF/ID.RegisterRs) or (ID/EX.RegisterRt = IF/ID.RegisterRt)))
-    stall the pipeline</code>
-若是檢測發生load-use data hazard，在ID stage的hazard detection unit，其中2條輸出線<code>PCWrite</code>與<code>IF/ID.Write</code>會控制PC和IF/ID pipeline register不要正常接收到clock訊號，因此還是會保留原來暫存器的數值；其中1條輸出線<code>Stall</code>會把接在lw後面指令的9根控制訊號線全清為0，也就是殺掉原本指令改成對程式執行無任何影響的nop。
+    stall the pipeline
+</code></pre>
+<p>若是檢測發生load-use data hazard，在ID stage的hazard detection unit，其中2條輸出線<code>PCWrite</code>與<code>IF/ID.Write</code>會控制PC和IF/ID pipeline register不要正常接收到clock訊號，因此還是會保留原來暫存器的數值；其中1條輸出線<code>Stall</code>會把接在lw後面指令的9根控制訊號線全清為0，也就是殺掉原本指令改成對程式執行無任何影響的nop。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221214_001814.jpg" /></p>
 <p>對相同rt欄位的load word與store word的load-use data hazard，不必像一般的load-use data hazard一樣需要stall + forwarding，而是可以直接forwarding及時更正要送至data memory中write data的資料，因為sw不需要在EX stage就需要正確的暫存器內容，而是等到下一個stgae，也就是在MEM stage才需要將正確的暫存器內容寫入記憶體。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221214_165347.jpg" /></p>
 <hr />
-<h3>data dependency</h3>
+<h3 id="data-dependency">data dependency</h3>
 <p>data dependency分為RAW、WAR、WAW。判別方式如下
 1. RAW - 前面目的和後面來源比
 2. WAR - 前面來源和後面目的比
 3. WAW - 前後都看目的暫存器</p>
 <p>在MIPS的5-stage pipeline架構中，只有RAW會發生data hazard，RAW稱為true data dependency，其餘WAR、WAW稱為false data dependency。對比在superscalar pipeline中亂序執行，後面指令可以超前前面指令提早執行，因此三種data dependency都有可能產生。</p>
 <hr />
-<h3>beq往前移以減少control hazard並解決變嚴重data hazard</h3>
+<h3 id="beqcontrol-hazarddata-hazard">beq往前移以減少control hazard並解決變嚴重data hazard</h3>
 <p><a href="#pipeline的control-unit設計">ch5 pipeline的control unit設計</a>MIPS指令集5個stage pipeline的"原始設計"是在MEM stage決定要不要跳。branch指令走到MEM stage才知道後面指令要跟誰，但此時後面指令已經跟上了，如果branch一跳，後面指令就跟錯了，因此解法是是將抓錯的指令flush掉。</p>
 <p>flush掉越多指令會降低pipeline的效能(throughput)，因此我們嘗試將決定要不要跳往前面的stage移動，以減少branch猜錯要flush掉的指令個數， branch不使用ALU進行減法運算比較兩暫存器是否相等，而是<strong>多在ID stage增加XOR array這個硬體元件比較兩暫存器是否相等</strong>，由於XOR array沒有像ALU一樣需要進位，因此運算速度會比ALU還快。</p>
 <p>如果branch一跳，硬體需要清除後面跟上來在IF stage的指令，使用控制線<code>IF.Flush</code>，把IF/ID pipeline register全清為0，原指令就會轉換為<code>sll $0 $0 0</code>，也就是MIPS官方版本的nop指令。
@@ -1331,7 +1348,7 @@ if (ID/EX.MemRead and
 3. 對相同rt的lw與sw的load-use data hazard不用暫停pipeline，用forwarding來救即可。
 4. R-type和在ID stage的beq指令產生data hazard = pipeline stall + forwarding。</p>
 <hr />
-<h3>硬體解法 - 動態分支預測</h3>
+<h3 id="-_3">硬體解法 - 動態分支預測</h3>
 <p>分支預測分為2類
 1. 靜態分支預測 - 永遠猜跳，永遠猜不跳，由compiler在猜測並重排指令順序給硬體執行，若猜錯硬體需負責殺掉猜錯的指令。
 2. 動態分支預測 - 根據run time information，也就是前幾次branch有沒有跳的歷史依據，來猜要跳或是不跳，由硬體在猜測，若猜錯硬體需負責殺掉猜錯的指令。</p>
@@ -1339,7 +1356,7 @@ if (ID/EX.MemRead and
 <p>預測方式有1-bit與2bit方式，2bit的BHT存11, 10, 01, 00，但BHT只會輸出最左邊的bit，代表T(taken)或是NT(not taken)，兩者預測方式都屬於counter-based(假設分支是發生的則下一個狀態值為目前狀態值加 1否則減1)，且加、減都是採用飽和運算。</p>
 <p>此外更複雜的預測方式有同時使用local(自己的branch)與global(其他地方的branch)為判斷依據的關聯預測器(correlating predictor)，以及使用多個預測器並追蹤看是哪個預測器產生比較好的效果的競賽預測器(tournament predictor)。</p>
 <hr />
-<h3>軟體解法 - 延遲分支(delayed branch)</h3>
+<h3 id="-delayed-branch">軟體解法 - 延遲分支(delayed branch)</h3>
 <p>compiler會將不論分支條件是否成立總是會執行的指令(稱為安全指令)放到分支延遲插槽(branch delay slot) 中，而延遲分支總是執行後面的指令。因此不論分支條件是否成立都不需要丟棄其後的指令。插入安全指令有以下3種方法
 1. from bottom - 在不影響程式執行的正確性之下，將branch上面的指令放到branch delay slot。
 2. from target - 根據branch會跳的順序來安排指令的順序，若是branch不跳，會多被執行一個沒用的指令，但就算被執行，也不影響程式的正確性。
@@ -1350,7 +1367,7 @@ if (ID/EX.MemRead and
 </blockquote>
 <p>但是安全指令實在不好找，若是隨著pipeline切更細或是每個clock issue的指令變多，就需要更多的branch delay slot，如此delayed branch的解決方法就已經失去優勢。</p>
 <hr />
-<h3>增加ILP的方法</h3>
+<h3 id="ilp">增加ILP的方法</h3>
 <p>pipeline充分利用指令之間潛在的平行度。這類型的平行度稱為指令層次平行度(Instruction-Level Parallelism, ILP) 。</p>
 <blockquote>
 <p>此外更高層級也有job-level parallelism, thread-level parallelism。</p>
@@ -1363,7 +1380,7 @@ if (ID/EX.MemRead and
 <p>multiple issue由軟體(compiler)處理稱為static multiple issue，由硬體處理稱為dynamic multiple issue，又稱superscalar。</p>
 <p>無論是static或是dynamic的multiple issue都可以用speculation加速。<strong>speculation是猜某個指令的性質，來決定跟這個指令相關後續的指令可以提早被執行</strong>，如果原本在後面的指令可以提早被執行，就可以讓後面指令跟前面指令混在一起，讓指令包能盡量填滿，以提高ILP。軟體的speculation會重排指令順序，並加入其他指令以檢查猜測的正確性，提供一組修補程式以在猜錯的時候使用；硬體的speculation會將猜測結果暫時另外存到buffer，直到真正知道結果後，如果猜對會將結果寫回暫存器或是記憶體以完成指令，如果猜錯直接把buffer flush掉即可。</p>
 <hr />
-<h3>static multiple issue - MIPS-64、VLIW、IA-64</h3>
+<h3 id="static-multiple-issue-mips-64vliwia-64">static multiple issue - MIPS-64、VLIW、IA-64</h3>
 <p>static multiple issue會介紹3個例子
 1. MIPS-64<br>
 屬於2-issue，其中一個issue規定只能是R-type或是beq，另一個issue規定只能是lw或sw指令，需要熟練如何排指令順序(code scheduling)，若是指令個數較少，可以嘗試<strong>將迴圈展開(loop unrolling)以增加指令個數</strong>，其中迴圈展開時，會產生WAR( = anti-dependency)、WAW( = output dependency)這類false data dependency，但實際上這不是真正的data dependency，只是因為硬體資源不足、暫存器名稱重複使用造成，可以用register renaming的方法的方法解決。
@@ -1379,7 +1396,7 @@ if (ID/EX.MemRead and
 - 在IA-64稱為instruction group(指令群)</p>
 </blockquote>
 <hr />
-<h3>dynamic multiple issue( =superscalar)</h3>
+<h3 id="dynamic-multiple-issue-superscalar">dynamic multiple issue( =superscalar)</h3>
 <p>dynamic multiple issue( = superscalar)使用硬體來多指令分發，雖然是dynamic issue pipeline，但是compiler還是要盡量把指令執行順序排到最好，解決compiler有能力解決的hazard問題，當遇到compiler沒辦法解決的hazard問題，再丟給硬體做處理。</p>
 <p>最核心的技術是dynamic pipeline scheduling - 選擇下一群要執行的指令並將這些指令重新排序，由於硬體資源足夠多，因此pipeline幾乎不會stall。分為3個主要單元
 1. in-order issue - 照compiler排定指令的順序，抓指令、解碼指令、抓暫存器。
@@ -1387,7 +1404,7 @@ if (ID/EX.MemRead and
 3. in-order commit - 會先把運算結果存在reorder buffer，再按照原本資料流的順序提交，寫回暫存器或是記憶體。</p>
 <p>其中dynamic pipeline scheduling的第2階段 - 亂序執行可能會遇到RAW、WAR、WAW，其中output dependency (= WAW)與anti-dependency (= WAR)都是重複使用硬體資源造成，而不是"真正"的data dependency，可用register renaming來消除。</p>
 <hr />
-<h3>pipeline處理exception的步驟</h3>
+<h3 id="pipelineexception">pipeline處理exception的步驟</h3>
 <p>處理器內部發生非預期事件干擾程式執行稱為例外(exception)，可能是使用者呼叫OS(system call)，算數類運算所發生的overflow、ARM程式拿到MIPS機器運行而產生illigal instruction；處理器外部發生非預期事件干擾程式執行稱為中斷(interrupt)，可能是I/O外部設備請求。</p>
 <p>處理exception的步驟分為硬體與OS的部分<br>
 硬體先做3件事情
@@ -1406,8 +1423,8 @@ if (ID/EX.MemRead and
 <p><img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221215_220435.jpg" /></p>
 <p>要確切紀錄到exception的指令位址不是一件簡單的事情，像是x86有四十幾個stage的pipeline，發生exception時，不知道哪個stage的指令發生exception，因此就不會記錄到發生exception的指令位址，稱為非精確例外(imprecise exception)，此時OS只有一個選擇就是kill原程式，因為也不知道是哪個該從地方繼續執行原程式。</p>
 <hr />
-<h2>ch6 記憶體</h2>
-<h3>綱要</h3>
+<h2 id="ch6">ch6 記憶體</h2>
+<h3 id="_25">綱要</h3>
 <ul>
 <li>基於程式執行的locality性質建構memory hierarchy</li>
 <li>direct-mapped cache的對應方式</li>
@@ -1436,7 +1453,7 @@ if (ID/EX.MemRead and
 <li>減少page table占用memory空間的5種方法</li>
 </ul>
 <hr />
-<h3>基於程式執行的locality性質建構memory hierarchy</h3>
+<h3 id="localitymemory-hierarchy">基於程式執行的locality性質建構memory hierarchy</h3>
 <p><a href="#記憶體memory">ch1 記憶體(memory)</a>提及memory的功能是用來儲存正在執行中的程式，包含資料(data)與程式碼(code)。
 1. 由於hard disk與memory之間的存取速度差數百萬倍，因此要盡量減少memory swap的次數，memory要設計大一點。
 2. CPU存取memory地址時需要decoder，為了降低decoder電路複雜度，以加速解碼的速度，memory要設計小一點。</p>
@@ -1448,7 +1465,7 @@ if (ID/EX.MemRead and
 2. memory的基本單位為block( = line)，一個block包含數個word，一次存放連續位址的資料，利用的是spatial locality的特性。</p>
 <p>而現今memory hierarchy的架構設計依序是cache(由SRAM實作)、main memory(由DRAM實作)、hard disk，本章節前半部分會探討由cache和main memory之間的對應，稱為cache system；後半部分會討論由memory和hard disk之間的對應，稱為virtual memory。</p>
 <hr />
-<h3>direct-mapped cache</h3>
+<h3 id="direct-mapped-cache">direct-mapped cache</h3>
 <p>對應方式為每個memory位址都直接對應到cache的唯一位置，對應方式為memory block address除以cache中的block個數等於cache的位址，而使用tag來判別是哪個memory block。</p>
 <p>CPU丟出memory byte address，會切2刀
 1. <strong>一個block中的byte數</strong>。左邊為memory block address，右邊為offset，其中offset又分為block offset(找一個block裡面的第幾個word)、byte offset(找一個word裡面的第幾個byte)。
@@ -1474,7 +1491,7 @@ if (ID/EX.MemRead and
 1. early restart - cache control unit從main memory搬到cache時，搬到CPU要的word時，馬上通知CPU過來存取。
 2. requested word first - cache control unit從main memory搬到cache時，先搬CPU要的word，並通知CPU過來存取。</p>
 <hr />
-<h3>cache的機制</h3>
+<h3 id="cache">cache的機制</h3>
 <p>當CPU讀取cache經由tag比對，發現要讀取的資料不在cache時，稱為cache miss，處理方式如下
 1. pipeline stall，凍結所有暫存器的內容。
 2. 使用獨立於CPU的cache control unit，將CPU要讀取的word所屬的block讀入cache，並將位址上半部寫入tag值、開啟valid bit。
@@ -1493,13 +1510,13 @@ cache control unit把CPU要寫入資料的block搬上cache，再給CPU寫入後�
 2. write-back與write-allocate搭配，代表CPU永遠只會存取cache。</p>
 <p>如果write-through與write-allocate搭配，處理起來會十分麻煩，write hit時，write-through保證cache和main memory的資料一致；但是write miss時，cache control unit把CPU要寫入資料的block搬上cache，再給CPU寫入後就結束了，因此cache和main memory的資料就不一致。</p>
 <hr />
-<h3>split cache與combined cache</h3>
+<h3 id="split-cachecombined-cache">split cache與combined cache</h3>
 <ol>
 <li>split cache - 將cache拆分為instruction cache和data cache，由於可以同時存取指令與資料，平行執行，頻寬(單位時間存取的資料量)變兩倍，且不會像combined cache一樣有structural hazard的問題。</li>
 <li>combined cache - 由於指令是用來存取資料的，因此指令與資料的locality of reference是混雜在一起的，hit rate提高。</li>
 </ol>
 <hr />
-<h3>降低miss penalty的方法</h3>
+<h3 id="miss-penalty">降低miss penalty的方法</h3>
 <p>miss penalty的時間為將下層memory取代上層memory的時間加上將上層memory傳給CPU的時間，因此要降低miss penalty，有兩種方法
 1. 增加memory與cache之間的頻寬，也就是加快單位時間存取的資料量<br>
 方法一(wide)是加寬介於memory與cache之間的bus，使得一次可以傳送更多memory的資料；方法二(interleaved)將要讀取的資料分散在各個bank，要從記憶體存取資料時，就可以平行讀取分散在每個bank的資料，以減少記憶體存取的時間。
@@ -1508,7 +1525,7 @@ cache control unit把CPU要寫入資料的block搬上cache，再給CPU寫入後�
 <p>當在讀同一個block時，row address幾乎不變，而DRAM會把row讀取的所有資料放到buffer上，因此只需要解碼column address，移動I/O gate mask選擇要存取哪個word即可，此方式稱為page mode。</p>
 <p>SDRAM(synchronous DRAM)切成好幾個橫切面，變成立體狀，當解碼完row和column得知要讀的位址後，接下來會進入burst access，不需要再提供地址，而是藉由clock快速讀取DRAM一串連續的資料。而DDR SDRAM(double date rate SDRAM)在clock上下緣都會存取資料，因此有成倍的讀取量；QDR SDRAM(quad date rate SDRAM)把讀和寫的電路分開，可同時進行，讀取量再翻倍，變成4倍。</p>
 <hr />
-<h3>set associative cache</h3>
+<h3 id="set-associative-cache">set associative cache</h3>
 <p>direct-mapped是一個很極端的方法，很容易產生block與block之間資源的競爭，進而導致miss rate上升，因此使用set associative cache解決，將cache分為數個集合，每個set都有n個block，稱為n-way或是associativity等於n的set associative cache。</p>
 <p>cache中block總數 = set個數 * 關聯度(一個set包含的block個數)。增加關聯度可以減少block之間的競爭程度，miss rate會降低；但是比的tag數增加，導線拉得越長，訊號延遲的時間越長，因此比的時間會拉長，因此hit time增加。</p>
 <p>而<a href="#direct-mapped-cache">ch6 direct-mapped cache</a>介紹的direct-mapped cache其實就是set associative cache的特例。
@@ -1531,7 +1548,7 @@ cache control unit把CPU要寫入資料的block搬上cache，再給CPU寫入後�
 3. 切memory byte address求tag bit數，第一刀切一個block中的byte數，第二刀切cache中的set總數。
 4. cache總容量為[extra bit + tag bit數 + data的bit數( = block size)] * (cache中的block總數)，其中extra bit = valid bit + (dirty bit in write-back cache) + (LRU bit紀錄最不常被使用的block)。</p>
 <hr />
-<h3>multi-level cache</h3>
+<h3 id="multi-level-cache">multi-level cache</h3>
 <p>multi-level cache的設計目是為了減少miss penalty，當L1發生cache miss時，L2幾乎包含大部分的資料，因此L1的miss penalty就由L2(SRAM)的讀取時間所決定，遠比讀取main memory(DRAM)的讀取時間還快數百倍。</p>
 <p>multi-level cache在L1與L2設計著重的點不同<br>
 L1的hit time會決定CPU的clock cycle time，所以要盡量設計小。</p>
@@ -1578,7 +1595,7 @@ $$
 \end{align</em>}
 $$</p>
 <hr />
-<h3>虛擬記憶體(virtual memory)</h3>
+<h3 id="virtual-memory">虛擬記憶體(virtual memory)</h3>
 <p>設計virtual memory的2大動機
 1. 早期一次只能run一個程式，虛擬記憶體允許多個程式可以有效率且安全得分享記憶體。
 2. 早期memory的容量小於程式大小就無法run程式，虛擬記憶體消除因為memory過小所造成的程式限制。</p>
@@ -1603,7 +1620,7 @@ $$</p>
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221223_205733.jpg" /></p>
 <p>page table容量大小計算與cache不同點在於page table的entry需要round up to word的冪次方。原因是cache是SRAM可以量身訂造，但是page table是放在main memory，需要遵照memory的alignment規則，且計算memory位址時要用向左移替代乘法運算。</p>
 <hr />
-<h3>page table的cache - TLB (translation-lookaside buffer)</h3>
+<h3 id="page-tablecache-tlb-translation-lookaside-buffer">page table的cache - TLB (translation-lookaside buffer)</h3>
 <p>page table存放在main memory，代表程式每一次memory access都要花2次存取的時間，第一次讀取memory的page table轉出physical address，第二次拿著physical address存取memory獲取資料或是指令，如此速度太慢，由於page table的存取也具有locality of reference，為了加速virtual address到pysical address之間的轉換速度，因此設計page table的cache，稱為TLB (translation-lookaside buffer)。</p>
 <p>方式如同cache，也可以使用軟體實作。由於page很大，一次可以用很久，所以TLB需要的entry很少，故TLB一般使用fully associative cache，以降低miss rate，反正要比的tag也不多，此外選用random的置換方式。</p>
 <blockquote>
@@ -1621,19 +1638,19 @@ CPU丟出virtual (byte) address，根據page size的大小切成virtual page num
 2. <strong>cache中的set總數</strong>。左邊為tag，若與cache的tag比較相同為hit，不相同則為miss；右邊為index，代表要去cache哪個set找資料。</p>
 <p>TLB的資料為page table的子集合，因此TLB hit代表page table一定也會hit；cache的資料為memory的子集合，因此cache hit代表資料存在memory中；page table與在memory中的資料又存在一對一的映射關係，因此page table hit與資料存在memory中是等價關係。欲判斷TLB / page table  / cache hit or miss中各種可能與不可能的情況，若皆符合3者條件則有可能發生，反之只要有一個條件不滿足就不可能發生。</p>
 <hr />
-<h3>virtually addressed cache機制與解決aliasing問題</h3>
+<h3 id="virtually-addressed-cachealiasing">virtually addressed cache機制與解決aliasing問題</h3>
 <p>前面都是假設讀取cache之前都需要將virtual address經過TLB轉換為physical address，也就是physically addressed cache的機制，存取一次記憶體，需要考慮到TLB和cache的時間，速度太慢。</p>
 <p>因此改良版是直接使用virtual address作為cache的index與tag值，稱為virtually addressed cache，在cach hit的情況下，不需要額外存取到TLB；而在cache miss的情況下，才需要將virtual address經過TLB轉換為physical address，從main memory抓需要的block到cache。</p>
 <p>這邊需要另外介紹aliasing - compiler在compile時，會把"兩個程式共用資料"的訊息告訴OS，所以當OS把兩程式的virtual space複製到physical memory時，只會複製一份"兩個程式共用資料"。若使用virtually addressed cache發生aliasing情況，就會造成aliasing問題。</p>
 <p>解法是改使用virtually indexed, physically tagged cache。CPU發出virtual address切出index，到cache中找到對應的set；同一時間透過TLB轉出physical address，切出tag，與cache中所找到的set中所有tag做比對，若cache hit，則順利找到資料回傳給CPU；此外，需要配合軟體機制，兩個block不能同時有效，需要一個無效、另一個有效。由於cache中不同資料的index雖然不同，但tag都是一致的，因此不會產生aliasing問題。</p>
 <hr />
-<h3>virtual memory的保護機制</h3>
+<h3 id="virtual-memory_1">virtual memory的保護機制</h3>
 <p><a href="#虛擬記憶體virtual-memory">ch6 虛擬記憶體(virtual memory)</a>提及設計virtual memory有2大動機，其中之一就是virtual memory讓單一memory可以由多個process共享，為了達成這個目的，硬體需要支援以下3個能力
 1. 支援2種模式 - user program在user mode運行；OS program在supervisor / kernel mode運行。
 2. 在user mode下，一部分處理器狀態(mode bit, page table pointer, TLB)只能讀不能寫，只有在kernel mode下，OS執行"特權指令"才能更改數值。
 3. 提供處理器在user mode與kernel mode之間跳轉的機制，從user mode跳到kernel mode需要system call這類exception達成；從exception跳回user mode則是跳回EPC地址，稱為return from exception (ERET)。</p>
 <hr />
-<h3>記憶體階層的4個問題</h3>
+<h3 id="4_1">記憶體階層的4個問題</h3>
 <ol>
 <li>block可以可以被放在哪個地方?<br>
 direct-mapped只能放在一個地方，set associative能放在其中一個集合之中，一個集合所能放的block數就是associativity；fully associative則可以放在cache的任意地方。欲減少miss rate，如果不計硬體成本(比較器)，增加block size(也等比例提高cache size)會比提高關聯度還有效。</li>
@@ -1645,7 +1662,7 @@ direct-mapped只有一個block的可能性，所以沒有這個問題，但是se
 分為兩種，write-through是除了寫入cahce之外，也直接寫入記憶體，優點是硬體實作簡單；wite-back ( =copy-back)是使用dirty bit來記錄是否需要寫入，若dirty bit = 1則在置換時需要寫回memory下一個階層。在cache system中可以用write-through或是wite-back策略，但在virtual memory中，只能使用wite-back策略，因為main memory跟hard disk速度差數百萬倍!</li>
 </ol>
 <hr />
-<h3>發生cache miss的原因分類 - 3C</h3>
+<h3 id="cache-miss-3c">發生cache miss的原因分類 - 3C</h3>
 <p>根據發生cache miss的原因做分類標準，分為3種 (3C)
 1. <strong>compulsory miss (= cold-start miss)</strong><br>
 memory block"第一次"被使用，一定不在cache上面。可藉由增加block size，以降低compulsory miss發生的次數，但同時帶來的負面影響為miss penalty上升。
@@ -1670,10 +1687,10 @@ memory block"第一次"被使用，一定不在cache上面。可藉由增加bloc
 欲求cache的final content，就看各個index最後一次miss的值。</li>
 </ol>
 <hr />
-<h3>降低miss penalty的技術 - non-blocking cache用於superscaler</h3>
+<h3 id="miss-penalty-non-blocking-cachesuperscaler">降低miss penalty的技術 - non-blocking cache用於superscaler</h3>
 <p>前面講的cache使用都是blocking cache，在cache還沒把資料搬完前，CPU會停下來；但在superscaler (= dynamic multiple issue)中，發生cache miss時，non-blocking cache允許CPU繼續執行存取cache的指令，利用後面的hit time來蓋過前面的miss penalty，稱為hit under miss；利用後面的miss penalty來蓋過前面的miss penalty，也就是允許多個未完成(outstanding) cache miss，稱為miss under miss。</p>
 <hr />
-<h3>virtual machine</h3>
+<h3 id="virtual-machine">virtual machine</h3>
 <p>virtual machine的技術讓一部computer能run多個OS，有以下3個好處
 1. 在一台computer裡面同時扮演多個server的角色，就不需要額外買多台computer。
 2. 程式的執行不受限於OS，需要哪個OS直接install即可。
@@ -1685,7 +1702,7 @@ memory block"第一次"被使用，一定不在cache上面。可藉由增加bloc
 <p>VMM處在supervisor mode，而guest OS處在user mode，以確保guest OS不會直接改變真實硬體配置。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221229_15499.jpg" /></p>
 <hr />
-<h3>減少page table占用memory的空間</h3>
+<h3 id="page-tablememory">減少page table占用memory的空間</h3>
 <ol>
 <li><strong>一個limit register</strong><br>
 使用一個limit register來限制page table的大小，轉出來的virtual page number與limit register做比較，若超過limit register的數值再動態加入所需entry到page table。</li>
@@ -1701,8 +1718,8 @@ memory block"第一次"被使用，一定不在cache上面。可藉由增加bloc
 </blockquote>
 </li>
 </ol>
-<h2>ch7 I/O設備</h2>
-<h3>綱要</h3>
+<h2 id="ch7-io">ch7 I/O設備</h2>
+<h3 id="_26">綱要</h3>
 <ul>
 <li>計算disk access time</li>
 <li>flash memory分為NOR flash與NAND flash</li>
@@ -1712,7 +1729,7 @@ memory block"第一次"被使用，一定不在cache上面。可藉由增加bloc
 <li>I/O設備與處理器的傳輸資料分4種 - polling, interrupt, DMA, I/O processor</li>
 </ul>
 <hr />
-<h3>I/O設備介紹</h3>
+<h3 id="io">I/O設備介紹</h3>
 <p>對於CPU與memory著重於效能與成本，而I/O設備則是強調可靠度(dependability)與成本，可用3種特性來區別不同I/O設備
 1. behavior - 輸入(鍵盤)、輸出(傳統螢幕)、可輸入也可輸出(儲存設備)
 2. partner - 裝置另一端是人或是機器。
@@ -1721,7 +1738,7 @@ memory block"第一次"被使用，一定不在cache上面。可藉由增加bloc
 1. 單位時間內，系統移動多少資料?
 2. 單位時間內，處理多少I/O operation?</p>
 <hr />
-<h3>計算disk access time</h3>
+<h3 id="disk-access-time">計算disk access time</h3>
 <p>disk藉由表面覆蓋磁性物質的plate與利用一個可移動的讀寫頭(read /write head)來存取資料，每個plate區分成多個同心圓，稱為track，而track又可分成sector，sector即為進出硬碟的實體基本單位。</p>
 <p>disk access time計算分為以下5類相加
 1. seek time - 移動讀寫頭到正確的track，由於移動讀寫頭是機械動作，速度會很慢，所以seek time幾乎占據disk access time大半的時間。</p>
@@ -1733,20 +1750,20 @@ memory block"第一次"被使用，一定不在cache上面。可藉由增加bloc
 5. waiting time - 其他程序再使用硬碟需要等待所花的時間。</p>
 </blockquote>
 <hr />
-<h3>flash memory</h3>
+<h3 id="flash-memory">flash memory</h3>
 <p>flash memory設計目的是用來取代hard disk的，但是由於磨損(wear out)之前能存取的次數太少，因此沒辦法直接取代hard disk，具有以下特性
 1. 非揮發性，代表電源關閉資料還在。
 2. 使用半導體製程技術做出來的。
 3. 相較於hard disk，優點是抗震性較高、速度快100到1000倍、更不耗power、體積更小；缺點是單位容量價格較高。
 4. 分為2種 - NOR flash可隨機存取，用於嵌入式系統的instruction memory；NAND flash以block作為存取的基本單位、相比NOR flash而言，密度更高、單位容量價格較便宜，用於USB或是相機的記憶卡。</p>
 <hr />
-<h3>dependability</h3>
+<h3 id="dependability">dependability</h3>
 <p>dependability是一個系統所能提供服務的品質，由於太過抽象，所以靠reliability與availability來"量化"一個系統的dependability。
 - reliability - 用一陣子還是好的機率MTTF
 - availability - 瞬間是好的機率$\frac{\text{MTTF}}{\text{MTTF} + \text{MTTR}}$ </p>
 <p>其中MTTF = mean time to failure，平均發生失敗時間；MTTR = mean time to repair，平均修復時間；MTBF = mean time between failure，平均失敗間隔，MTBF = MTTF + MTTR。增加MTTF有3個方法 - fault tolerance (系統錯誤依然可以繼續執行)；fault avoidance (投票制，多個相同元件執行，選多數結果作為系統輸出)；fault forecasting (估計常常發生錯誤的位置，當發生錯誤時，直接移除)。</p>
 <hr />
-<h3>RAID</h3>
+<h3 id="raid">RAID</h3>
 <p>RAID (redundant arrays of inexpensive disks)主要想法是使用多個容量較少、較便宜的硬碟來獲得跟容量大、較昂貴的硬碟，有以下2種技術
 1. data stripping - 將單一資料分散在不同硬碟，使存取一次資料可以平行存取多個硬碟資料，加快速度。
 2. redundancy - 由於使用多個硬碟，代表增加零件，reliability會下降，因此使用多餘硬碟(增加redundancy)，雖然不能增加系統的reliability，但能改善availability。</p>
@@ -1778,14 +1795,14 @@ RAID 3, RAID 4, RAID 5最多只能容許1個disk壞掉而已，RAID 6將RAID 5�
 不同RAID之間也可以排列組合。RAID 10為先做RAID 0再做RAID 1；RAID 10為先做RAID 1再做RAID 0。</li>
 </ol>
 <hr />
-<h3>I/O設備定址</h3>
+<h3 id="io_1">I/O設備定址</h3>
 <p>要下一個命令給I/O設備，處理器就必須要能夠定址I/O設備，由於每個I/O設備都會有data, status等暫存器，所以我們就可以對該暫存器編號，以定址I/O設備，分為以下2種
 1. <strong>memory mapped I/O</strong><br>
 部分memory位址編號拿來給I/O設備編號用，memory系統就不需要理會這些指令，MIPS和ARM都屬於這種。
 2. <strong>special I/O instruction</strong><br>
 處理器使用專屬的I/O指令，經由專屬的訊號線與編號與I/O設備溝通，而I/O指令都是特權指令，只有OS在supervisor mode之下才可使用。</p>
 <hr />
-<h3>I/O設備與處理器的傳輸資料</h3>
+<h3 id="io_2">I/O設備與處理器的傳輸資料</h3>
 <p><img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221229_215657.jpg" />
 1. <strong>polling ( =programmed I/O)</strong><br>
 CPU會定時執行OS的polling routine，週期檢查I/O設備的status register。缺點是會浪費很多處理器時間，CPU讀取很多次status register，但是I/O都沒有完成I/O operation。
@@ -1802,8 +1819,8 @@ polling主動權在CPU，而interrupt的主動權則是在I/O設備上，I/O設�
 -  最少I/O operation latency - 1. polling 2. DMA 3. interrupt
 -  最少CPU的使用率 - 1. DMA 2. interrupt 3. polling</p>
 <hr />
-<h2>ch8 多重處理器系統</h2>
-<h3>綱要</h3>
+<h2 id="ch8">ch8 多重處理器系統</h2>
+<h3 id="_27">綱要</h3>
 <ul>
 <li>多處理器對sequential程式可增加JLP、對concurrent程式可增加TLP</li>
 <li>多處理器資料交換方式分為SMP(UMA, NUMA)與MPP</li>
@@ -1814,7 +1831,7 @@ polling主動權在CPU，而interrupt的主動權則是在I/O設備上，I/O設�
 <li>衡量不同network topology效能、容錯的4個參數</li>
 </ul>
 <hr />
-<h3>多處理器(multiprocessor)的2個好處與撰寫平行程式的4個難題</h3>
+<h3 id="multiprocessor24">多處理器(multiprocessor)的2個好處與撰寫平行程式的4個難題</h3>
 <p>多處理器定義為至少含有2個處理器以上的computer，有以下2個好處
 1. 如果程式在run time時沒辦法被平行分解(sequential program)，可以將個別program分派給多個處理器執行，增加job-level parallelism。
 2. 如果程式在run time時可以被平行分解(concurrent program)，把程式分成基本的執行單位稱為thread，並將數個thread分派給多個處理器執行，增加thread-level parallelism。</p>
@@ -1833,7 +1850,7 @@ $$
 2. weak scaling - problem size固定的前提下，無法獲得預期的speedup；但是放大problem size，處理器個數也等比例增加，此時就可達到預期的speedup。</p>
 <p>strong scaling由於problem size是固定的，處理器個數也是相同，也就是$S, (1-S), P$數值相同，因此受限於Amdahl's law；weak scaling的problem size可以改變，處理器個數也可以等比例增加，也就是$S, (1-S), P$數值都可會變動，因此不受限於Amdahl's law。</p>
 <hr />
-<h3>多處理器資料交換方式分為SMP(UMA, NUMA)與MPP</h3>
+<h3 id="smpuma-numampp">多處理器資料交換方式分為SMP(UMA, NUMA)與MPP</h3>
 <p>要讓多處理器之間達到資料交換的目的有兩種做法
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221231_140916.jpg" />
 1. <strong>記憶體共享多處理器(SMP, shared-memory multiprocessor)</strong><br>
@@ -1858,7 +1875,7 @@ $$
 每個處理器擁有的cache都是"私有的"，不同處理器如果要交換資料就需要透過處理器直接執行資料交換的命令<code>send(processor ID, message), receive()</code>。MPP從程式碼就可以知道不同處理器間有交換資料，是"外顯"的；但是SMP從程式碼看不出來不同處理器間有交換資料，是"內隱"的；此外MPP的硬體實作較SMP簡單。</li>
 </ol>
 <hr />
-<h3>用snooping協定解決UMA的cache coherence問題</h3>
+<h3 id="snoopingumacache-coherence">用snooping協定解決UMA的cache coherence問題</h3>
 <p>在shared memory mutiprocesser系統中，一個memory的block可能同時存在在多個cache之中，如果任由處理器寫入各自的cache，就會造成<strong>橫向之間cache資料的不一致，稱為cache coherence problem</strong>。</p>
 <blockquote>
 <p>對比<a href="#cache的機制">ch6 cache的機制</a>講到cache system中，cache的資料與memory的資料不一致，稱為memory inconsistence。</p>
@@ -1873,7 +1890,7 @@ $$
 </blockquote>
 <p>在商用UMA中解決cache coherence問題，使用write-invalidate；解決memory inconsistence問題使用write-back，這是因為這兩種方式，對bus的頻寬要求比較小，避免造成bus頻寬上的瓶頸。</p>
 <hr />
-<h3>hardware multithreading</h3>
+<h3 id="hardware-multithreading">hardware multithreading</h3>
 <p><img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221231_144243.jpg" />
 <strong>hardware multithreading允許多個thread交錯使用在單一個處理器上執行，來增加單一處理器功能單元的使用率</strong>。根據切換thread時機分為2種
 1. <strong>fine-grained multithreading</strong><br>
@@ -1882,7 +1899,7 @@ $$
 只有遇到long stall時才會切換thread，優點是可以降低單一執行緒完成的latency，缺點一是遇到short stall會暫停；缺點二是由於切換thread時，需要清除與重新填入thread，會造成pipeline start-up成本。
 3. <strong>simultaneous multithreading(SMT)</strong><br>
 跟fine-grained multithreading一樣，每個clock都會切換thread執行個別的指令包，但如果一個指令包不足4個指令，會從下一個thread的指令包拿指令，此外還會用到superscalar的硬體資源，除了利用到TLP之外，還有利用到ILP。</p>
-<h3>平行電腦分類</h3>
+<h3 id="_28">平行電腦分類</h3>
 <p>由Flynn提出，根據指令流(instruction streams)與資料流(data streans)分為
 1. SISD - 單一指令處理單一資料，又稱為uniprocessor。
 2. SIMD - 單一指令處理多筆資料，單一control unit會控制多個processing unit，適合向量運算，會運用到data-level parallelism。
@@ -1890,7 +1907,7 @@ $$
 4. MIMD - 多個處理器處理多個資料，就是標準的平行電腦，像是前面講的SMP、MPP都是屬於這種。</p>
 <p>vector processor跟SIMD一樣，運用到data-level parallelism適合做向量運算，vector processor將ALU pipeline與大量暫存器存輸入與輸出結果，效能與SIMD差不多，但成本卻可以大大降低。</p>
 <hr />
-<h3>GPU的工作原理、GPU與CPU的差異</h3>
+<h3 id="gpugpucpu">GPU的工作原理、GPU與CPU的差異</h3>
 <ol>
 <li>GPU只是加速器，輔助CPU運算，因此無法像CPU一樣執行所有種類的指令，CPU與GPU的關係為heterogeneous multiprocessor。</li>
 <li>GPU的程式語言使用high-level API，例如OpenGL、DirectX。</li>
@@ -1902,7 +1919,7 @@ $$
 <li>GPGPU (general purpose GPU) - 將一般目的的程式包裝成GPU可以接受的格式，便可以利用GPU高度平行處理資料的能力，來加速一般目的的程式。像是Nvidia的CUDA技術，即可使用C語言，就能編寫GPU的平行程式。</li>
 </ol>
 <hr />
-<h3>network topology</h3>
+<h3 id="network-topology">network topology</h3>
 <p>network topology討論處理器之間如何連結，跟據線路切換開關次數分為single stage與mutliple stage，single stage在此介紹5種接法 - fully, linear, ring, 2-D mesh(一堆ring所組成), cube，mutliple stage在此介紹2種接法 - crossbar, omega network。</p>
 <p>我們使用4個參數(2個用於評估效能 + 2個用於評估容錯)衡量不同network topology的優劣程度
 1. <strong>network bandwidth</strong> - 所有網路的最大傳輸量，越大代表效能越好。
@@ -1912,8 +1929,8 @@ $$
 <p>下圖對3種不同single stage network topology，計算4個參數
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221231_153754.jpg" /></p>
 <hr />
-<h2>ch9 基礎概念</h2>
-<h3>積體電路製作流程、成本計算、功率消耗</h3>
+<h2 id="ch9">ch9 基礎概念</h2>
+<h3 id="_29">積體電路製作流程、成本計算、功率消耗</h3>
 <ol>
 <li>積體電路(IC, integrated circuit) = 一顆晶片塞很多電晶體，電晶體扮演開關的角色，利用電壓來控制ON和OFF。</li>
 <li>積體電路製作流程如下
@@ -1934,7 +1951,6 @@ $$
         <footer>
             <p><a href="../index.html">回首頁</a></p>
         </footer>
-
     </body>
     </html>
     
