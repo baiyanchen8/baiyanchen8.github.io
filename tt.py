@@ -1,5 +1,6 @@
 import markdown
 from pathlib import Path
+import re
 
 # 指定資料夾
 input_dir = Path("posts/md")  # Markdown 檔案所在的資料夾
@@ -26,17 +27,22 @@ for markdown_file in input_dir.glob("*.md"):
     )
 
     # 手動處理 LaTeX 公式包裝
-    html_content = html_content.replace('$$', '<div class="math">').replace('$$', '</div>')
-    html_content = html_content.replace('$', '<span class="math">$').replace('$', '</span>')
+    # html_content = html_content.replace('$$', '<div class="math">').replace('$$', '</div>')
     
+    # html_content = html_content.replace('$', '<span class="math">$').replace('$', '</span>')
+
+    # 轉換行內數學公式 (以 $ 包裹)
+    html_content = re.sub(r'(\$)(.*?)(\$)', r'<span class="math">\2</span>', html_content)
+
+    # 轉換區塊數學公式 (以 $$ 包裹)
+    html_content = re.sub(r'(\$\$)(.*?)(\$\$)', r'<div class="math">\2</div>', html_content)
+
     # 生成對應的 HTML 檔案名稱
     output_file = output_dir / f"{markdown_file.stem}.html"
 
     # MathJax 配置
     math_config = '''{
         tex2jax: {
-            inlineMath: [['$', '$'], ['\\(', '\\)']],
-            displayMath: [['$$', '$$'], ['\\[', '\\]']],
             processEscapes: true,
         },
         "HTML-CSS": { availableFonts: ["TeX"] }
