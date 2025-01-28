@@ -19,6 +19,11 @@ header {
 header h1 {
   margin: 0;
 }
+.info-container {
+  display: flex;
+  justify-content: space-between; /* 使標題和路徑分左右對齊 */
+  width: 100%;
+}
 
 a {
   text-decoration: none;

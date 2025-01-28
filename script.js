@@ -50,9 +50,12 @@ fetch('asserts/file-list.json')
       updatedTimeElement.classList.add('updated-time');
       updatedTimeElement.textContent = `最後更新時間: ${updatedTime}`;
 
+     const info=document.createElement('div');
+     info.classList.add('infoContainer');
+     info.appendChild(a);
+     info.appendChild(pathElement); 
       // 只在 CSS 中進行排版調整，不改動 li 結構
-      li.appendChild(a); // 把標題加到 li 裡
-      li.appendChild(pathElement); // 把路徑加到 li 裡
+      li.appendChild(info); // 把標題加到 li 裡
       li.appendChild(updatedTimeElement); // 把更新時間加到 li 裡
 
       // 把列表項目加入 blogList
