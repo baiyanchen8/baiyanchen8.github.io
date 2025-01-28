@@ -63,3 +63,45 @@ img {
     max-height: 400px;
     height: auto;
 }
+body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+#html {
+  width: 95%;
+  margin: 0 auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+}
+
+table, th, td {
+  border: 1px solid #ccc;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+pre {
+  background-color: #f8f8f8;
+  padding: 10px;
+  overflow: auto;
+}
+
+code {
+  font-family: Consolas, monospace;
+}
