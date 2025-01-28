@@ -49,12 +49,17 @@ fetch('asserts/file-list.json')
       updatedTimeElement.classList.add('updated-time');
       updatedTimeElement.textContent = `最後更新時間: ${updatedTime}`;
 
-      // 把文章標題、路徑、修改時間加入到 list item
-      li.appendChild(a);
-      li.appendChild(pathElement);
-      li.appendChild(updatedTimeElement);
-
+      const infoContainer = document.createElement('div');
+      infoContainer.classList.add('info-container'); // 容器類別
+      
+      infoContainer.appendChild(pathElement); // 將路徑資訊加入容器
+      infoContainer.appendChild(updatedTimeElement); // 將更新時間加入容器
+      
+      // 把文章標題和右側資訊加入到 list item
+      li.appendChild(a); // 標題
+      li.appendChild(infoContainer); // 右側資訊容器
       blogList.appendChild(li);
+      
     });
   })
   .catch(error => console.error('無法載入 JSON：', error));
