@@ -141,3 +141,17 @@ footer {
   padding: 1rem;
   background: #1f1f1f;
 }
+.info-container {
+  text-align: right; /* 將內容文字靠右對齊 */
+  font-size: 0.8rem; /* 小字體 */
+  color: #cccccc; /* 淺灰色 */
+  display: flex;
+  flex-direction: column; /* 內容上下排列 */
+  align-items: flex-end; /* 靠右對齊 */
+}
+
+.info-container .path-info,
+.info-container .updated-time {
+  display: block; /* 確保每個元素占一行 */
+  margin: 0; /* 移除多餘的外距 */
+}
