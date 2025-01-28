@@ -53,7 +53,7 @@ fetch('asserts/file-list.json')
       updatedTimeElement.textContent = `最後更新時間: ${updatedTime}`;
 
       const tmp = document.createElement('div');
-      tmp.classList.add('tmp');
+      tmp.classList.add('tmp1');
       const info=document.createElement('div');
      info.classList.add('taJustify');
      info.appendChild(a);
