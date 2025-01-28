@@ -27,7 +27,7 @@ fetch('asserts/file-list.json')
       
       // 創建標題
       const a = document.createElement('a');
-      a.classList.add('.a'); // 加入 path-info 類別
+      a.classList.add('al'); 
 
       a.href = post.path;
       a.textContent = post.title;
@@ -52,9 +52,11 @@ fetch('asserts/file-list.json')
       updatedTimeElement.classList.add('updated-time');
       updatedTimeElement.textContent = `最後更新時間: ${updatedTime}`;
 
-     const info=document.createElement('div');
+      const tmp = document.createElement('div').classList.add('tmp');
+      const info=document.createElement('div');
      info.classList.add('taJustify');
      info.appendChild(a);
+     info.appendChild(tmp);
      info.appendChild(pathElement); 
       // 只在 CSS 中進行排版調整，不改動 li 結構
       li.appendChild(info); // 把標題加到 li 裡
