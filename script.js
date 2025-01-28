@@ -54,10 +54,11 @@ fetch('asserts/file-list.json')
       
       infoContainer.appendChild(pathElement); // 將路徑資訊加入容器
       infoContainer.appendChild(updatedTimeElement); // 將更新時間加入容器
-      
+      const liContainer = document.createElement('div');
+      liContainer.appendChild(a);
+      liContainer.appendChild(infoContainer);
       // 把文章標題和右側資訊加入到 list item
-      li.appendChild(a); // 標題
-      li.appendChild(infoContainer); // 右側資訊容器
+      li.appendChild(liContainer); // 標題
       blogList.appendChild(li);
       
     });
