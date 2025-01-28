@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>a</title>
-        <link rel="stylesheet" href="/style.css">
+        <link rel="stylesheet" href="../style.css">
         <!-- MathJax 用來渲染 LaTeX 公式 -->
         <script type="text/javascript" async
             src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
@@ -104,20 +104,90 @@ MIPS任意指令都是32個bit，要把資料放到memory裡面一定會跨4個�
 </li>
 <li>一般目的的暫存器(GPR) - 分5大類，寫assembly code時可使用name或是number表示都可。</li>
 </ol>
-<p>| Type                | Number      | Name        | Usage                   |
-| ------------------- | ----------- | ----------- | ----------------------- |
-| Assembler Related   | $1          | \$at        | Preserved for Assembler |
-| OS Related          | \$26 - \$27 | \$k0, \$k1  | Preserved for OS        |
-| Constants           | \$0         | \$zero      | Constant zero           |
-| Variables/Constants | \$8 - \$15  | \$t0 - \$t7 | Temporaries             |
-| Variables/Constants | \$24 - \$25 | \$t8, \$t9  | More temporaries        |
-| Variables/Constants | \$16 - \$23 | \$s0 - \$s7 | Save                    |
-| Procedure Call      | \$4 - \$7   | \$a0 - \$a3 | Arguments(引數)         |
-| Procedure Call      | \$2 - \$3   | \$v0, \$v1  | Values for results      |
-| Procedure Call      | \$31        | \$ra        | Return address          |
-| Memory Management   | \$28        | \$gp        | Global pointer         |
-| Memory Management   | \$29        | \$sp        | Stack pointer           |
-| Memory Management   | \$30        | \$fp        | Frame pointer           |</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Number</th>
+<th>Name</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Assembler Related</td>
+<td>$1</td>
+<td>\$at</td>
+<td>Preserved for Assembler</td>
+</tr>
+<tr>
+<td>OS Related</td>
+<td>\$26 - \$27</td>
+<td>\$k0, \$k1</td>
+<td>Preserved for OS</td>
+</tr>
+<tr>
+<td>Constants</td>
+<td>\$0</td>
+<td>\$zero</td>
+<td>Constant zero</td>
+</tr>
+<tr>
+<td>Variables/Constants</td>
+<td>\$8 - \$15</td>
+<td>\$t0 - \$t7</td>
+<td>Temporaries</td>
+</tr>
+<tr>
+<td>Variables/Constants</td>
+<td>\$24 - \$25</td>
+<td>\$t8, \$t9</td>
+<td>More temporaries</td>
+</tr>
+<tr>
+<td>Variables/Constants</td>
+<td>\$16 - \$23</td>
+<td>\$s0 - \$s7</td>
+<td>Save</td>
+</tr>
+<tr>
+<td>Procedure Call</td>
+<td>\$4 - \$7</td>
+<td>\$a0 - \$a3</td>
+<td>Arguments(引數)</td>
+</tr>
+<tr>
+<td>Procedure Call</td>
+<td>\$2 - \$3</td>
+<td>\$v0, \$v1</td>
+<td>Values for results</td>
+</tr>
+<tr>
+<td>Procedure Call</td>
+<td>\$31</td>
+<td>\$ra</td>
+<td>Return address</td>
+</tr>
+<tr>
+<td>Memory Management</td>
+<td>\$28</td>
+<td>\$gp</td>
+<td>Global pointer</td>
+</tr>
+<tr>
+<td>Memory Management</td>
+<td>\$29</td>
+<td>\$sp</td>
+<td>Stack pointer</td>
+</tr>
+<tr>
+<td>Memory Management</td>
+<td>\$30</td>
+<td>\$fp</td>
+<td>Frame pointer</td>
+</tr>
+</tbody>
+</table>
 <ol>
 <li>\$at保留給編譯器用與\$k0 - \$k1保留給OS用，程序員不要用。</li>
 <li>常數0暫存器 - 因為0常用(例 : 大於0小於0，與0做比較)，因此CPU運算時直接從register調用時，就不需要再從memory將數字為0的資料load進register，硬體上直接把32bit通通接地(hardwired to zero)。</li>
@@ -289,10 +359,30 @@ Exit:</code></p>
 - ble (branch if less and equal than)
 - bge (branch if greater and equal than) </p>
 <p>等分支指令，但我們可以使用beq, bne, slt(set if less than)等指令造出以上4種虛擬指令。</p>
-<p>|虛擬指令|MIPS指令|虛擬指令|MIPS指令|
-|---|---|---|---|
-|<code>blt $s1, $s2, L</code>|<code>slt $t0, $s1, $s2</code><br><code>bne $t0, $zero, L</code>|<code>bgt $s1, $s2, L</code>|<code>slt $t0, $s2, $s1</code><br><code>bne $t0, $zero, L</code>|
-|<code>bge $s1, $s2, L</code>|<code>slt $t0, $s1, $s2</code><br><code>beq $t0, $zero, L</code>|<code>ble $s1, $s2, L</code>|<code>slt $t0, $s2, $s1</code><br><code>beq $t0, $zero, L</code>|</p>
+<table>
+<thead>
+<tr>
+<th>虛擬指令</th>
+<th>MIPS指令</th>
+<th>虛擬指令</th>
+<th>MIPS指令</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>blt $s1, $s2, L</code></td>
+<td><code>slt $t0, $s1, $s2</code><br><code>bne $t0, $zero, L</code></td>
+<td><code>bgt $s1, $s2, L</code></td>
+<td><code>slt $t0, $s2, $s1</code><br><code>bne $t0, $zero, L</code></td>
+</tr>
+<tr>
+<td><code>bge $s1, $s2, L</code></td>
+<td><code>slt $t0, $s1, $s2</code><br><code>beq $t0, $zero, L</code></td>
+<td><code>ble $s1, $s2, L</code></td>
+<td><code>slt $t0, $s2, $s1</code><br><code>beq $t0, $zero, L</code></td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h3>邏輯運算指令</h3>
 <p>位移(shift)指令理論上有分邏輯上的左移與右移(sll, srl)，算數上的左移與右移(sla, sra)，邏輯與算數的差別在於邏輯視數字為無號數，算數視數字為有號數，但MIPS不存在sla指令，因為與sll功能重複。</p>
@@ -314,11 +404,32 @@ xor $s0, $s0, $s1 # ($s0 ⊕ $s1) ⊕ $s0 = $s1  $s0</code></p>
 <hr />
 <h3>組合語言與機器語言之間轉換</h3>
 <p>根據指令<strong>參與運算的元素不同</strong>，分為3種不同格式的機器指令表示，MIPS有3種指令格式</p>
-<p>|參與運算的元素|組合語言指令|機器指令格式|
-|---|---|---|
-|3個暫存器|算數與邏輯指令|R-type|
-|2個暫存器加上16-bit的常數或地址|load, store, branch, 立即版本指令|I-type|
-|26-bit的地址|jump|J-type|</p>
+<table>
+<thead>
+<tr>
+<th>參與運算的元素</th>
+<th>組合語言指令</th>
+<th>機器指令格式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3個暫存器</td>
+<td>算數與邏輯指令</td>
+<td>R-type</td>
+</tr>
+<tr>
+<td>2個暫存器加上16-bit的常數或地址</td>
+<td>load, store, branch, 立即版本指令</td>
+<td>I-type</td>
+</tr>
+<tr>
+<td>26-bit的地址</td>
+<td>jump</td>
+<td>J-type</td>
+</tr>
+</tbody>
+</table>
 <p><strong>機器指令中幾個連續位元所構成有意義的資訊稱為欄位</strong>，指令不同欄位的排列方式就稱為指令格式(instruction format)，而不管哪種指令長度都是一樣為32 bit。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221109_232426.png" /><br>
 不管哪種指令opcode都需要等長，否則機器就無法執行指令，其中R-type有共用相同的opcode為<code>000000</code>，這是因為假設所有指令有128個，因此需要7 bit的opcode，但是I-type和J-type的位置有限，只能塞6 bit的opcode，而R-type會有多出來的6個bit，因此把R-type的opcode設定相同，共用相同的opcode，剩下多出來的6個bit稱為function code就可以來區別即可。</p>
@@ -378,11 +489,32 @@ jr $ra # Return to the caller
 <p><strong>定址模式(addressing mode)為說明指令如何取得運算元或是指令如何計算跳躍目的位置</strong>。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221111_171841.png" /><br>
 有3種取得運算元的方法</p>
-<p>|定址模式|指令|運算元位置|
-|---|---|---|
-|立即(Immediate addressing)|立即版本的運算指令|在指令本身的16位元常數|
-|暫存器(Register addressing)|add, sub, and|暫存器|
-|基底或位移(base or displacement addressing)|load, store|記憶體，而記億體位址的計算方式為將基底暫存器的內容加上指令中16位元的常數|</p>
+<table>
+<thead>
+<tr>
+<th>定址模式</th>
+<th>指令</th>
+<th>運算元位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>立即(Immediate addressing)</td>
+<td>立即版本的運算指令</td>
+<td>在指令本身的16位元常數</td>
+</tr>
+<tr>
+<td>暫存器(Register addressing)</td>
+<td>add, sub, and</td>
+<td>暫存器</td>
+</tr>
+<tr>
+<td>基底或位移(base or displacement addressing)</td>
+<td>load, store</td>
+<td>記憶體，而記億體位址的計算方式為將基底暫存器的內容加上指令中16位元的常數</td>
+</tr>
+</tbody>
+</table>
 <p>有2種計算跳躍目的位置的方法
 |定址模式|指令|跳躍目的位置|
 |---|---|---|
@@ -545,13 +677,42 @@ $$</li>
 <li>將10進位數轉換為單精度浮點流程 - 首先把10進位數轉換為2進位數，再來正規化，最後將計算出來的指數部分加上bias值得結果，若分數部分填不進去field的話，需要做"round"的步驟。</li>
 <li>IEEE754有定義5種數的表示方式，以單精度為例</li>
 </ol>
-<p>|exponent|fraction|object represented|
-|---|---|---|
-|0|0|$\pm 0$|
-|0|nonzero|$\pm$ denormalized number|
-|1 - 254|anything|$\pm$ floating-point number|
-|255|0|$\pm$ infinity|
-|255|nonzero|NaN (not a number)|</p>
+<table>
+<thead>
+<tr>
+<th>exponent</th>
+<th>fraction</th>
+<th>object represented</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>$\pm 0$</td>
+</tr>
+<tr>
+<td>0</td>
+<td>nonzero</td>
+<td>$\pm$ denormalized number</td>
+</tr>
+<tr>
+<td>1 - 254</td>
+<td>anything</td>
+<td>$\pm$ floating-point number</td>
+</tr>
+<tr>
+<td>255</td>
+<td>0</td>
+<td>$\pm$ infinity</td>
+</tr>
+<tr>
+<td>255</td>
+<td>nonzero</td>
+<td>NaN (not a number)</td>
+</tr>
+</tbody>
+</table>
 <p>因此正規化數能表示的範圍在
 $$
 +1.\underbrace{00 \ldots 00}<em>{23 個} \times 2^{1 - \text{bias}} &lt; |x| &lt; +1.\underbrace{11 \ldots 11}</em>{23 個} \times 2^{\underbrace{254 - \text{bias}}<em>{= \text{bias}}}
@@ -853,12 +1014,42 @@ PC+4代表beq下一行的指令，放在adder的上面與I-type指令的常數im
 觀察R-type和lw,sw指令，有3個"不同來源的資料要送到相同的地方"的衝突，因此就需要MUX，<strong>MUX的功能是選擇多個輸入任一條作為單一輸出</strong>。</p>
 </li>
 </ol>
-<p>| 衝突發生位置                          | MUX的控制訊號 | R-type指令的來源位置              | lw和sw指令的來源位置              |
-| ------------------------------- | -------- | -------------------------- | ------------------------- |
-| ALU下面的輸入                        | ALUSrc   | register file讀出read data 2 | 經過sign extension後的常數imm16 |
-| register file中write data的輸入     | MemtoReg | ALU運算後的結果                  | memory的read data          |
-| register file中write register的輸入 | RegDst   | R-type指令的rd欄位              | I-type指令的rt欄位             |
-|                                 |          |                            |                           |</p>
+<table>
+<thead>
+<tr>
+<th>衝突發生位置</th>
+<th>MUX的控制訊號</th>
+<th>R-type指令的來源位置</th>
+<th>lw和sw指令的來源位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ALU下面的輸入</td>
+<td>ALUSrc</td>
+<td>register file讀出read data 2</td>
+<td>經過sign extension後的常數imm16</td>
+</tr>
+<tr>
+<td>register file中write data的輸入</td>
+<td>MemtoReg</td>
+<td>ALU運算後的結果</td>
+<td>memory的read data</td>
+</tr>
+<tr>
+<td>register file中write register的輸入</td>
+<td>RegDst</td>
+<td>R-type指令的rd欄位</td>
+<td>I-type指令的rt欄位</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <ol>
 <li><strong>加上ID, beq, j的datapath</strong><br>
 最後依序加上instruction fetch, beq, jump的datapath，以及control unit線路。
@@ -878,11 +1069,32 @@ jump計算跳躍目的位址為<code>{NextPC[31:28], Instruction[25:0], 2'b00}</
 <hr />
 <h3>設計ALU control內部電路</h3>
 <p>main control根據指令中6 bit的opcode判斷出屬於哪個指令，並透過2 bit的ALUOp傳遞給ALU control。</p>
-<p>|指令|ALUOp|ALU operation|
-|---|---|---|
-|lw/sw|00|+|
-|beq|01|-|
-|R-type|10|+ / - / and / or / slt|</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>ALUOp</th>
+<th>ALU operation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lw/sw</td>
+<td>00</td>
+<td>+</td>
+</tr>
+<tr>
+<td>beq</td>
+<td>01</td>
+<td>-</td>
+</tr>
+<tr>
+<td>R-type</td>
+<td>10</td>
+<td>+ / - / and / or / slt</td>
+</tr>
+</tbody>
+</table>
 <p>若ALUOp為00，則ALU operation control會輸出給ALU控制訊號進行加法運算；若ALUOp為01，則ALU operation control會輸出給ALU控制訊號進行減法運算；若ALUOp為10，則會進一步根據R-type指令中6 bit的function field來判斷ALU要執行的運算。</p>
 <p>因此就可建立6個輸入對4個輸出的truth table，改部分訊號don't care以在之後步驟獲得更大的化簡。由於沒有用到ALUOp為11的訊號線，就可改01 -&gt; X1、10 -&gt; 1X；在此計算機設計中，沒有用到function field第4、5個bit因此改為X。</p>
 <p>由於輸入與輸出超過4個，無法用人工的K-map化簡，需要藉助Quine-McCluskey Tabular Method化簡，最後就可畫出最簡電路圖。</p>
