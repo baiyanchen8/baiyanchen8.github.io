@@ -53,7 +53,7 @@ for markdown_file in input_dir.glob("*.md"):
     <body>
         <header><h1>{markdown_file.stem}</h1></header>
         <section>{html_content}</section>
-        <footer><p><a href="../index.html">回首頁</a></p></footer>
+        <footer><p><a href="../../index.html">回首頁</a></p></footer>
     </body>
     </html>
     """
