@@ -23,7 +23,7 @@ header h1 {
 .info-container {
   display: flex;
   justify-content: space-between; /* 讓標題和路徑在同一行上，並且一左一右 */
-  align-items: flex-start; /* 確保標題和路徑在同一行 */
+  text-align: justify; /* 確保標題和路徑在同一行 */
   width: 100%;
 }
 .a {
@@ -34,6 +34,8 @@ header h1 {
 .path-info {
   color: #888;
   text-align: right; /* 更新時間右對齊 */
+  display: inline-block;
+
 }
 
 .updated-time {
