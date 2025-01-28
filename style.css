@@ -19,10 +19,12 @@ header {
 header h1 {
   margin: 0;
 }
+
 .info-container {
-  justify-content: space-between; /* 使標題和路徑分左右對齊 */
+  display: flex;
+  justify-content: space-between; /* 讓標題和路徑在同一行上，並且一左一右 */
+  align-items: flex-start; /* 確保標題和路徑在同一行 */
   width: 100%;
-  align-items: center; /* 確保 title 和 path 都在同一水平行 */
 }
 a {
   text-decoration: none;
