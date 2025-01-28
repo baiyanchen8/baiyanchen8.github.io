@@ -51,6 +51,7 @@ header h1 {
 }
 .taJustify {
   text-align: justify;
+  height: 100%;
 }
 .taJustify:after {
 content: '';
