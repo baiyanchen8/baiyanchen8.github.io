@@ -26,16 +26,19 @@ for markdown_file in input_dir.glob("*.md"):
         ]
     )
 
-    # 手動處理 LaTeX 公式包裝
-    # html_content = html_content.replace('$$', '<div class="math">').replace('$$', '</div>')
-    
-    # html_content = html_content.replace('$', '<span class="math">$').replace('$', '</span>')
+    # 保留原始的數學公式標記，不進行額外包裝
+    html_content = re.sub(
+        r'\$\$(.*?)\$\$',  # 區塊公式
+        r'$$\1$$',
+        html_content,
+        flags=re.DOTALL
+    )
 
-    # 轉換行內數學公式 (以 $ 包裹)
-    html_content = re.sub(r'(\$)(.*?)(\$)', r'<span class="math">\2</span>', html_content)
-
-    # 轉換區塊數學公式 (以 $$ 包裹)
-    html_content = re.sub(r'(\$\$)(.*?)(\$\$)', r'<div class="math">\2</div>', html_content)
+    html_content = re.sub(
+        r'(?<!\$)\$(.+?)\$(?!\$)',  # 行內公式
+        r'$\1$',
+        html_content
+    )
 
     # 生成對應的 HTML 檔案名稱
     output_file = output_dir / f"{markdown_file.stem}.html"
@@ -43,7 +46,10 @@ for markdown_file in input_dir.glob("*.md"):
     # MathJax 配置
     math_config = '''{
         tex2jax: {
-            processEscapes: true,
+            inlineMath: [["$", "$"], ["\\(", "\\)"]],  // 行內公式符號
+            displayMath: [["$$", "$$"], ["\\[", "\\]"]], // 區塊公式符號
+            processEscapes: true, // 支援跳脫符號
+            skipTags: ["script", "noscript", "style", "textarea", "pre", "code"] // 忽略這些標籤
         },
         "HTML-CSS": { availableFonts: ["TeX"] }
     }'''

@@ -13,7 +13,10 @@
         <script type="text/x-mathjax-config">
             MathJax.Hub.Config({
         tex2jax: {
-            processEscapes: true,
+            inlineMath: [["$", "$"], ["\(", "\)"]],  // 行內公式符號
+            displayMath: [["$$", "$$"], ["\[", "\]"]], // 區塊公式符號
+            processEscapes: true, // 支援跳脫符號
+            skipTags: ["script", "noscript", "style", "textarea", "pre", "code"] // 忽略這些標籤
         },
         "HTML-CSS": { availableFonts: ["TeX"] }
     });
@@ -262,11 +265,11 @@ struct term matrix[item+1];
 </code></pre></div>
 
 <p>分析:
-正常而言 bigO: <span class="math">\mathcal{O}(col\times value)</span>
-假設 value = <span class="math">col\times row</span>
-⇒ <span class="math">\mathcal{O}(col^2 \times row)</span>
+正常而言 bigO: $\mathcal{O}(col\times value)$
+假設 value = $col\times row$
+⇒ $\mathcal{O}(col^2 \times row)$
 ⇒ 太爛了
-<span class="math"></span>\frac{1}{2}<span class="math"></span></p>
+$$\frac{1}{2}$$</p>
 <hr />
 <h4>fast transport(use counting sort)</h4>
 <div class="codehilite"><pre><span></span><code><span class="n">#define</span><span class="w"> </span><span class="n">MAX_TERMS</span><span class="w"> </span><span class="mi">101</span>

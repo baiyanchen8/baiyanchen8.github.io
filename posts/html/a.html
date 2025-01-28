@@ -13,7 +13,10 @@
         <script type="text/x-mathjax-config">
             MathJax.Hub.Config({
         tex2jax: {
-            processEscapes: true,
+            inlineMath: [["$", "$"], ["\(", "\)"]],  // 行內公式符號
+            displayMath: [["$$", "$$"], ["\[", "\]"]], // 區塊公式符號
+            processEscapes: true, // 支援跳脫符號
+            skipTags: ["script", "noscript", "style", "textarea", "pre", "code"] // 忽略這些標籤
         },
         "HTML-CSS": { availableFonts: ["TeX"] }
     });
@@ -130,8 +133,8 @@ MIPS任意指令都是32個bit，要把資料放到memory裡面一定會跨4個�
 </tr>
 <tr>
 <td>OS Related</td>
-<td>\<span class="math">26 - \</span>27</td>
-<td>\<span class="math">k0, \</span>k1</td>
+<td>\$26 - \$27</td>
+<td>\$k0, \$k1</td>
 <td>Preserved for OS</td>
 </tr>
 <tr>
@@ -142,32 +145,32 @@ MIPS任意指令都是32個bit，要把資料放到memory裡面一定會跨4個�
 </tr>
 <tr>
 <td>Variables/Constants</td>
-<td>\<span class="math">8 - \</span>15</td>
-<td>\<span class="math">t0 - \</span>t7</td>
+<td>\$8 - \$15</td>
+<td>\$t0 - \$t7</td>
 <td>Temporaries</td>
 </tr>
 <tr>
 <td>Variables/Constants</td>
-<td>\<span class="math">24 - \</span>25</td>
-<td>\<span class="math">t8, \</span>t9</td>
+<td>\$24 - \$25</td>
+<td>\$t8, \$t9</td>
 <td>More temporaries</td>
 </tr>
 <tr>
 <td>Variables/Constants</td>
-<td>\<span class="math">16 - \</span>23</td>
-<td>\<span class="math">s0 - \</span>s7</td>
+<td>\$16 - \$23</td>
+<td>\$s0 - \$s7</td>
 <td>Save</td>
 </tr>
 <tr>
 <td>Procedure Call</td>
-<td>\<span class="math">4 - \</span>7</td>
-<td>\<span class="math">a0 - \</span>a3</td>
+<td>\$4 - \$7</td>
+<td>\$a0 - \$a3</td>
 <td>Arguments(引數)</td>
 </tr>
 <tr>
 <td>Procedure Call</td>
-<td>\<span class="math">2 - \</span>3</td>
-<td>\<span class="math">v0, \</span>v1</td>
+<td>\$2 - \$3</td>
+<td>\$v0, \$v1</td>
 <td>Values for results</td>
 </tr>
 <tr>
@@ -197,12 +200,12 @@ MIPS任意指令都是32個bit，要把資料放到memory裡面一定會跨4個�
 </tbody>
 </table>
 <ol>
-<li>\<span class="math">at保留給編譯器用與\</span>k0 - \$k1保留給OS用，程序員不要用。</li>
+<li>\$at保留給編譯器用與\$k0 - \$k1保留給OS用，程序員不要用。</li>
 <li>常數0暫存器 - 因為0常用(例 : 大於0小於0，與0做比較)，因此CPU運算時直接從register調用時，就不需要再從memory將數字為0的資料load進register，硬體上直接把32bit通通接地(hardwired to zero)。</li>
 <li>temp暫存器 - 存放運算的中間結果。</li>
-<li>save暫存器 - 被呼叫程式(callee)在使用\<span class="math">s0-\</span>s7存他自己的變數之前，先把他將要破壞s開頭的暫存器存到memory裡面。而當被呼叫程式(callee)執行完畢後、要跳回caller前，要從memory還原出原本的變數。<strong>MIPS規定callee有責任存和還原他要用的s開頭的暫存器。</strong></li>
-<li>arguments /values for results暫存器 - 在run time時，OS要先檢查memory占用的狀況，找memory哪一個連續、足夠大的空間，把程式塞進去，所以在runtime時，caller和callee會被放到memory的哪裡都是未知的，只有OS才知道，因此caller不會看到callee，callee也不會看到caller，<strong>但兩者程式都是能看得到硬體的，所以必須要有硬體(暫存器)當作引數傳遞的媒介</strong>，caller的argument要傳給callee的parameter，就需要\<span class="math">a0 - \</span>a3；而同理callee要把回傳值給caller時，就需要\<span class="math">v0 - \</span>v1。若互相要傳的引數超過暫存器時，就存到memory裡面，caller和callee就需要互相商量好。</li>
-<li>return address暫存器 - caller跳到callee時，要先要跳之前的地址存到\<span class="math">ra，並跳至callee，等到callee執行完後，就會讀取\</span>ra，回去執行caller的程式。</li>
+<li>save暫存器 - 被呼叫程式(callee)在使用\$s0-\$s7存他自己的變數之前，先把他將要破壞s開頭的暫存器存到memory裡面。而當被呼叫程式(callee)執行完畢後、要跳回caller前，要從memory還原出原本的變數。<strong>MIPS規定callee有責任存和還原他要用的s開頭的暫存器。</strong></li>
+<li>arguments /values for results暫存器 - 在run time時，OS要先檢查memory占用的狀況，找memory哪一個連續、足夠大的空間，把程式塞進去，所以在runtime時，caller和callee會被放到memory的哪裡都是未知的，只有OS才知道，因此caller不會看到callee，callee也不會看到caller，<strong>但兩者程式都是能看得到硬體的，所以必須要有硬體(暫存器)當作引數傳遞的媒介</strong>，caller的argument要傳給callee的parameter，就需要\$a0 - \$a3；而同理callee要把回傳值給caller時，就需要\$v0 - \$v1。若互相要傳的引數超過暫存器時，就存到memory裡面，caller和callee就需要互相商量好。</li>
+<li>return address暫存器 - caller跳到callee時，要先要跳之前的地址存到\$ra，並跳至callee，等到callee執行完後，就會讀取\$ra，回去執行caller的程式。</li>
 <li>欲了解剩下3種暫存器，須先了解記憶體管理</li>
 </ol>
 <hr />
@@ -257,42 +260,42 @@ C語言的執行流程稱為compilation(translation)，但並不是所有高階�
 2. 轉譯(translation)，由高階語言轉換為組合語言。
 3. 最佳化(optimization)，使用最精簡的指令使得程式碼(code)占用記憶體的空間減少，以加速程式的執行。</p>
 <p>由於編譯程式第1個與第3個步驟是NP-complete問題，機制過於複雜，因此題目上只需要執行步驟2的轉譯即可，如以下例題</p>
-<p>給定register assignment為<code>A -&gt; <span class="math">s0, B -&gt; </span>s1, C -&gt; <span class="math">s2, D -&gt; </span>s3, E -&gt; <span class="math">s4, F -&gt; </span>s5</code>，與高階C語言</p>
+<p>給定register assignment為<code>A -&gt; $s0, B -&gt; $s1, C -&gt; $s2, D -&gt; $s3, E -&gt; $s4, F -&gt; $s5</code>，與高階C語言</p>
 <div class="codehilite"><pre><span></span><code><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">D</span><span class="p">;</span>
 <span class="n">E</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">A</span><span class="p">;</span>
 </code></pre></div>
 
 <p>因此MIPS的組合語言為</p>
-<div class="codehilite"><pre><span></span><code>add <span class="math">t0, </span>s1, $s2 # binary operation
-add <span class="math">s0, </span>t0, $s3
-sub <span class="math">s4, </span>s5, $s0
+<div class="codehilite"><pre><span></span><code>add $t0, $s1, $s2 # binary operation
+add $s0, $t0, $s3
+sub $s4, $s5, $s0
 </code></pre></div>
 
 <hr />
 <h3>data transfer指令</h3>
 <p>對MIPS而言，資料轉移指令只有2個，一是從記憶體轉到暫存器的load，二是從暫存器轉到記憶體。要存取的記憶體地址採用基底/位移(base or displacement)表示方式，就是一個基底暫存器(base register)內容加上一個限定為"常數"資料型態的位移量。</p>
-<p>由高階語言轉換為組合語言例題如下，給定register assignment為<code>A -&gt; <span class="math">s0, H -&gt; </span>s1</code>，與高階C語言</p>
+<p>由高階語言轉換為組合語言例題如下，給定register assignment為<code>A -&gt; $s0, H -&gt; $s1</code>，與高階C語言</p>
 <div class="codehilite"><pre><span></span><code><span class="n">A</span><span class="p">[</span><span class="mi">12</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">H</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
 </code></pre></div>
 
 <p>首先理解一下機制，compiler會把必要的資訊放在可執行檔裡面，OS照做即可，所以loader的第5個步驟時就會把暫存器$s0初始化為array的起始位置；而高階語言中<code>H</code>在暫存器，<code>A</code>陣列由於數字過多，所以在記憶體裡面，因此需要先將陣列數值從memory中load進入暫存器才能執行運算，故MIPS的組合語言為</p>
-<div class="codehilite"><pre><span></span><code>lw <span class="math">t0, 32(</span>s0)
-add <span class="math">t0, </span>s1, $t0
-sw <span class="math">t0, 48(</span>s0)
+<div class="codehilite"><pre><span></span><code>lw $t0, 32($s0)
+add $t0, $s1, $t0
+sw $t0, 48($s0)
 </code></pre></div>
 
-<p>其中<code>lw, sw</code>代表load word, store word，一次存取的基本單位為word，因此offset需要乘以4才代表實際數值，計算機會將<strong>基底暫存器<code><span class="math">s0</code>的數值與offset常數<code>32</code>丟進ALU相加即為要存取memory的地址</strong>，接下來對load指令而言，會讀取該地址的data，存進暫存器<code></span>t0</code>裡面。
+<p>其中<code>lw, sw</code>代表load word, store word，一次存取的基本單位為word，因此offset需要乘以4才代表實際數值，計算機會將<strong>基底暫存器<code>$s0</code>的數值與offset常數<code>32</code>丟進ALU相加即為要存取memory的地址</strong>，接下來對load指令而言，會讀取該地址的data，存進暫存器<code>$t0</code>裡面。
 <br><br>
-若offset並非常數，在高階語言轉組語的題目當中，我們就必須模擬計算機的行為，先將"不是常數"的offset與base register相加，給定例題 - register assignment為<code>f, g, h, i, j</code>在<code><span class="math">s0 - </span>s4</code>；<code>A, B</code>在<code><span class="math">s6 - </span>s7</code>，與高階C語言</p>
+若offset並非常數，在高階語言轉組語的題目當中，我們就必須模擬計算機的行為，先將"不是常數"的offset與base register相加，給定例題 - register assignment為<code>f, g, h, i, j</code>在<code>$s0 - $s4</code>；<code>A, B</code>在<code>$s6 - $s7</code>，與高階C語言</p>
 <div class="codehilite"><pre><span></span><code><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="p">]</span>
 </code></pre></div>
 
 <p>MIPS的組合語言為</p>
-<div class="codehilite"><pre><span></span><code><span class="n">lw</span><span class="w"> </span><span class="n"><span class="math">t0</span><span class="p">,</span><span class="w"> </span><span class="mh">16</span><span class="p">(</span><span class="n"></span>s7</span><span class="p">)</span><span class="w"> </span><span class="p">#</span><span class="w"> </span><span class="n">t0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="mh">4</span><span class="p">]</span>
-<span class="n">s11</span><span class="w"> </span><span class="n"><span class="math">t0</span><span class="p">,</span><span class="w"> </span><span class="n"></span>t0</span><span class="p">,</span><span class="w"> </span><span class="mh">2</span><span class="w"> </span><span class="p">#</span><span class="w"> </span><span class="mh">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">t0</span><span class="w"> </span>
-<span class="n">add</span><span class="w"> </span><span class="n"><span class="math">t0</span><span class="p">,</span><span class="w"> </span><span class="n"></span>s6</span><span class="p">,</span><span class="w"> </span><span class="n">$t0</span><span class="w">  </span><span class="p">#</span><span class="w"> </span><span class="n">base</span><span class="w"> </span><span class="n">register</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">offset</span>
-<span class="n">lw</span><span class="w"> </span><span class="n"><span class="math">s0</span><span class="p">,</span><span class="w"> </span><span class="mh">0</span><span class="p">(</span><span class="n"></span>t0</span><span class="p">)</span>
-<span class="n">sub</span><span class="w"> </span><span class="n"><span class="math">s0</span><span class="p">,</span><span class="w"> </span><span class="n"></span>s1</span><span class="p">,</span><span class="w"> </span><span class="n">$s0</span>
+<div class="codehilite"><pre><span></span><code><span class="n">lw</span><span class="w"> </span><span class="n">$t0</span><span class="p">,</span><span class="w"> </span><span class="mh">16</span><span class="p">(</span><span class="n">$s7</span><span class="p">)</span><span class="w"> </span><span class="p">#</span><span class="w"> </span><span class="n">t0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="p">[</span><span class="mh">4</span><span class="p">]</span>
+<span class="n">s11</span><span class="w"> </span><span class="n">$t0</span><span class="p">,</span><span class="w"> </span><span class="n">$t0</span><span class="p">,</span><span class="w"> </span><span class="mh">2</span><span class="w"> </span><span class="p">#</span><span class="w"> </span><span class="mh">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">t0</span><span class="w"> </span>
+<span class="n">add</span><span class="w"> </span><span class="n">$t0</span><span class="p">,</span><span class="w"> </span><span class="n">$s6</span><span class="p">,</span><span class="w"> </span><span class="n">$t0</span><span class="w">  </span><span class="p">#</span><span class="w"> </span><span class="n">base</span><span class="w"> </span><span class="n">register</span><span class="w"> </span><span class="n">of</span><span class="w"> </span><span class="n">array</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">offset</span>
+<span class="n">lw</span><span class="w"> </span><span class="n">$s0</span><span class="p">,</span><span class="w"> </span><span class="mh">0</span><span class="p">(</span><span class="n">$t0</span><span class="p">)</span>
+<span class="n">sub</span><span class="w"> </span><span class="n">$s0</span><span class="p">,</span><span class="w"> </span><span class="n">$s1</span><span class="p">,</span><span class="w"> </span><span class="n">$s0</span>
 </code></pre></div>
 
 <p>最後探討<code>lw,sw</code>的變化指令<code>lh, lhu, sh, lb, lbu, sb</code>。
@@ -303,7 +306,7 @@ sw <span class="math">t0, 48(</span>s0)
 <hr />
 <h3>intra program的flow control指令</h3>
 <p>流程控制指令並不做任何運算，其唯一的目的便是改變指令執行順序，否則一般指令都是由上而下依序執行，分為2種 - 一是有條件的改變指令執行順序稱為分支(branch) ，二是無條件的改變指令執行順序稱為跳躍(jump)。而分支目的以"label"表示，<strong>label值為要跳至執行的記憶體位置</strong>；當條件成立，要跳指令時，program counter會用這個label的數值去更新。</p>
-<p>給定register assignment為<code>f, g, h, i, j</code>在<code><span class="math">s0 - </span>s4</code>則以下為高階C語言轉MIPS組合語言
+<p>給定register assignment為<code>f, g, h, i, j</code>在<code>$s0 - $s4</code>則以下為高階C語言轉MIPS組合語言
 1. <strong>If敘述加上go to</strong><br>
 高階C語言</p>
 <div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="n">If</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="n">go</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">L1</span><span class="p">;</span>
@@ -312,9 +315,9 @@ sw <span class="math">t0, 48(</span>s0)
 </code></pre></div>
 
 <p>觀察<code>if</code>語句若相等要跳，不相等不要跳，且繼續依序執行所有指令，因此用<code>beq</code>指令，則MIPS組合語言</p>
-<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="n">beq</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">s3</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">s4</span><span class="p">,</span><span class="w"> </span><span class="n">L1</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="k">go</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">L1</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">equals</span><span class="w"> </span><span class="n">j</span>
-<span class="w">    </span><span class="k">add</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">s0</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s2</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="p">(</span><span class="n">skipped</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">equals</span><span class="w"> </span><span class="n">j</span><span class="p">)</span>
-<span class="nl">L1</span><span class="p">:</span><span class="w"> </span><span class="n">sub</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">s0</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">s0</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s3</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="o">-</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">(</span><span class="n">always</span><span class="w"> </span><span class="n">executed</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="n">beq</span><span class="w"> </span><span class="err">$</span><span class="n">s3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s4</span><span class="p">,</span><span class="w"> </span><span class="n">L1</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="k">go</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">L1</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">equals</span><span class="w"> </span><span class="n">j</span>
+<span class="w">    </span><span class="k">add</span><span class="w"> </span><span class="err">$</span><span class="n">s0</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s2</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="p">(</span><span class="n">skipped</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">equals</span><span class="w"> </span><span class="n">j</span><span class="p">)</span>
+<span class="nl">L1</span><span class="p">:</span><span class="w"> </span><span class="n">sub</span><span class="w"> </span><span class="err">$</span><span class="n">s0</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s0</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s3</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="o">-</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="p">(</span><span class="n">always</span><span class="w"> </span><span class="n">executed</span><span class="p">)</span>
 </code></pre></div>
 
 <ol>
@@ -328,10 +331,10 @@ sw <span class="math">t0, 48(</span>s0)
 </code></pre></div>
 
 <p>觀察<code>if</code>語句若相等不要跳，不相等要跳，因此用<code>bne</code>指令，則MIPS組合語言</p>
-<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="n">bne</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">s3</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">s4</span><span class="p">,</span><span class="w"> </span><span class="k">Else</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="k">go</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">Else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="k">equals</span><span class="w"> </span><span class="n">j</span>
-<span class="w">    </span><span class="k">add</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">s0</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s2</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="p">(</span><span class="n">skipped</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="k">equals</span><span class="w"> </span><span class="n">j</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="w">    </span><span class="n">bne</span><span class="w"> </span><span class="err">$</span><span class="n">s3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s4</span><span class="p">,</span><span class="w"> </span><span class="k">Else</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="k">go</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">Else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="k">equals</span><span class="w"> </span><span class="n">j</span>
+<span class="w">    </span><span class="k">add</span><span class="w"> </span><span class="err">$</span><span class="n">s0</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s2</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="p">(</span><span class="n">skipped</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="k">equals</span><span class="w"> </span><span class="n">j</span><span class="p">)</span>
 <span class="w">    </span><span class="n">j</span><span class="w"> </span><span class="k">Exit</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="k">go</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">Exit</span>
-<span class="k">Else</span><span class="err">:</span><span class="w"> </span><span class="n">sub</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">s0</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s2</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="n">skipped</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="p">)</span>
+<span class="k">Else</span><span class="err">:</span><span class="w"> </span><span class="n">sub</span><span class="w"> </span><span class="err">$</span><span class="n">s0</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s2</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">f</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="n">skipped</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span><span class="p">)</span>
 <span class="k">Exit</span><span class="err">:</span>
 </code></pre></div>
 
@@ -345,12 +348,12 @@ sw <span class="math">t0, 48(</span>s0)
 </code></pre></div>
 
 <p>觀察<code>if</code>語句若相等不要跳，不相等要跳，因此用<code>bne</code>指令，則MIPS組合語言</p>
-<div class="codehilite"><pre><span></span><code><span class="nl">Loop</span><span class="p">:</span><span class="w"> </span><span class="n">s11</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">s3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Temp</span><span class="w"> </span><span class="n">reg</span><span class="w"> </span><span class="err">$</span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span>
-<span class="w">    </span><span class="k">add</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">s5</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err"></span></span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
-<span class="w">    </span><span class="n">lw</span><span class="w"> </span><span class="err"><span class="math"></span><span class="k">to</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="p">(</span><span class="err"></span></span><span class="n">t1</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="k">Temporary</span><span class="w"> </span><span class="n">reg</span><span class="w"> </span><span class="err">$</span><span class="n">t0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
-<span class="w">    </span><span class="k">add</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">t0</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
-<span class="w">    </span><span class="k">add</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">s3</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">s3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s4</span><span class="w"> </span><span class="n">#i</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="n">j</span>
-<span class="w">    </span><span class="n">bne</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">s3</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">s2</span><span class="p">,</span><span class="w"> </span><span class="n">Loop</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="k">go</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">Loop</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">equal</span><span class="w"> </span><span class="n">h</span>
+<div class="codehilite"><pre><span></span><code><span class="nl">Loop</span><span class="p">:</span><span class="w"> </span><span class="n">s11</span><span class="w"> </span><span class="err">$</span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Temp</span><span class="w"> </span><span class="n">reg</span><span class="w"> </span><span class="err">$</span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span>
+<span class="w">    </span><span class="k">add</span><span class="w"> </span><span class="err">$</span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s5</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">$</span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
+<span class="w">    </span><span class="n">lw</span><span class="w"> </span><span class="err">$</span><span class="k">to</span><span class="p">,</span><span class="w"> </span><span class="n">O</span><span class="p">(</span><span class="err">$</span><span class="n">t1</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="k">Temporary</span><span class="w"> </span><span class="n">reg</span><span class="w"> </span><span class="err">$</span><span class="n">t0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
+<span class="w">    </span><span class="k">add</span><span class="w"> </span><span class="err">$</span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s1</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">t0</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">g</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
+<span class="w">    </span><span class="k">add</span><span class="w"> </span><span class="err">$</span><span class="n">s3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s4</span><span class="w"> </span><span class="n">#i</span><span class="o">=</span><span class="n">i</span><span class="o">+</span><span class="n">j</span>
+<span class="w">    </span><span class="n">bne</span><span class="w"> </span><span class="err">$</span><span class="n">s3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s2</span><span class="p">,</span><span class="w"> </span><span class="n">Loop</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="k">go</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">Loop</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="n">equal</span><span class="w"> </span><span class="n">h</span>
 </code></pre></div>
 
 <ol>
@@ -362,11 +365,11 @@ sw <span class="math">t0, 48(</span>s0)
 </code></pre></div>
 
 <p>MIPS組合語言</p>
-<div class="codehilite"><pre><span></span><code><span class="nl">Loop</span><span class="p">:</span><span class="w"> </span><span class="n">s11</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">s3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Temp</span><span class="w"> </span><span class="n">reg</span><span class="w"> </span><span class="err">$</span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span>
-<span class="w">    </span><span class="k">add</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">s6</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err"></span></span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="k">save</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
-<span class="w">    </span><span class="n">lw</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="err"></span></span><span class="n">t1</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Temp</span><span class="w"> </span><span class="n">reg</span><span class="w"> </span><span class="err">$</span><span class="n">t0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">save</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
-<span class="w">    </span><span class="n">bne</span><span class="w"> </span><span class="err"><span class="math"></span><span class="k">to</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">s5</span><span class="p">,</span><span class="w"> </span><span class="k">Exit</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="k">go</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">Exit</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">save</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">k</span>
-<span class="w">    </span><span class="k">add</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">s3</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">s3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s4</span><span class="w"> </span><span class="n">#i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">j</span>
+<div class="codehilite"><pre><span></span><code><span class="nl">Loop</span><span class="p">:</span><span class="w"> </span><span class="n">s11</span><span class="w"> </span><span class="err">$</span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Temp</span><span class="w"> </span><span class="n">reg</span><span class="w"> </span><span class="err">$</span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">i</span>
+<span class="w">    </span><span class="k">add</span><span class="w"> </span><span class="err">$</span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s6</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">$</span><span class="n">t1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">address</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="k">save</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
+<span class="w">    </span><span class="n">lw</span><span class="w"> </span><span class="err">$</span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">(</span><span class="err">$</span><span class="n">t1</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Temp</span><span class="w"> </span><span class="n">reg</span><span class="w"> </span><span class="err">$</span><span class="n">t0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">save</span><span class="o">[</span><span class="n">i</span><span class="o">]</span>
+<span class="w">    </span><span class="n">bne</span><span class="w"> </span><span class="err">$</span><span class="k">to</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s5</span><span class="p">,</span><span class="w"> </span><span class="k">Exit</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="k">go</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">Exit</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="k">save</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">&lt;&gt;</span><span class="w"> </span><span class="n">k</span>
+<span class="w">    </span><span class="k">add</span><span class="w"> </span><span class="err">$</span><span class="n">s3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">s4</span><span class="w"> </span><span class="n">#i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">j</span>
 <span class="w">    </span><span class="n">j</span><span class="w"> </span><span class="n">Loop</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="k">go</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">Loop</span>
 <span class="k">Exit</span><span class="err">:</span>
 </code></pre></div>
@@ -398,16 +401,16 @@ sw <span class="math">t0, 48(</span>s0)
 </thead>
 <tbody>
 <tr>
-<td><code>blt <span class="math">s1, </span>s2, L</code></td>
-<td><code>slt <span class="math">t0, </span>s1, <span class="math">s2</code><br><code>bne </span>t0, $zero, L</code></td>
-<td><code>bgt <span class="math">s1, </span>s2, L</code></td>
-<td><code>slt <span class="math">t0, </span>s2, <span class="math">s1</code><br><code>bne </span>t0, $zero, L</code></td>
+<td><code>blt $s1, $s2, L</code></td>
+<td><code>slt $t0, $s1, $s2</code><br><code>bne $t0, $zero, L</code></td>
+<td><code>bgt $s1, $s2, L</code></td>
+<td><code>slt $t0, $s2, $s1</code><br><code>bne $t0, $zero, L</code></td>
 </tr>
 <tr>
-<td><code>bge <span class="math">s1, </span>s2, L</code></td>
-<td><code>slt <span class="math">t0, </span>s1, <span class="math">s2</code><br><code>beq </span>t0, $zero, L</code></td>
-<td><code>ble <span class="math">s1, </span>s2, L</code></td>
-<td><code>slt <span class="math">t0, </span>s2, <span class="math">s1</code><br><code>beq </span>t0, $zero, L</code></td>
+<td><code>bge $s1, $s2, L</code></td>
+<td><code>slt $t0, $s1, $s2</code><br><code>beq $t0, $zero, L</code></td>
+<td><code>ble $s1, $s2, L</code></td>
+<td><code>slt $t0, $s2, $s1</code><br><code>beq $t0, $zero, L</code></td>
 </tr>
 </tbody>
 </table>
@@ -417,17 +420,17 @@ sw <span class="math">t0, 48(</span>s0)
 <p>MIPS提供and / or / nor / xor指令，其中nor為先做or後做not，xor (exclusive-or)為相同數為0，相異數為1。
 - AND的特性為1跟任何數做AND為任何數；0跟任何數做AND為0，可以用作mask - 感興趣的bit保留下來，不感興趣的bit清除為0。
 - OR的特性為0跟任何數做OR為任何數；1跟任何數做OR為為1，可以用作set - 感興趣的bit設定為1，不感興趣的bit保持原狀。
-- MIPS未提供not指令，因為not指令的格式只有2個運算元的格式，可以改用<code>nor <span class="math">t0 </span>s0 <span class="math">0</code>代替，任何數與0做or都是任何數，或是改用<code>nor </span>t0 <span class="math">s0 </span>s0</code>代替，自己跟自己做or還是自己，再做not，綜合以上這兩部就具有not指令的功能。
-- 若兩個數字<code><span class="math">s0, </span>s1</code>要互相交換，而規定只能用兩個暫存器，可以使用XOR的特性來實現</p>
-<div class="codehilite"><pre><span></span><code>xor <span class="math">s0, </span>s0, <span class="math">s1 # </span>s0 ⊕ <span class="math">s1                 </span>s1
-xor <span class="math">s1, </span>s0, <span class="math">s1 # </span>s0 ⊕ <span class="math">s1                 (</span>s0 ⊕ <span class="math">s1) ⊕ </span>s1 = $s0
-xor <span class="math">s0, </span>s0, <span class="math">s1 # (</span>s0 ⊕ <span class="math">s1) ⊕ </span>s0 = <span class="math">s1  </span>s0
+- MIPS未提供not指令，因為not指令的格式只有2個運算元的格式，可以改用<code>nor $t0 $s0 $0</code>代替，任何數與0做or都是任何數，或是改用<code>nor $t0 $s0 $s0</code>代替，自己跟自己做or還是自己，再做not，綜合以上這兩部就具有not指令的功能。
+- 若兩個數字<code>$s0, $s1</code>要互相交換，而規定只能用兩個暫存器，可以使用XOR的特性來實現</p>
+<div class="codehilite"><pre><span></span><code>xor $s0, $s0, $s1 # $s0 ⊕ $s1                 $s1
+xor $s1, $s0, $s1 # $s0 ⊕ $s1                 ($s0 ⊕ $s1) ⊕ $s1 = $s0
+xor $s0, $s0, $s1 # ($s0 ⊕ $s1) ⊕ $s0 = $s1  $s0
 </code></pre></div>
 
 <hr />
 <h3>立即版本的指令</h3>
 <p>由於<strong>程式經常使用常數</strong>當作運算元<code>a = b + 5</code>，根據前面所學過的指令，就必須assign一個變數為5，並從記憶體載入這個變數到register做運算，如此就會增加指令的延遲時間，因此MIPS對幾乎每個運算指令額外設計其對應的立即版本指令(immediate instruction)。</p>
-<p>一個指令有32 bit，扣除6 bit的opcode、2個5 bit的暫存器地址，剩下能表示常數的只有16個 bits，使用2的補數來表示正數與負數，因此能表示範圍為<span class="math">- 2^{15}</span>到<span class="math">(2^{15} - 1)</span>，當做運算時，需要將16 bit的常數做sign extension至32 bit，才能與暫存器的數值做運算，若是邏輯類(andi)運算則視16 bit為無號數，左邊16 bit直接補0即可；若是算數類(addi)運算則將MSB向左複製擴充至32 bit。</p>
+<p>一個指令有32 bit，扣除6 bit的opcode、2個5 bit的暫存器地址，剩下能表示常數的只有16個 bits，使用2的補數來表示正數與負數，因此能表示範圍為$- 2^{15}$到$(2^{15} - 1)$，當做運算時，需要將16 bit的常數做sign extension至32 bit，才能與暫存器的數值做運算，若是邏輯類(andi)運算則視16 bit為無號數，左邊16 bit直接補0即可；若是算數類(addi)運算則將MSB向左複製擴充至32 bit。</p>
 <p>由於立即指令只能存取16-bit的數字，因此若需要將完整32-bit常數放入暫存器，就需要使用<code>lui</code>(load upper immediate)指令，其功能為將16-bit常數載入暫存器左半邊16 bit，剩下右半邊16 bit則清為0；由於<code>ori</code>是邏輯運算，加上0與任何數OR會是任何數，所以接下來就使用<code>ori</code>指令將16 bit常數載入暫存器右半邊。</p>
 <p>前面提到immediate使用2的補數表示，可以是正數與負數，因此MIPS就沒有設計<code>subi</code>指令，其功能等同於<code>addi</code>。</p>
 <hr />
@@ -468,10 +471,10 @@ xor <span class="math">s0, </span>s0, <span class="math">s1 # (</span>s0 ⊕ <sp
 2. 畫出對應的機器指令格式(如上方圖)
 3. 查表，有opcode table, function table(R-type才會用到), register table。</p>
 <p>另外需要組語翻譯機器語言時需要注意 - <strong>組合語言目的暫存器要放前面，來源暫存器要放後面；但機器語言則相反</strong>，原因有以下兩點，一是早期使用CISC，指令不等長，所以為了讓目的暫存器的位置固定，所以把目的暫存器放在前面；二是考慮到實際硬體設計，硬體要先放牧目的暫存器再放來源暫存器，才能確保線路不會交錯，而有電磁干擾等問題。</p>
-<p>branch指令翻譯 - 由於branch指令通常不會跳躍太遠，因此採用PC相對定址法(PC-relative addressing)，<strong>以branch指令的下一個指令的地址為基準點往上用負數，往下用正數，計算經過多少指令(word)可以到達跳躍目的的數值</strong>，因此分支目的位置 = program counter值 + 4 * 16-bit address；而其最大跳躍空間就是相對上下<span class="math">- 2^{15}</span>到<span class="math">(2^{15} - 1)</span>個word的地方，或是說相對上下<span class="math">- 2^{15} \cdot 2^2</span>到<span class="math">(2^{15} - 1) \cdot 2^2</span>個byte的地方。</p>
+<p>branch指令翻譯 - 由於branch指令通常不會跳躍太遠，因此採用PC相對定址法(PC-relative addressing)，<strong>以branch指令的下一個指令的地址為基準點往上用負數，往下用正數，計算經過多少指令(word)可以到達跳躍目的的數值</strong>，因此分支目的位置 = program counter值 + 4 * 16-bit address；而其最大跳躍空間就是相對上下$- 2^{15}$到$(2^{15} - 1)$個word的地方，或是說相對上下$- 2^{15} \cdot 2^2$到$(2^{15} - 1) \cdot 2^2$個byte的地方。</p>
 <p>當執行程式，此時特殊暫存器PC = 80012時，從記憶體80012的位置抓指令執行，同時PC = PC+4 = 80016，當確定要跳時，就會抓reference值(假設等於4)進行運算，使得PC = 80016 + 2*4 = 80024。</p>
-<p>由於branch能跳的最大距離為下一個指令的地址相對上下<span class="math">- 2^{15}</span>到<span class="math">(2^{15} - 1)</span>個word的地方，若是超過這個位置，則可以將原本branch指令改成<strong>反向條件的branch指令加上無條件跳躍的jump指令</strong>來解決。</p>
-<p>jump指令翻譯 - 使用虛擬絕對定址法(pseudo-direct addressing)，白話來說存的是"假的"記憶體絕對位置。MIPS作業系統於記憶管理時會將<span class="math">2^{32} = 2^2 \cdot 2^{30} = 4 \rm G</span>的記憶體空間<strong>切割成16個大小相等的256M區塊，任何一個程式只能侷限於一個區間之內</strong> (這樣的空間已經夠大了，以windows的OS來說，程式大小才幾百MB而已)，因此相同區塊內的任何指令最左邊4個bit都是相同的，jump指令最左邊的4個bit就不需要紀錄；另外由於<strong>MIPS規定記憶體存放data或是code必須alignment</strong>，一定要是4的整數倍，因此最右邊的2個bit也不需要紀錄，總結jump要跳的位置只要26個bit就能表達所有要跳的位置。</p>
+<p>由於branch能跳的最大距離為下一個指令的地址相對上下$- 2^{15}$到$(2^{15} - 1)$個word的地方，若是超過這個位置，則可以將原本branch指令改成<strong>反向條件的branch指令加上無條件跳躍的jump指令</strong>來解決。</p>
+<p>jump指令翻譯 - 使用虛擬絕對定址法(pseudo-direct addressing)，白話來說存的是"假的"記憶體絕對位置。MIPS作業系統於記憶管理時會將$2^{32} = 2^2 \cdot 2^{30} = 4 \rm G$的記憶體空間<strong>切割成16個大小相等的256M區塊，任何一個程式只能侷限於一個區間之內</strong> (這樣的空間已經夠大了，以windows的OS來說，程式大小才幾百MB而已)，因此相同區塊內的任何指令最左邊4個bit都是相同的，jump指令最左邊的4個bit就不需要紀錄；另外由於<strong>MIPS規定記憶體存放data或是code必須alignment</strong>，一定要是4的整數倍，因此最右邊的2個bit也不需要紀錄，總結jump要跳的位置只要26個bit就能表達所有要跳的位置。</p>
 <p>當CPU執行jump指令要還原原本的地址時，只需要把頭串接(concatenate)上program counter的前4個bit，尾巴串接上2個0就可以還原出原本記憶體的位置。</p>
 <h3>程式呼叫(procedure call)</h3>
 <p>執行程式呼叫時有以下6大步驟
@@ -492,26 +495,26 @@ xor <span class="math">s0, </span>s0, <span class="math">s1 # (</span>s0 ⊕ <sp
 <p>先決定哪些變數要存，哪些變數不要存，caller有責任存argument與temp暫存器，callee有責任存save與ra暫存器，在此情況下沒有local變數，因此只需要存argument和ra暫存器。</p>
 <p>接下來照結構翻譯即可</p>
 <div class="codehilite"><pre><span></span><code><span class="n">fact</span><span class="o">:</span>
-<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n"><span class="math">sp</span><span class="o">,</span><span class="w"> </span><span class="n"></span>sp</span><span class="o">,</span><span class="w"> </span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Adjust</span><span class="w"> </span><span class="n">stack</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">items</span>
-<span class="w">    </span><span class="n">sw</span><span class="w"> </span><span class="n"><span class="math">ra</span><span class="o">,</span><span class="w"> </span><span class="mi">4</span><span class="o">(</span><span class="n"></span>sp</span><span class="o">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Save</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">address</span>
-<span class="w">    </span><span class="n">sw</span><span class="w"> </span><span class="n"><span class="math">a0</span><span class="o">,</span><span class="w"> </span><span class="mi">0</span><span class="o">(</span><span class="n"></span>sp</span><span class="o">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Save</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">argument</span><span class="w"> </span><span class="n">n</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">$sp</span><span class="o">,</span><span class="w"> </span><span class="n">$sp</span><span class="o">,</span><span class="w"> </span><span class="o">-</span><span class="mi">8</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Adjust</span><span class="w"> </span><span class="n">stack</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">items</span>
+<span class="w">    </span><span class="n">sw</span><span class="w"> </span><span class="n">$ra</span><span class="o">,</span><span class="w"> </span><span class="mi">4</span><span class="o">(</span><span class="n">$sp</span><span class="o">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Save</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">address</span>
+<span class="w">    </span><span class="n">sw</span><span class="w"> </span><span class="n">$a0</span><span class="o">,</span><span class="w"> </span><span class="mi">0</span><span class="o">(</span><span class="n">$sp</span><span class="o">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Save</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">argument</span><span class="w"> </span><span class="n">n</span>
 
-<span class="w">    </span><span class="n">slti</span><span class="w"> </span><span class="n"><span class="math">t0</span><span class="o">,</span><span class="w"> </span><span class="n"></span>a0</span><span class="o">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Test</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">    </span><span class="n">beq</span><span class="w"> </span><span class="n"><span class="math">t0</span><span class="o">,</span><span class="w"> </span><span class="n"></span>zero</span><span class="o">,</span><span class="w"> </span><span class="n">Ll</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">If</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">go</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">Ll</span>
+<span class="w">    </span><span class="n">slti</span><span class="w"> </span><span class="n">$t0</span><span class="o">,</span><span class="w"> </span><span class="n">$a0</span><span class="o">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Test</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">beq</span><span class="w"> </span><span class="n">$t0</span><span class="o">,</span><span class="w"> </span><span class="n">$zero</span><span class="o">,</span><span class="w"> </span><span class="n">Ll</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">If</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">go</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">Ll</span>
 
-<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n"><span class="math">v0</span><span class="o">,</span><span class="w"> </span><span class="n"></span>zero</span><span class="o">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Return</span><span class="w"> </span><span class="mi">1</span>
-<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n"><span class="math">sp</span><span class="o">,</span><span class="w"> </span><span class="n"></span>sp</span><span class="o">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Pop</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">items</span><span class="w"> </span><span class="n">off</span><span class="w"> </span><span class="n">stack</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">$v0</span><span class="o">,</span><span class="w"> </span><span class="n">$zero</span><span class="o">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Return</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">$sp</span><span class="o">,</span><span class="w"> </span><span class="n">$sp</span><span class="o">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Pop</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">items</span><span class="w"> </span><span class="n">off</span><span class="w"> </span><span class="n">stack</span>
 <span class="w">    </span><span class="n">jr</span><span class="w"> </span><span class="n">$ra</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Return</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">caller</span>
 
 <span class="n">Ll</span><span class="o">:</span>
-<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n"><span class="math">a0</span><span class="o">,</span><span class="w"> </span><span class="n"></span>a0</span><span class="o">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="mi">1</span><span class="o">;</span><span class="w"> </span><span class="n">argument</span><span class="w"> </span><span class="n">gets</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">$a0</span><span class="o">,</span><span class="w"> </span><span class="n">$a0</span><span class="o">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="mi">1</span><span class="o">;</span><span class="w"> </span><span class="n">argument</span><span class="w"> </span><span class="n">gets</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span>
 <span class="w">    </span><span class="n">jal</span><span class="w"> </span><span class="n">fact</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Call</span><span class="w"> </span><span class="n">fact</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span>
 
-<span class="w">    </span><span class="n">lw</span><span class="w"> </span><span class="n"><span class="math">a0</span><span class="o">,</span><span class="w"> </span><span class="mi">0</span><span class="o">(</span><span class="n"></span>sp</span><span class="o">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Return</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">jal</span><span class="o">:</span><span class="w"> </span><span class="n">restore</span><span class="w"> </span><span class="n">argument</span><span class="w"> </span><span class="n">n</span>
-<span class="w">    </span><span class="n">lw</span><span class="w"> </span><span class="n"><span class="math">ra</span><span class="o">,</span><span class="w"> </span><span class="mi">4</span><span class="o">(</span><span class="n"></span>s</span><span class="w"> </span><span class="n">p</span><span class="o">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Restore</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">address</span>
-<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n"><span class="math">sp</span><span class="o">,</span><span class="w"> </span><span class="n"></span>sp</span><span class="o">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Adjust</span><span class="w"> </span><span class="n">stack</span><span class="w"> </span><span class="n">pointer</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">pop</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">items</span>
+<span class="w">    </span><span class="n">lw</span><span class="w"> </span><span class="n">$a0</span><span class="o">,</span><span class="w"> </span><span class="mi">0</span><span class="o">(</span><span class="n">$sp</span><span class="o">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Return</span><span class="w"> </span><span class="n">from</span><span class="w"> </span><span class="n">jal</span><span class="o">:</span><span class="w"> </span><span class="n">restore</span><span class="w"> </span><span class="n">argument</span><span class="w"> </span><span class="n">n</span>
+<span class="w">    </span><span class="n">lw</span><span class="w"> </span><span class="n">$ra</span><span class="o">,</span><span class="w"> </span><span class="mi">4</span><span class="o">(</span><span class="n">$s</span><span class="w"> </span><span class="n">p</span><span class="o">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Restore</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">address</span>
+<span class="w">    </span><span class="n">addi</span><span class="w"> </span><span class="n">$sp</span><span class="o">,</span><span class="w"> </span><span class="n">$sp</span><span class="o">,</span><span class="w"> </span><span class="mi">8</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Adjust</span><span class="w"> </span><span class="n">stack</span><span class="w"> </span><span class="n">pointer</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">pop</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="n">items</span>
 
-<span class="w">    </span><span class="n">mul</span><span class="w"> </span><span class="n"><span class="math">v0</span><span class="o">,</span><span class="w"> </span><span class="n"></span>a0</span><span class="o">,</span><span class="w"> </span><span class="n">$v0</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Return</span><span class="w"> </span><span class="n">n</span><span class="o">*</span><span class="n">fact</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span>
+<span class="w">    </span><span class="n">mul</span><span class="w"> </span><span class="n">$v0</span><span class="o">,</span><span class="w"> </span><span class="n">$a0</span><span class="o">,</span><span class="w"> </span><span class="n">$v0</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Return</span><span class="w"> </span><span class="n">n</span><span class="o">*</span><span class="n">fact</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span>
 <span class="w">    </span><span class="n">jr</span><span class="w"> </span><span class="n">$ra</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">Return</span><span class="w"> </span><span class="n">to</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">caller</span>
 </code></pre></div>
 
@@ -614,7 +617,7 @@ xor <span class="math">s0, </span>s0, <span class="math">s1 # (</span>s0 ⊕ <sp
         1. sign and magnitude
         2. 1's complement
         3. 2's complement</p>
-<p>無號數只有正沒有負，包含0，若二進位的無號整數有n個bit，則能表示的範圍為<span class="math">[0, 2^n -1]</span>。</p>
+<p>無號數只有正沒有負，包含0，若二進位的無號整數有n個bit，則能表示的範圍為$[0, 2^n -1]$。</p>
 <p>sign and magnitude為用一個sign bit表示正負號，sign bit為1表示負，sign bit為0表示正，但有以下3個缺點
 1. sign bit要放在右邊還是左邊?
 2. 由於無法預先知道運算結果的正負，所以在執行加法運算時還需要一個額外步驟比兩數大小來設定符號位元。
@@ -622,8 +625,8 @@ xor <span class="math">s0, </span>s0, <span class="math">s1 # (</span>s0 ⊕ <sp
 <p>1's complement要表示一數值之負數形式只要將各個位元取補數即可但有以下2個缺點
 1. 0有+0與-0兩種表示，會導致粗心的程序員發生錯誤。
 2. 運算後有時需要加1做端回進位修正。</p>
-<p>2's complement為現代計算機採用有號數的表示方式，數值為1's complement再+1，而另一種轉換方式 - <strong>從右往左邊的bit掃過去，碰到第1個1之前(包含1)保持原狀，接下來取補數</strong>。2's complement每一位元的權重<strong>除了MSB的權重是負的之外</strong>，其餘位元的權重和二進位無號數是—樣的。若二進位的2's complement整數有n個bit，則能表示的範圍為<span class="math">[-2^{n-1}, 2^{n-1} - 1]</span>。</p>
-<p>用無號數會讓範圍檢查的組語縮短，檢查用有號數指令檢查<span class="math">0 \leq x &lt; y</span>的判斷等用無號數指令<span class="math">x &lt; y</span>，其原理在於任何一個負數，看成無號數，都會超過任何一個正數。</p>
+<p>2's complement為現代計算機採用有號數的表示方式，數值為1's complement再+1，而另一種轉換方式 - <strong>從右往左邊的bit掃過去，碰到第1個1之前(包含1)保持原狀，接下來取補數</strong>。2's complement每一位元的權重<strong>除了MSB的權重是負的之外</strong>，其餘位元的權重和二進位無號數是—樣的。若二進位的2's complement整數有n個bit，則能表示的範圍為$[-2^{n-1}, 2^{n-1} - 1]$。</p>
+<p>用無號數會讓範圍檢查的組語縮短，檢查用有號數指令檢查$0 \leq x &lt; y$的判斷等用無號數指令$x &lt; y$，其原理在於任何一個負數，看成無號數，都會超過任何一個正數。</p>
 <hr />
 <h3>二進位的加法與減法與overflow</h3>
 <ul>
@@ -650,9 +653,9 @@ xor <span class="math">s0, </span>s0, <span class="math">s1 # (</span>s0 ⊕ <sp
 3. 10 - <strong>1字串的開頭</strong>，左半部product = 左半部product - 被乘數。
 4. 11 - 1字串的中間部份，不執行運算。</p>
 <p>可以將Booth演算法想像為<strong>用連續1字串的頭bit減去尾bit</strong>，而傳統/硬體最佳化乘法器則是乘以每個bit代表的權重。
-<span class="math"></span>
+$$
 a \times 0,011,100 = a \times (2^6 - 2^2) = a \times (2^5 + 2^4 + 2^3 + 2^2 )
-<span class="math"></span></p>
+$$</p>
 <p>總結來說無號數乘法器有傳統、硬體最佳化，有號數乘法器有Booth演算法，這三種乘法器都屬於序向(sequential)電路，輸出由目前電路狀態(記憶元件)與輸入共同決定，步驟有3大點檢查(check)、動作(action)、位移(shift)。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221117_194736.jpg" /></p>
 <hr />
@@ -663,7 +666,7 @@ a \times 0,011,100 = a \times (2^6 - 2^2) = a \times (2^5 + 2^4 + 2^3 + 2^2 )
 2. 組合電路元件數目就多，容易做最佳化。
 3. 此架構容易做pipeline，讓多個乘法同時運算。</p>
 <p><img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221117_202254.jpg" />
-如左上圖，每一層依序將最右邊的bit拉下來就是答案，不需要跟別人加，有32個partial product，需要31個加法器，假設1個加法器的延遲時間是T，此電路需要經過31T的延遲時間。如右上圖，另一種架構 - 平行樹乘法器將partial product兩兩相加，此電路需要經過<span class="math">log_232 = 5</span>T的延遲時間。但是課本上有錯誤，左邊的bit不可以直接拉下來，應該要考慮進位(此處有錯，但還是以課本為主)。</p>
+如左上圖，每一層依序將最右邊的bit拉下來就是答案，不需要跟別人加，有32個partial product，需要31個加法器，假設1個加法器的延遲時間是T，此電路需要經過31T的延遲時間。如右上圖，另一種架構 - 平行樹乘法器將partial product兩兩相加，此電路需要經過$log_232 = 5$T的延遲時間。但是課本上有錯誤，左邊的bit不可以直接拉下來，應該要考慮進位(此處有錯，但還是以課本為主)。</p>
 <hr />
 <h3>序向電路除法器 - 傳統、硬體最佳化</h3>
 <p>無號數的除法分為傳統除法器與硬體最佳化除法器。</p>
@@ -678,33 +681,33 @@ a \times 0,011,100 = a \times (2^6 - 2^2) = a \times (2^5 + 2^4 + 2^3 + 2^2 )
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221117_215643.jpg" />
 64 bit暫存器中右半部為特殊暫存器Lo，存放商數或是乘積的低位數；左半部為特殊暫存器Hi，存放餘數或是乘積的高位數，對應使用的組合語言為</p>
 <div class="codehilite"><pre><span></span><code><span class="c1"># multiplication</span>
-<span class="n">mult</span><span class="w"> </span><span class="o"><span class="math"></span><span class="n">s2</span><span class="p">,</span><span class="w"> </span><span class="o"></span></span><span class="n">s3</span><span class="w"> </span><span class="c1"># {Hi, Lo} &lt;- <span class="math">s3 * </span>s2</span>
-<span class="n">mfhi</span><span class="w"> </span><span class="o"><span class="math"></span><span class="n">s0</span><span class="w">      </span><span class="c1"># </span>s0 &lt;- Hi</span>
-<span class="n">mflo</span><span class="w"> </span><span class="o"><span class="math"></span><span class="n">s1</span><span class="w">      </span><span class="c1"># </span>s1 &lt;- Lo</span>
+<span class="n">mult</span><span class="w"> </span><span class="o">$</span><span class="n">s2</span><span class="p">,</span><span class="w"> </span><span class="o">$</span><span class="n">s3</span><span class="w"> </span><span class="c1"># {Hi, Lo} &lt;- $s3 * $s2</span>
+<span class="n">mfhi</span><span class="w"> </span><span class="o">$</span><span class="n">s0</span><span class="w">      </span><span class="c1"># $s0 &lt;- Hi</span>
+<span class="n">mflo</span><span class="w"> </span><span class="o">$</span><span class="n">s1</span><span class="w">      </span><span class="c1"># $s1 &lt;- Lo</span>
 <span class="c1"># division</span>
-<span class="n">div</span><span class="w">  </span><span class="o"><span class="math"></span><span class="n">s2</span><span class="p">,</span><span class="w"> </span><span class="o"></span></span><span class="n">s3</span><span class="w"> </span><span class="c1"># Lo &lt;- <span class="math">s2 / </span>s3； Hi &lt;- <span class="math">s2 % </span>s3 </span>
-<span class="n">mfhi</span><span class="w"> </span><span class="o"><span class="math"></span><span class="n">s0</span><span class="w">      </span><span class="c1"># </span>s0 &lt;- Hi</span>
-<span class="n">mflo</span><span class="w"> </span><span class="o"><span class="math"></span><span class="n">s1</span><span class="w">      </span><span class="c1"># </span>s1 &lt;- Lo</span>
+<span class="n">div</span><span class="w">  </span><span class="o">$</span><span class="n">s2</span><span class="p">,</span><span class="w"> </span><span class="o">$</span><span class="n">s3</span><span class="w"> </span><span class="c1"># Lo &lt;- $s2 / $s3； Hi &lt;- $s2 % $s3 </span>
+<span class="n">mfhi</span><span class="w"> </span><span class="o">$</span><span class="n">s0</span><span class="w">      </span><span class="c1"># $s0 &lt;- Hi</span>
+<span class="n">mflo</span><span class="w"> </span><span class="o">$</span><span class="n">s1</span><span class="w">      </span><span class="c1"># $s1 &lt;- Lo</span>
 </code></pre></div>
 
 <hr />
 <h3>浮點數的表示</h3>
 <p>"廣義"上的科學記號有不唯一的表示方式，因此正規化數(normalized number)就是規定科學記號在小數點左邊只能有一個非0的數值，而<strong>二進位的正規化數以有限硬體空間表示就稱為浮點數(floating point)</strong>。
-<span class="math"></span>
+$$
 (-1) \times 1.0101545 \times 2^{-123}
-<span class="math"></span>
-其中<span class="math">1.0101545</span>稱為significand，小數點後的數字<span class="math">0101545</span>稱為fraction / mantissa、<span class="math">2</span>稱為base / radix、<span class="math">-123</span>稱為exponent。</p>
+$$
+其中$1.0101545$稱為significand，小數點後的數字$0101545$稱為fraction / mantissa、$2$稱為base / radix、$-123$稱為exponent。</p>
 <p>IEEE754規範2種浮點數的表示方式，一是使用1個word的單精度格式、二是使用2個word的雙精度格式。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221123_213925.jpg" /></p>
 <ol>
 <li>從設計層面來看，在固定硬體大小之下，exponent和fraction要設計多大彼此是一個trade-off - 增加<strong>exponent</strong>能增加數字的<strong>表示範圍</strong>、增加<strong>fraction</strong>能增加數字的<strong>精確度</strong>。</li>
 <li>由於二進位正規化數在小數點左邊的位元必定是1，因此IEEE754<strong>隱藏該位數</strong>，而只表示fraction的部分。</li>
 <li>有號數表示不使用2的補數，而是改用bias notation，這是因為浮點數兩數相加時會需要先比較指數部分，而<strong>無號數比較器相比2的補數比較器，速度還快</strong>，為了快速比較指數而採用bias notation，故又名excess - X，這個X就是bias值。</li>
-<li>bias notation的規則 - 給定<span class="math">n</span>個bit的exponent，bias就是<span class="math">2^{n - 1} - 1</span>，以8 bit為例，bias就是<span class="math">2^{8 - 1} - 1 = 127 = 01,111,111</span>，真正填入的指數值就是計算出來的值加上bias值(偏移量)。</li>
+<li>bias notation的規則 - 給定$n$個bit的exponent，bias就是$2^{n - 1} - 1$，以8 bit為例，bias就是$2^{8 - 1} - 1 = 127 = 01,111,111$，真正填入的指數值就是計算出來的值加上bias值(偏移量)。</li>
 <li>以浮點數表示的數，其公式為
-<span class="math"></span>
+$$
 (-1)^{\text{sign}} \times (1 . \text{fraction}) \times 2^{(\text{exponent} - \text{bias})}
-<span class="math"></span></li>
+$$</li>
 <li>將10進位數轉換為單精度浮點流程 - 首先把10進位數轉換為2進位數，再來正規化，最後將計算出來的指數部分加上bias值得結果，若分數部分填不進去field的話，需要做"round"的步驟。</li>
 <li>IEEE754有定義5種數的表示方式，以單精度為例</li>
 </ol>
@@ -720,22 +723,22 @@ a \times 0,011,100 = a \times (2^6 - 2^2) = a \times (2^5 + 2^4 + 2^3 + 2^2 )
 <tr>
 <td>0</td>
 <td>0</td>
-<td><span class="math">\pm 0</span></td>
+<td>$\pm 0$</td>
 </tr>
 <tr>
 <td>0</td>
 <td>nonzero</td>
-<td><span class="math">\pm</span> denormalized number</td>
+<td>$\pm$ denormalized number</td>
 </tr>
 <tr>
 <td>1 - 254</td>
 <td>anything</td>
-<td><span class="math">\pm</span> floating-point number</td>
+<td>$\pm$ floating-point number</td>
 </tr>
 <tr>
 <td>255</td>
 <td>0</td>
-<td><span class="math">\pm</span> infinity</td>
+<td>$\pm$ infinity</td>
 </tr>
 <tr>
 <td>255</td>
@@ -745,20 +748,20 @@ a \times 0,011,100 = a \times (2^6 - 2^2) = a \times (2^5 + 2^4 + 2^3 + 2^2 )
 </tbody>
 </table>
 <p>因此正規化數能表示的範圍在
-<span class="math"></span>
+$$
 +1.\underbrace{00 \ldots 00}<em 23="23" 個="個">{23 個} \times 2^{1 - \text{bias}} &lt; |x| &lt; +1.\underbrace{11 \ldots 11}</em> \times 2^{\underbrace{254 - \text{bias}}<em 23="23" 個="個">{= \text{bias}}}
-<span class="math"></span>
+$$
 非正規化數數值計算定義
-<span class="math"></span>
+$$
 (-1)^{\text{sign}} \times (0 . \text{fraction}) \times 2^{\text{min exp in normalized number}}
-<span class="math"></span>
+$$
 其中指數定義為正規化數指數負最多的值，非正規化數能表示的範圍在
-<span class="math"></span>
+$$
 +0.\underbrace{00 \ldots 01}</em> \times 2^{-126} &lt; |x| &lt; +0.\underbrace{11 \ldots 11}_{23 個} \times 2^{-126}
-<span class="math"></span></p>
+$$</p>
 <p>由於非正規化數的數值實在太小，一般非科學性值的計算都幾乎不會跑到這個區間，因此不是每種指令集都支援非正規化數的數值範圍，若指令集有支援非正規化數，而數值小到不在非正規化數能表示的範圍，稱為gradual underflow；若指令集不支援非正規化數，而數值小到不在正規化數能表示的範圍，稱為underflow；若數值大於正規化數能表示的範圍則稱為overflow。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221123_235852.jpg" /></p>
-<p>以下4種運算會產生NaN - <span class="math">\frac{0}{0}, 0 \times \infty, a \times \text{NaN}, \infty - \infty</span>。</p>
+<p>以下4種運算會產生NaN - $\frac{0}{0}, 0 \times \infty, a \times \text{NaN}, \infty - \infty$。</p>
 <p>除了IEEE754浮點規定，另一種需要記憶的就是IBM format，一樣32個bit，但指數只有7個bit，bias為64，且base為16。</p>
 <hr />
 <h3>浮點數的加法與乘法</h3>
@@ -788,35 +791,35 @@ IEEE754共有4種捨去模式 - 朝向正無限大、朝向負無限大、截尾
 <p>實數的加法具有結合率，而浮點數的加法是用來表示實數的，卻無結合率，這是因為浮點數是用有限硬體空間來表示實數，會有精確度上面限制的問題。</p>
 <p>在無號數與有號數的正數中，右移等於除以2的冪次方運算；但<strong>有號數的負數不一定</strong>，當被移掉的bit不是全0，則"<strong>右移結果 + 1 = 商數"，因此需要將運算做修正 - 右移幾個bit，就先加上幾個bit 1的數值</strong>，例如負數除以8需要先+7做修正，再向右移3個bit；負數除以16需要先將+15做修正，再向右移4個bit。</p>
 <p>有號數用組語偵測overflow</p>
-<div class="codehilite"><pre><span></span><code><span class="n">addu</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">tl</span><span class="p">,</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t2</span><span class="w">              </span><span class="err">#</span><span class="w"> </span><span class="err"></span></span><span class="n">t0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">,</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">don</span><span class="err">&#39;</span><span class="n">t</span><span class="w"> </span><span class="n">trap</span>
+<div class="codehilite"><pre><span></span><code><span class="n">addu</span><span class="w"> </span><span class="err">$</span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">tl</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">t2</span><span class="w">              </span><span class="err">#</span><span class="w"> </span><span class="err">$</span><span class="n">t0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span><span class="p">,</span><span class="w"> </span><span class="n">but</span><span class="w"> </span><span class="n">don</span><span class="err">&#39;</span><span class="n">t</span><span class="w"> </span><span class="n">trap</span>
 
-<span class="n">xor</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">t2</span><span class="w">               </span><span class="err">#</span><span class="w"> </span><span class="k">Check</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">signs</span><span class="w"> </span><span class="n">differ</span>
-<span class="n">slt</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">zero</span><span class="w">             </span><span class="err">#</span><span class="w"> </span><span class="err"></span></span><span class="n">t3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">signs</span><span class="w"> </span><span class="n">differ</span>
-<span class="n">bne</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">zero</span><span class="p">,</span><span class="w"> </span><span class="n">No_overflow</span><span class="w">     </span><span class="err">#</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">tl</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">t2</span><span class="w"> </span><span class="n">signs</span><span class="w"> </span><span class="o">!=</span><span class="p">,</span><span class="w"> </span><span class="n">so</span><span class="w"> </span><span class="k">no</span><span class="w"> </span><span class="n">overflow</span>
+<span class="n">xor</span><span class="w"> </span><span class="err">$</span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">t1</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">t2</span><span class="w">               </span><span class="err">#</span><span class="w"> </span><span class="k">Check</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">signs</span><span class="w"> </span><span class="n">differ</span>
+<span class="n">slt</span><span class="w"> </span><span class="err">$</span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">zero</span><span class="w">             </span><span class="err">#</span><span class="w"> </span><span class="err">$</span><span class="n">t3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">signs</span><span class="w"> </span><span class="n">differ</span>
+<span class="n">bne</span><span class="w"> </span><span class="err">$</span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">zero</span><span class="p">,</span><span class="w"> </span><span class="n">No_overflow</span><span class="w">     </span><span class="err">#</span><span class="w"> </span><span class="err">$</span><span class="n">tl</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">t2</span><span class="w"> </span><span class="n">signs</span><span class="w"> </span><span class="o">!=</span><span class="p">,</span><span class="w"> </span><span class="n">so</span><span class="w"> </span><span class="k">no</span><span class="w"> </span><span class="n">overflow</span>
 <span class="w">                              </span><span class="err">#</span><span class="w"> </span><span class="n">signs</span><span class="w"> </span><span class="o">=</span><span class="p">;</span><span class="w"> </span><span class="nf">sign</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nf">sum</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="n">too</span><span class="vm">?</span>
-<span class="n">xor</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t1</span><span class="w">               </span><span class="err">#</span><span class="w"> </span><span class="err"></span></span><span class="n">t3</span><span class="w"> </span><span class="n">negative</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nf">sum</span><span class="w"> </span><span class="nf">sign</span><span class="w"> </span><span class="n">different</span>
-<span class="n">slt</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">zero</span><span class="w">             </span><span class="err">#</span><span class="w"> </span><span class="err"></span></span><span class="n">t3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nf">sum</span><span class="w"> </span><span class="nf">sign</span><span class="w"> </span><span class="n">different</span>
-<span class="n">bne</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">zero</span><span class="p">,</span><span class="w"> </span><span class="n">Overflow</span><span class="w">        </span><span class="err">#</span><span class="w"> </span><span class="ow">All</span><span class="w"> </span><span class="n">three</span><span class="w"> </span><span class="n">signs</span><span class="w"> </span><span class="err">#</span><span class="p">;</span><span class="w"> </span><span class="k">go</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">overflow</span>
+<span class="n">xor</span><span class="w"> </span><span class="err">$</span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">t1</span><span class="w">               </span><span class="err">#</span><span class="w"> </span><span class="err">$</span><span class="n">t3</span><span class="w"> </span><span class="n">negative</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nf">sum</span><span class="w"> </span><span class="nf">sign</span><span class="w"> </span><span class="n">different</span>
+<span class="n">slt</span><span class="w"> </span><span class="err">$</span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">zero</span><span class="w">             </span><span class="err">#</span><span class="w"> </span><span class="err">$</span><span class="n">t3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="nf">sum</span><span class="w"> </span><span class="nf">sign</span><span class="w"> </span><span class="n">different</span>
+<span class="n">bne</span><span class="w"> </span><span class="err">$</span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">zero</span><span class="p">,</span><span class="w"> </span><span class="n">Overflow</span><span class="w">        </span><span class="err">#</span><span class="w"> </span><span class="ow">All</span><span class="w"> </span><span class="n">three</span><span class="w"> </span><span class="n">signs</span><span class="w"> </span><span class="err">#</span><span class="p">;</span><span class="w"> </span><span class="k">go</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">overflow</span>
 </code></pre></div>
 
 <p>add和addu用的是同一個ALU，運算方式都一模一樣，差別只是在於對結果的解釋不同，add會偵測overflow，addu不會偵測overflow；如果一開始用add發生overflow，後面就不會執行了，會跑到OS去，OS把程式kill掉。</p>
 <p>接下來前三行是做異號數相加一定不會有overflow；後三行是做正數加正數卻是負數，負數加負數卻是正數。</p>
 <p>無號數用組語偵測overflow</p>
-<div class="codehilite"><pre><span></span><code><span class="n">addu</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">tl</span><span class="p">,</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t2</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err"></span></span><span class="n">t0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span>
-<span class="n">nor</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">tl</span><span class="p">,</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">zero</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err"></span></span><span class="n">t3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kr">NOT</span><span class="w"> </span><span class="err">$</span><span class="n">tl</span>
-<span class="n">sltu</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t2</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err"></span></span><span class="n">t3</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="err">$</span><span class="n">t2</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nf">set</span><span class="w"> </span><span class="n">t3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
-<span class="n">bne</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err"></span></span><span class="n">zero</span><span class="p">,</span><span class="w"> </span><span class="n">Overflow</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">t3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">overflow</span>
+<div class="codehilite"><pre><span></span><code><span class="n">addu</span><span class="w"> </span><span class="err">$</span><span class="n">t0</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">tl</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">t2</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">$</span><span class="n">t0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">sum</span>
+<span class="n">nor</span><span class="w"> </span><span class="err">$</span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">tl</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">zero</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">$</span><span class="n">t3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kr">NOT</span><span class="w"> </span><span class="err">$</span><span class="n">tl</span>
+<span class="n">sltu</span><span class="w"> </span><span class="err">$</span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">t2</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">$</span><span class="n">t3</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="err">$</span><span class="n">t2</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="nf">set</span><span class="w"> </span><span class="n">t3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="n">bne</span><span class="w"> </span><span class="err">$</span><span class="n">t3</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="n">zero</span><span class="p">,</span><span class="w"> </span><span class="n">Overflow</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="n">t3</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">overflow</span>
 </code></pre></div>
 
 <p>想法如下
-<span class="math"></span>
+$$
 \begin{align<em>}
 &amp; t_1 + t_2 &gt; 11 \ldots 11 \qquad(\text{overflow occurs})\
 \Rightarrow\;&amp; t_2 &gt; 11 \ldots 11 - t_1\
 \Rightarrow\;&amp; t_2 &gt; \overline{t_1}\
 \Rightarrow\;&amp; \overline{t_1} &lt; t_2
 \end{align</em>}
-<span class="math"></span></p>
+$$</p>
 <hr />
 <h2>ch3 效能評估</h2>
 <h3>綱要</h3>
@@ -833,86 +836,86 @@ IEEE754共有4種捨去模式 - 朝向正無限大、朝向負無限大、截尾
 <p>不同的效能定義會影響評估的結果，因此在實施評估前先要對效能的定義有明確的了解。個人電腦會以執行時間做為效能評估的標準；而伺服器由於服務多人，則以生產量做為效能評估的標準。
 1. 執行時間(execution time)、反應時間(response time) - 工作從開始到完成所花的時間，也就是program送至計算機開始執行直到執行結果的所花的時間。
 2. 生產量(throughput) - 單位時間內所完成的工作量，也就是計算機單位時間完成的program(job)的個數。</p>
-<p>本章主要考慮個人電腦，因此以以執行時間做為效能評估的標準，對電腦<span class="math">X</span>，效能定義為執行時間的倒數
-<span class="math"></span>
+<p>本章主要考慮個人電腦，因此以以執行時間做為效能評估的標準，對電腦$X$，效能定義為執行時間的倒數
+$$
 \text{Performance}_X \triangleq \frac{1}{\text{Execution Time}_X}
-<span class="math"></span>
-電腦<span class="math">X</span>的速度是電腦<span class="math">Y</span>的<span class="math">n</span>倍
-<span class="math"></span>
+$$
+電腦$X$的速度是電腦$Y$的$n$倍
+$$
 n = \frac{\text{Performance}_X}{\text{Performance}_Y} = \frac{\text{Execution Time}_Y}{\text{Execution Time}_X}
-<span class="math"></span></p>
+$$</p>
 <hr />
 <h3>執行時間測量</h3>
 <p>計算機從工作從開始到完成所花的時間稱為elapsed time，其中包括等待I/O的時間與處理器時間(CPU time)，CPU time又可進一步分為使用者處理器時間(user CPU time)與花在作業系統(服務使用者的程式運行)上的時間，稱為系統處理器時間(system CPU time)。當我們在run的程式個數不同，I/O time和system CPU time這兩個時間都是變動的，因此我們以user CPU time做為執行時間(execution time)的測量。</p>
 <p>使用絕對時間user CPU time，由於時間過短難以測量。而由於計算機都需要clock來同步快慢有別的訊號源，因此改使用一個cycle所花的時間長度clock cycle time作為衡量之一的參數，再乘上一個程式使用cycle的個數clock cycle就是user CPU time，而clock rate又為clock cycle time的倒數，是一秒鐘clock訊號同步的次數。
-<span class="math"></span>
+$$
 \begin{align<em>}
 \text{(user) CPU time} &amp;= \text{CPU clock cycles} \times \text{cycle time}\
 &amp;= \frac{\text{CPU clock cycles}}{\text{clock rate}}
 \end{align</em>}
-<span class="math"></span>
+$$
 欲測量一個程式使用cycle的個數clock cycle，勢必要造出counter，此counter的clock要比CPU的clock更快，才能有效取樣，理論上是行不通的，因此上式公式較難估算。將clock cycle改定義為一個程式使用的指令個數instruction count(IC)乘上平均執行每個指令所需要花的clock個數cycles per instruction(CPI)，因此user CPU time即為
-<span class="math"></span>
+$$
 \begin{align<em>}
 \text{(user) CPU time} &amp;= \text{IC} \times \text{CPI} \times \text{cycle time}\
 &amp;= \frac{\text{IC} \times \text{CPI}}{\text{clock rate}}
 \end{align</em>}
-<span class="math"></span>
-由於不同類別的指令CPI各不相同，例如乘法比起加法需要更多clock cycle數，因此在此的CPI為一加權平均值，等於第<span class="math">i</span>類的CPI，乘以第<span class="math">i</span>類指令佔所有指令的比例
-<span class="math"></span>
+$$
+由於不同類別的指令CPI各不相同，例如乘法比起加法需要更多clock cycle數，因此在此的CPI為一加權平均值，等於第$i$類的CPI，乘以第$i$類指令佔所有指令的比例
+$$
 \begin{align<em>}
 \text{CPI} &amp;\triangleq \frac{\text{CPU clock cycles}}{\text{IC}}\
 &amp;= \frac{\sum^n_{i = 1} (\text{CPI}<em i="i">i \times \text{C}_i)}{\text{IC}}\
 &amp;= \sum^n</em> (\text{CPI}_i \times \text{Freqency}_i)
 \end{align</em>}
-<span class="math"></span>
+$$
 接下來定義instruction time為平均1個指令執行時會用的CPU時間
-<span class="math"></span>
+$$
 \begin{align<em>}
 \text{instruction time} &amp;= \frac{\text{(user) CPU time}}{\text{instruction count}}\
 &amp;= \frac{\text{IC} \times \text{CPI}}{\text{clock rate}} \times \frac{1}{\text{IC}}\
 &amp;= \frac{\text{CPI}}{\text{clock rate}} = \text{CPI} \times \text{cycle time} 
 \end{align</em>}
-<span class="math"></span>
+$$
 instruction time的倒數就是instruction rate，代表單位時間內指令執行的次數，在以前常以1秒百萬次指令執行時間，作為衡量評估計算機效能的指標，但這是一個錯誤，因為MIPS沒有把每個指令的能力考量進來，像是CISC都比RISC的指令功能還強大，另外同一台電腦不同程式測量出來的MIPS也可能不同。
-<span class="math"></span>
+$$
 \begin{align<em>}
 \text{instruction time} &amp;= \frac{1}{\text{instruction rate}}\
 &amp;= \frac{1}{\text{MIPS} \times 10^6}
 \end{align</em>}
-<span class="math"></span>
+$$
 總結上述公式，整理出以下表格，以方便記憶
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221127_15364.jpg" /><br>
 對於2部不同硬體實踐架構但同一ISA的機器，當要比較效能也就是execution time時，首先要確保跑的是相同的程式(組合語言)，也就代表instruction count相同，因此真正要比的就是instruction time。</p>
-<p>以下為軟體與硬體會影響到的效能參數 <span class="math">\text{execution time} = \text{IC} \times \text{CPI} \times \text{cycle time}</span>。
+<p>以下為軟體與硬體會影響到的效能參數 $\text{execution time} = \text{IC} \times \text{CPI} \times \text{cycle time}$。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/11/20221127_15449.jpg" />
 值得注意的是compiler不會影響個別指令的CPI，個別指令的CPI在硬體建構好就已決定，compiler會選擇較佳組合的指令，影響的會是平均的CPI。</p>
 <hr />
 <h3>Amdahl's law</h3>
 <p>Amdahl's law是用來計算當某一機器改善了其中一部分後的執行時間。
-<span class="math"></span>
+$$
 \text{ExTime after} = \frac{\text{ExTime affected}}{\text{Improve rate}} + \text{ExTime unaffected}
-<span class="math"></span>
+$$
 由上式可知只要改善一般較常出現的程式部份，就會比去對極少出現的部份做最佳化要來得有效，符合<a href="#指令集的4大設計原則">ch1 指令集的4大設計原則</a>其中一條 - make the common case faster。</p>
 <p>而speedup是指機器在經過某種策略的改良之後·相對於原本效能之提升程度。
-<span class="math"></span>
+$$
 \begin{align<em>}
 \text{speedup} &amp;= \frac{\text{ExTime before}}{\text{ExTime after}}\
 &amp;= \frac{\text{ExTime before}}{ \frac{\text{ExTime affected}}{\text{Improve rate}} + \text{ExTime unaffected} }\
 &amp;= \frac{1}{\frac{f}{s} + (1 - f)}, \text{ where } f : \text{ExTime affected}, s : \text{Improve rate}
 \end{align</em>}
-<span class="math"></span></p>
+$$</p>
 <hr />
 <h3>效能總評</h3>
 <p>假設工作負載中每個程式的執行次數皆相同，則使用算術平均數(AM)；若不是，則根據每個程式在工作負載中的出現頻率給予加權值，即使用加權平均數(WAM)；平均數越小，代表機器效能越好。</p>
 <p>同時評量2台以上機器的效能時，我們常會將某一部機器對某一程式的執行時間除以各機器的執行時間，稱為正規化得其比值，稱為spec ratio；spec ratio越大，代表機器效能越好。
-<span class="math"></span>
+$$
 \text{spec ratio} = \frac{\text{ExTime referenced}}{\text{ExTime measured}}
-<span class="math"></span>
+$$
 如果執行時間有被正規化，就不可再使用AM或是WAM做為總評的標準，因為會出現效能總評的矛盾，改使用幾何平均數(GM)
-<span class="math"></span>
+$$
 \text{GM} = \sqrt[n]{\Pi^n_{i = 1} \text{} \text{spec ratio}_i}
-<span class="math"></span>
+$$
 就能消除這個矛盾，因為GM具有此特性 - 先取幾何平均再正規化 = 先正規化再取幾何平均，但GM就無法預測執行時間，且算出來的結果也不這麼準，因此當題目沒指定的話，還是以使用AM、WAM為準，使用GM是不得已的標準。</p>
 <p>目前最普及的CPU效能評估程式就是SPEC(System Performance Evaluation Corporation)的benchmark(效能評估程式組)，SPEC是由許多電腦廠商建立與支援的評效程式，目的是要為現代的電腦系統提供—組標準的評效程式，以SPEC CPU2000其中包括整數程式與浮點數程式的benchmark。</p>
 <hr />
@@ -1005,7 +1008,7 @@ R-type指令的rs和rt放要運算的暫存器號碼，把這兩個暫存器號�
 <ol>
 <li><strong>load word指令的datapath</strong> i-type</li>
 </ol>
-<div class="codehilite"><pre><span></span><code><span class="n">lw</span><span class="w"> </span><span class="err"><span class="math"></span><span class="n">t1</span><span class="w"> </span><span class="mi">4</span><span class="p">(</span><span class="err"></span></span><span class="n">S2</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">將</span><span class="w"> </span><span class="n">s2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">t1</span>
+<div class="codehilite"><pre><span></span><code><span class="n">lw</span><span class="w"> </span><span class="err">$</span><span class="n">t1</span><span class="w"> </span><span class="mi">4</span><span class="p">(</span><span class="err">$</span><span class="n">S2</span><span class="p">)</span><span class="w"> </span><span class="err">#</span><span class="w"> </span><span class="err">將</span><span class="w"> </span><span class="n">s2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">t1</span>
 </code></pre></div>
 
 <p><img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221203_161420.jpg" /><br>
@@ -1219,19 +1222,19 @@ jump計算跳躍目的位址為<code>{NextPC[31:28], Instruction[25:0], 2'b00}</
 <h3>pipeline的特性與效能評估</h3>
 <p>pipeline是一種計算機的實作技術，允許多個指令同時存在於datapath裡面，使指令重疊地、平行地被執行。pipeline跟multiple cycle machine一樣，需要將single-cycle machine分成若干階段，分步驟的原則是時間要平均分配 - 一個步驟只能使用一個主要功能單元，而最長步驟的時間就是pipeline的clock cycle time。</p>
 <p><strong>pipeline並不會對單一個指令的執行時間(latency)有所幫助，反而會比single-cycle machine的latency還長</strong>，因為每個pipeline的每個stage執行結束後，會卡在"柵欄"上，等下一個clock來，柵欄"打開才能繼續執行。<strong>pipeline是藉由多個指令在pipeline中使用不同部分的硬體資源，以提高硬體使用率，以增進整體工作的生產量(throughput)</strong>。</p>
-<p>假設pipeline不會停下來(stall)，也就是理想pipeline的機器，給定週期時間<span class="math">T</span>，<span class="math">S</span>個stage，<span class="math">N</span>個指令要執行，則
-<span class="math"></span>
+<p>假設pipeline不會停下來(stall)，也就是理想pipeline的機器，給定週期時間$T$，$S$個stage，$N$個指令要執行，則
+$$
 \text{execution time} = [(S - 1) + N] \times T
-<span class="math"></span>
-在尚未填滿pipeline的時候，沒有指令執行完畢，有<span class="math">S - 1</span>個stage；接下來每個stage，也就是每隔一個cycle cycle就會有一條指令執行完畢。
-<span class="math"></span>
+$$
+在尚未填滿pipeline的時候，沒有指令執行完畢，有$S - 1$個stage；接下來每個stage，也就是每隔一個cycle cycle就會有一條指令執行完畢。
+$$
 \text{(average) CPI} \triangleq \frac{\text{clock cycles}}{\text{instruction count}} = \frac{(S - 1) + N}{N}, \text{if } N \to \infty, \text{CPI} = 1
-<span class="math"></span>
+$$
 平均CPI根據原始定義 - clock cycle個數除以指令個數計算，當指令越多時，平均CPI會趨近於1，也就是趨近single-cycle的CPI，但需要注意這裡是指平均CPI，而非單一指令執行的clock cycle數。
-<span class="math"></span>
+$$
 \text{speedup} \triangleq \frac{\text{ExTime of single-cycle machine}}{\text{ExTime of pipeline}} = \frac{S \times N \times T}{[(S - 1) + N] \times T}, \text{if } N \to \infty, \text{speedup} = S
-<span class="math"></span>
-從上式可知，pipeline的stage切越多，<span class="math">S</span>越大，代表cycle time越短、clock rate越高，instruction rate越高，throughput(單位時間執行的指令數)越高，performance會越好。但是由於dynamic dissipation公式<span class="math">P = \alpha C V_{DD}^2 f_{sw}</span>中，功率消耗與clock的頻率成正比，因此clock rate越高，CPU的功率就會提高，造成負面影響，這便是一個performance與power之間的trade-off。</p>
+$$
+從上式可知，pipeline的stage切越多，$S$越大，代表cycle time越短、clock rate越高，instruction rate越高，throughput(單位時間執行的指令數)越高，performance會越好。但是由於dynamic dissipation公式$P = \alpha C V_{DD}^2 f_{sw}$中，功率消耗與clock的頻率成正比，因此clock rate越高，CPU的功率就會提高，造成負面影響，這便是一個performance與power之間的trade-off。</p>
 <hr />
 <h3>pipeline的datapath設計</h3>
 <p>根據一個步驟只能使用一個主要功能單元的原則，在MIPS指令執行時分為5個步驟
@@ -1285,7 +1288,7 @@ branch指令走到MEM stage才知道後面指令要跟誰，但此時後面指�
 <p>而sw, beq一定不會和後面指令發生data dependency，因為沒有寫入暫存器的動作。</p>
 <ol>
 <li><strong>軟體解決 - 插入nop指令</strong><br>
-nop泛指不改變暫存器的內容、memory的內容、指令的執行順序的指令，例如<code>addi <span class="math">0, </span>0, 0</code>,<code>sll <span class="math">0, </span>0 0</code>，而MIPS選擇<code>sll <span class="math">0, </span>0 0</code>作為nop指令，翻成指令的機器語言剛好全都是0。採用nop指令解data hazard的優點是簡單，但缺點是會占用clock cycle，讓效率變差。</li>
+nop泛指不改變暫存器的內容、memory的內容、指令的執行順序的指令，例如<code>addi $0, $0, 0</code>,<code>sll $0, $0 0</code>，而MIPS選擇<code>sll $0, $0 0</code>作為nop指令，翻成指令的機器語言剛好全都是0。採用nop指令解data hazard的優點是簡單，但缺點是會占用clock cycle，讓效率變差。</li>
 </ol>
 <hr />
 <ol>
@@ -1359,7 +1362,7 @@ MEM hazard的偵測碼與EX hazard的偵測碼觀念相同，差別只是將pipe
 <h3>beq往前移以減少control hazard並解決變嚴重data hazard</h3>
 <p><a href="#pipeline的control-unit設計">ch5 pipeline的control unit設計</a>MIPS指令集5個stage pipeline的"原始設計"是在MEM stage決定要不要跳。branch指令走到MEM stage才知道後面指令要跟誰，但此時後面指令已經跟上了，如果branch一跳，後面指令就跟錯了，因此解法是是將抓錯的指令flush掉。</p>
 <p>flush掉越多指令會降低pipeline的效能(throughput)，因此我們嘗試將決定要不要跳往前面的stage移動，以減少branch猜錯要flush掉的指令個數， branch不使用ALU進行減法運算比較兩暫存器是否相等，而是<strong>多在ID stage增加XOR array這個硬體元件比較兩暫存器是否相等</strong>，由於XOR array沒有像ALU一樣需要進位，因此運算速度會比ALU還快。</p>
-<p>如果branch一跳，硬體需要清除後面跟上來在IF stage的指令，使用控制線<code>IF.Flush</code>，把IF/ID pipeline register全清為0，原指令就會轉換為<code>sll <span class="math">0 </span>0 0</code>，也就是MIPS官方版本的nop指令。
+<p>如果branch一跳，硬體需要清除後面跟上來在IF stage的指令，使用控制線<code>IF.Flush</code>，把IF/ID pipeline register全清為0，原指令就會轉換為<code>sll $0 $0 0</code>，也就是MIPS官方版本的nop指令。
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221215_17265.jpg" /></p>
 <p>上述將branch決定要不要跳的地方從MEM stage移到ID stage後，會讓data hazard變嚴重，需要解決。
 1. R-type後面跟beq產生data dependency時，需要<strong>先pipeline stall 1個clock的時間</strong>，等R-type指令在EX stage執行完運算後，在MEM stage再<strong>往前forwarding</strong>回在ID stage的beq，執行暫存器比較的運算。
@@ -1583,13 +1586,13 @@ L1的hit time會決定CPU的clock cycle time，所以要盡量設計小。</p>
 2. L2下面一層就是main memory，SRAM和DRAM速度差非常多，因此會採用write-back。</p>
 <hr />
 <p>對combined cache來說，multi-level cache的extra CPI的公式有兩個版本
-<span class="math"></span>
+$$
 \begin{align<em>}
 \text{extra CPI} &amp;= \text{stall cycle per instruction}\
 &amp;= (1 + \text{lw/sw}\%) \times \underbrace{\sum^n_{i = 1} \text{MR}<em _text_stall="\text{stall" access="access" cycle="cycle" per="per">i \times \text{MP}_i}</em>}\
 &amp;= \sum^n_{i = 1} \text{MRP}_i \times \text{MP}_i
 \end{align</em>}
-<span class="math"></span>
+$$
 其中MR = miss rate、MP = miss penalty、MPR = miss rate per instruction = 平均一個指令(不管該指令是否有cache access)在執行會造成cache miss幾次。</p>
 <p>在上述公式缺條件時，有一些基礎假設
 1. 題目沒給完美CPI ⇒ pipeline的完美CPI假設1。
@@ -1598,16 +1601,16 @@ L1的hit time會決定CPU的clock cycle time，所以要盡量設計小。</p>
 <p>一般miss rate題目沒特別指名都是只global miss rate，還有另一種是local miss rate。
 1. GMR = 以CPU存取memory的次數為基準
 2. LMR = 以存取到上一層memory的次數為基準
-<span class="math"></span>
+$$
 \text{GMR}<em k="k">i = \Pi</em>^i \text{LMR}_k = \text{LMR}_1 \times \text{LMR}_2 \times \cdots \text{LMR}_i
-<span class="math"></span></p>
+$$</p>
 <p>最後在定義一個衡量標準，AMAT(average memory access time)代表CPU存取記憶體一次所需要的平均(絕對)時間。
-<span class="math"></span>
+$$
 \text{AMAT} = \underbrace{\text{T}<em L1="L1" _not="(not" _text_hit="\text{hit" in="in" stall_="stall)" time="time">1}</em>} + \underbrace{\sum^n_{i = 1} \text{MR}<em _text_stall="\text{stall" access="access" cycle="cycle" per="per">i \times \text{MP}_i}</em>}
-<span class="math"></span>
+$$
 公式為第一層cache不stall的時間與發生stall的時間的加總。</p>
 <p>可與extra CPI的公式做比較，兩者公式都有stall cycle per access的項，欲求AMAT per instruction
-<span class="math"></span>
+$$
 \begin{align<em>}
 \text{AMAT per instruction} &amp;= \text{CPU存取記憶體一次所需要的平均時間} \times \text{有存取到記憶體的指令個數}\
 &amp;= \text{AMAT} \times (1 + \text{lw/sw}\%)\
@@ -1615,7 +1618,7 @@ L1的hit time會決定CPU的clock cycle time，所以要盡量設計小。</p>
 &amp;= (1 + \text{lw/sw}\%) \times \text{T}_1 + (1 + \text{lw/sw}\%) \times \sum^n</em> \text{MR}<em i="i">i \times \text{MP}_i\
 &amp;= (1 + \text{lw/sw}\%) \times \text{T}_1 + \sum^n</em> \text{MRP}_i \times \text{MP}_i
 \end{align</em>}
-<span class="math"></span></p>
+$$</p>
 <hr />
 <h3>虛擬記憶體(virtual memory)</h3>
 <p>設計virtual memory的2大動機
@@ -1766,8 +1769,8 @@ memory block"第一次"被使用，一定不在cache上面。可藉由增加bloc
 1. seek time - 移動讀寫頭到正確的track，由於移動讀寫頭是機械動作，速度會很慢，所以seek time幾乎占據disk access time大半的時間。</p>
 <blockquote>
 <p>讀寫頭會停在最後讀完資料的地方，因此若是寫回一樣的地方，讀寫頭就在原本的track上，就不需要seek time。
-2. rotational time (<span class="math">= \frac{1}{\text{RPS}} \times 0.5</span>) - 等待plate將正確的sector旋轉至讀寫頭下方，期望值是旋轉plate半圈。
-3. data transfer time (<span class="math">= \frac{\text{data amount}}{\text{data transfer ratio}} = \frac{\text{data amount}}{\text{RPS} \times \text{data amount in a track}}</span>) - 將plate上儲存的資料，透過電磁感應傳輸資料到讀寫頭所花的時間。
+2. rotational time ($= \frac{1}{\text{RPS}} \times 0.5$) - 等待plate將正確的sector旋轉至讀寫頭下方，期望值是旋轉plate半圈。
+3. data transfer time ($= \frac{\text{data amount}}{\text{data transfer ratio}} = \frac{\text{data amount}}{\text{RPS} \times \text{data amount in a track}}$) - 將plate上儲存的資料，透過電磁感應傳輸資料到讀寫頭所花的時間。
 4. controller time - 把OS下達的邏輯命令轉為讀寫頭實體運動移動的時間，disk需要有控制器去計算直流馬達要如何移動到指定的sector存取資料。
 5. waiting time - 其他程序再使用硬碟需要等待所花的時間。</p>
 </blockquote>
@@ -1782,7 +1785,7 @@ memory block"第一次"被使用，一定不在cache上面。可藉由增加bloc
 <h3>dependability</h3>
 <p>dependability是一個系統所能提供服務的品質，由於太過抽象，所以靠reliability與availability來"量化"一個系統的dependability。
 - reliability - 用一陣子還是好的機率MTTF
-- availability - 瞬間是好的機率<span class="math">\frac{\text{MTTF}}{\text{MTTF} + \text{MTTR}}</span> </p>
+- availability - 瞬間是好的機率$\frac{\text{MTTF}}{\text{MTTF} + \text{MTTR}}$ </p>
 <p>其中MTTF = mean time to failure，平均發生失敗時間；MTTR = mean time to repair，平均修復時間；MTBF = mean time between failure，平均失敗間隔，MTBF = MTTF + MTTR。增加MTTF有3個方法 - fault tolerance (系統錯誤依然可以繼續執行)；fault avoidance (投票制，多個相同元件執行，選多數結果作為系統輸出)；fault forecasting (估計常常發生錯誤的位置，當發生錯誤時，直接移除)。</p>
 <hr />
 <h3>RAID</h3>
@@ -1864,13 +1867,13 @@ polling主動權在CPU，而interrupt的主動權則是在I/O設備上，I/O設�
 3. <strong>time of synchronization</strong> - 處理器之間存在資料相依性，需要等處理器A執行完獲得結果給處理器B使用，處理器B才能開始執行。
 4. <strong>communication overhead</strong> - 處理器之間要交換資料，怎麼送資料，才能讓時間最短?</p>
 <p>而且並不是所有程式都可以被平行分解(concurrent program)，多處理器的效能會受限於無法平行分解程式(sequential progam)的比例。
-<span class="math"></span>
+$$
 \text{Speedup}(P) = \frac{1}{s + \frac{1 - s}{P}} \leq \frac{1}{s}, s : \text{ratio of sequential progam}
-<span class="math"></span>
+$$
 多重處理器系統分2種 - strong scaling, weak scaling
 1. strong scaling - problem size固定的前提下，便可以達到預期的speedup。
 2. weak scaling - problem size固定的前提下，無法獲得預期的speedup；但是放大problem size，處理器個數也等比例增加，此時就可達到預期的speedup。</p>
-<p>strong scaling由於problem size是固定的，處理器個數也是相同，也就是<span class="math">S, (1-S), P</span>數值相同，因此受限於Amdahl's law；weak scaling的problem size可以改變，處理器個數也可以等比例增加，也就是<span class="math">S, (1-S), P</span>數值都可會變動，因此不受限於Amdahl's law。</p>
+<p>strong scaling由於problem size是固定的，處理器個數也是相同，也就是$S, (1-S), P$數值相同，因此受限於Amdahl's law；weak scaling的problem size可以改變，處理器個數也可以等比例增加，也就是$S, (1-S), P$數值都可會變動，因此不受限於Amdahl's law。</p>
 <hr />
 <h3>多處理器資料交換方式分為SMP(UMA, NUMA)與MPP</h3>
 <p>要讓多處理器之間達到資料交換的目的有兩種做法
@@ -1933,7 +1936,7 @@ polling主動權在CPU，而interrupt的主動權則是在I/O設備上，I/O設�
 <ol>
 <li>GPU只是加速器，輔助CPU運算，因此無法像CPU一樣執行所有種類的指令，CPU與GPU的關係為heterogeneous multiprocessor。</li>
 <li>GPU的程式語言使用high-level API，例如OpenGL、DirectX。</li>
-<li>GPU的指令包括3D幾何指令，可以畫線與三角形；資料型態只有頂點<span class="math">(x, y, z, w)</span>與圖像<span class="math">(R, G, B, \alpha)</span>，長度皆為32 bit，也因此GPU不支援雙浮點運算。</li>
+<li>GPU的指令包括3D幾何指令，可以畫線與三角形；資料型態只有頂點$(x, y, z, w)$與圖像$(R, G, B, \alpha)$，長度皆為32 bit，也因此GPU不支援雙浮點運算。</li>
 <li>GPU的working set(處理器在某一段時間內要處理的指令與資料)比CPU大上很多，且程式執行只具備spatial locality，不具備temporal locality。</li>
 <li>GPU由多個SIMD組成，將程式拆成concurrent thread交錯在SIMD執行(hardware multithreading，用大量的thread交錯在單一處理器執行；SIMD會運用到data-level parallelism)。</li>
 <li>相較於memory latency，GPU更重視memory bandwidth，會使用memory bandwidth較高的特製DRAM。</li>
@@ -1957,7 +1960,7 @@ polling主動權在CPU，而interrupt的主動權則是在I/O設備上，I/O設�
 <li>積體電路(IC, integrated circuit) = 一顆晶片塞很多電晶體，電晶體扮演開關的角色，利用電壓來控制ON和OFF。</li>
 <li>積體電路製作流程如下
 <img alt="" src="https://raw.githubusercontent.com/HsuChiChen/image_hosting_service/main/2022/12/20221231_154532.jpg" /></li>
-<li>CMOS的功率消耗分為static與dynamic，static power由leakage current造成，而dynamic power公式為<span class="math">C V_{DD}^2 f</span>，<span class="math">C</span>為負載電容、<span class="math">f</span>為CMOS的切換頻率，較詳細的介紹可以參照<a href="https://hackmd.io/@HsuChiChen/2022-log-3#04/13(三)">2022/04/13(三)</a>VLSI電路設計的power章節。</li>
+<li>CMOS的功率消耗分為static與dynamic，static power由leakage current造成，而dynamic power公式為$C V_{DD}^2 f$，$C$為負載電容、$f$為CMOS的切換頻率，較詳細的介紹可以參照<a href="https://hackmd.io/@HsuChiChen/2022-log-3#04/13(三)">2022/04/13(三)</a>VLSI電路設計的power章節。</li>
 <li>摩爾定律是一個經驗法則，指出每隔18到24個月單位面積電晶體的數量就為增加一倍。</li>
 <li>積體電路的製造成本<ul>
 <li>一顆IC的成本 = 一片wafer成本 / (一片wafer上有幾顆IC * 良率)</li>
