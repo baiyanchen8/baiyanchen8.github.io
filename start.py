@@ -7,7 +7,7 @@ import markdown
 
 # 設定資料夾路徑
 IMAGES_DIR = "asserts/images"
-POSTS_DIR = "posts/html"
+POSTS_DIR = "posts"
 MD_DIR = "md"
 JSON_FILE = "asserts/file-list.json"
 
