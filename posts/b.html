@@ -1,0 +1,356 @@
+
+        <!DOCTYPE html>
+        <html lang="zh-TW">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>b</title>
+            <link rel="stylesheet" href="/style.css">
+            <script type="text/javascript" async
+                src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML">
+            </script>
+            <script type="text/x-mathjax-config">
+                MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [["$", "$"]],
+                displayMath: [["$$", "$$"]],
+                processEscapes: true,
+                skipTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+            },
+            "HTML-CSS": { availableFonts: ["TeX"] }
+        });
+            </script>
+        </head>
+        <body>
+            <header>
+                <h1>b</h1>
+            </header>
+            <section>
+                <h1>chap2 陣列&amp;結構</h1>
+<h2>2.1 array0</h2>
+<h3>2.1.1 抽象化資料結構</h3>
+<p>Array由<index,value>組成</p>
+<h3>2.1.2 C language 下的陣列</h3>
+<ul>
+<li>link list 的陣列<ul>
+<li><code>int *list;</code></li>
+<li>透過指標直接指向記憶體空間</li>
+<li>配合malloc食用</li>
+</ul>
+</li>
+<li>一般固定大小陣列<ul>
+<li><code>int list[5];</code></li>
+<li><code>int list[]={1,2,3,4,5,6,7,8,9,10}</code></li>
+</ul>
+</li>
+</ul>
+<h2>2.2 動態陣列</h2>
+<h3>2.2.1 一維陣列</h3>
+<div class="codehilite"><pre><span></span><code>int main() {
+    // 使用malloc
+    int <span class="gs">*arr = (int *</span>)malloc(5 * sizeof(int));
+    free(new_arr);
+    return 0;
+}
+</code></pre></div>
+
+<h3>2.2.2 二維陣列</h3>
+<p><img alt="" src="https://th.bing.com/th/id/R.550976ea4de76c6e83a297d5699ae843?rik=4D851ZSDlc5q%2bQ&amp;riu=http%3a%2f%2f3.bp.blogspot.com%2f-_-Izz3tAT9w%2fVQ1jX7dwU2I%2fAAAAAAAAAG8%2fba9KC3ERA30%2fs1600%2fdynamics_2d_array.png&amp;ehk=gKTgu05j9EcWHhHGTGYZaR%2brIz3DSU%2fpivQMoE7CxOk%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0" /></p>
+<h4>malloc (分配記憶體)</h4>
+<p><code>addr=(type *) malloc(length*siezof(type))</code></p>
+<h4>realloc (重新分配記憶體，用於增加記憶體長度)</h4>
+<p><code>new_addr=(type *) realloc(old_addr,new_length*siezof(type))</code></p>
+<h2>2.3 結構(struct)&amp;連結(link list)</h2>
+<h3>2.3.1 結構(struct)</h3>
+<ul>
+<li><code>typedef struct</code></li>
+</ul>
+<div class="codehilite"><pre><span></span><code><span class="nx">typedef</span><span class="w"> </span><span class="nx">struct</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">char</span><span class="w"> </span><span class="nx">name</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span>
+<span class="w">    </span><span class="nx">int</span><span class="w"> </span><span class="nx">age</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">float</span><span class="w"> </span><span class="nx">salary</span><span class="p">;</span>
+<span class="p">}</span><span class="nx">example_use</span><span class="p">;</span>
+<span class="nx">int</span><span class="w"> </span><span class="nx">main</span><span class="p">(</span><span class="nx">int</span><span class="w"> </span><span class="nx">k</span><span class="p">,</span><span class="nx">char</span><span class="w"> </span><span class="o">*</span><span class="nx">arr</span><span class="p">[]){</span>
+<span class="w">    </span><span class="nx">example_use</span><span class="w"> </span><span class="nx">asd</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">asd</span><span class="p">.</span><span class="nx">age</span><span class="w"> </span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="nx">printf</span><span class="p">(</span><span class="s">&quot;%d\n&quot;</span><span class="p">,</span><span class="nx">asd</span><span class="p">.</span><span class="nx">age</span><span class="p">);</span><span class="w"> </span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<ul>
+<li><code>struct</code></li>
+</ul>
+<div class="codehilite"><pre><span></span><code>struct example_2{
+    char name[10];
+    int age;
+    float salary;
+};
+int main(int k,char *arr[]){
+    struct example_2 as2;
+    as2.salary=1.234;
+    printf(&quot;%f&quot;,as2.salary); 
+    return 0;
+}
+</code></pre></div>
+
+<h3>2.3.2 union</h3>
+<div class="codehilite"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+
+<span class="k">union</span><span class="w"> </span><span class="nc">SampleUnion</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">intValue</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">floatValue</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">stringValue</span><span class="p">[</span><span class="mi">20</span><span class="p">];</span>
+<span class="p">};</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">union</span><span class="w"> </span><span class="nc">SampleUnion</span><span class="w"> </span><span class="n">myUnion</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">myUnion</span><span class="p">.</span><span class="n">intValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">42</span><span class="p">;</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Integer value: %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">myUnion</span><span class="p">.</span><span class="n">intValue</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">myUnion</span><span class="p">.</span><span class="n">floatValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">3.14</span><span class="p">;</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Float value: %f</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">myUnion</span><span class="p">.</span><span class="n">floatValue</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">strcpy</span><span class="p">(</span><span class="n">myUnion</span><span class="p">.</span><span class="n">stringValue</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello, Union!&quot;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;String value: %s</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">myUnion</span><span class="p">.</span><span class="n">stringValue</span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<h3>2.3.3 結構內部實作</h3>
+<p>簡單而言，不用我們擔心</p>
+<h3>2.3.4 自我參考表(常見於link list)</h3>
+<div class="codehilite"><pre><span></span><code>struct link{
+    int value;  
+    struct link* next;
+};
+</code></pre></div>
+
+<h2>2.4 多項式</h2>
+<h3>2.4.1 抽象化資料型態</h3>
+<p>懶得做xN，簡單而言就是可以用在很多地方</p>
+<h3>2.4.2 多項式表示方式</h3>
+<div class="codehilite"><pre><span></span><code>struct poly{
+    int degree;//最高級數
+    float coef[100];//每級的係數
+};
+</code></pre></div>
+
+<div class="codehilite"><pre><span></span><code><span class="n">struct</span><span class="w"> </span><span class="n">poly</span><span class="w"> </span><span class="k">add</span><span class="p">(</span><span class="n">struct</span><span class="w"> </span><span class="n">poly</span><span class="w"> </span><span class="n">A</span><span class="p">,</span><span class="n">struct</span><span class="w"> </span><span class="n">poly</span><span class="w"> </span><span class="n">B</span><span class="p">)</span><span class="err">{</span>
+<span class="w">    </span><span class="n">struct</span><span class="w"> </span><span class="n">poly</span><span class="w"> </span><span class="n">D</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">A</span><span class="p">.</span><span class="n">degree</span><span class="o">&lt;</span><span class="n">B</span><span class="p">.</span><span class="n">degree</span><span class="p">)</span><span class="err">{</span>
+<span class="w">        </span><span class="n">D</span><span class="p">.</span><span class="n">degree</span><span class="o">=</span><span class="n">B</span><span class="p">.</span><span class="n">degree</span><span class="p">;</span>
+<span class="w">    </span><span class="err">}</span><span class="k">else</span><span class="err">{</span>
+<span class="w">        </span><span class="n">D</span><span class="p">.</span><span class="n">degree</span><span class="o">=</span><span class="n">A</span><span class="p">.</span><span class="n">degree</span><span class="p">;</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="w">    </span><span class="nc">int</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">D</span><span class="p">.</span><span class="n">degree</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="err">{</span>
+<span class="w">        </span><span class="n">D</span><span class="p">.</span><span class="n">coef</span><span class="o">[</span><span class="n">i</span><span class="o">]=</span><span class="n">A</span><span class="p">.</span><span class="n">coef</span><span class="o">[</span><span class="n">i</span><span class="o">]+</span><span class="n">B</span><span class="p">.</span><span class="n">coef</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">;</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="err">}</span>
+</code></pre></div>
+
+<h2>2.5 稀疏矩陣</h2>
+<h3>2.5.1 抽象化資料型態</h3>
+<p>稀疏矩陣（英語：sparse matrix），在數值分析中，是其元素大部分為零的矩陣。反之，如果大部分元素都非零，則這個矩陣是稠密(dense)的。在科學與工程領域中求解線性模型時經常出現大型的稀疏矩陣。</p>
+<h3>2.5.2 稀疏矩陣表示方式</h3>
+<div class="codehilite"><pre><span></span><code>struct term{
+    int col;
+    int row;
+    int value;
+};
+struct term matrix[item+1];
+</code></pre></div>
+
+<p>通常，在這個表示法的第一行，也就是matrix[0]會用於放置整個矩陣的基本訊息。</p>
+<ul>
+<li>matrix[0].col<ul>
+<li>matrix的行數</li>
+</ul>
+</li>
+<li>matrix[0].row<ul>
+<li>matrix的列數</li>
+</ul>
+</li>
+<li>matrix[0].value<ul>
+<li>matrix中的非0值的數量</li>
+</ul>
+</li>
+<li>排序<ul>
+<li>升序</li>
+<li>row&gt;col</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>i</th>
+<th>0</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>r</td>
+<td>6</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+<td>4</td>
+<td>5</td>
+</tr>
+<tr>
+<td>c</td>
+<td>6</td>
+<td>0</td>
+<td>3</td>
+<td>5</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>0</td>
+<td>2</td>
+</tr>
+<tr>
+<td>value</td>
+<td>8</td>
+<td>15</td>
+<td>22</td>
+<td>-15</td>
+<td>11</td>
+<td>3</td>
+<td>-6</td>
+<td>91</td>
+<td>28</td>
+</tr>
+</tbody>
+</table>
+<h3>2.5.3 轉置矩陣</h3>
+<h4>transpose</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">struct</span><span class="w"> </span><span class="n">term</span><span class="w"> </span><span class="o">*</span><span class="n">transpose</span><span class="p">(</span><span class="n">const</span><span class="w"> </span><span class="n">struct</span><span class="w"> </span><span class="n">term</span><span class="w"> </span><span class="o">*</span><span class="n">A</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="n">struct</span><span class="w"> </span><span class="n">term</span><span class="w"> </span><span class="o">*</span><span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">struct</span><span class="w"> </span><span class="n">term</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span>
+<span class="w">            </span><span class="p">(</span><span class="n">A</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">.</span><span class="k">value</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sizeof</span><span class="p">(</span><span class="n">struct</span><span class="w"> </span><span class="n">term</span><span class="p">));</span>
+<span class="w">    </span><span class="n">B</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">.</span><span class="k">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">.</span><span class="k">value</span><span class="p">;</span>
+<span class="w">    </span><span class="n">B</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">.</span><span class="k">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">.</span><span class="n">col</span><span class="p">;</span><span class="w">  </span>
+<span class="w">    </span><span class="n">B</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">.</span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">.</span><span class="k">row</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">A</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">.</span><span class="k">value</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="nc">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">;</span>
+<span class="w">        </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">A</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">.</span><span class="n">col</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">A</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">.</span><span class="k">value</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">A</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="p">.</span><span class="n">col</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                    </span><span class="n">B</span><span class="o">[</span><span class="n">k</span><span class="o">]</span><span class="p">.</span><span class="k">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="p">.</span><span class="k">value</span><span class="p">;</span>
+<span class="w">                    </span><span class="n">B</span><span class="o">[</span><span class="n">k</span><span class="o">]</span><span class="p">.</span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="p">.</span><span class="k">row</span><span class="p">;</span>
+<span class="w">                    </span><span class="n">B</span><span class="o">[</span><span class="n">k</span><span class="o">]</span><span class="p">.</span><span class="k">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="p">.</span><span class="n">col</span><span class="p">;</span>
+<span class="w">                    </span><span class="n">k</span><span class="o">++</span><span class="p">;</span>
+<span class="w">                </span><span class="err">}</span>
+<span class="w">            </span><span class="err">}</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">B</span><span class="p">;</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p>分析:
+正常而言 bigO: $\mathcal{O}(col\times value)$
+假設 value = $col\times row$
+⇒ $\mathcal{O}(col^2 \times row)$
+⇒ 太爛了
+$$\frac{1}{2}$$</p>
+<hr />
+<h4>fast transport(use counting sort)</h4>
+<div class="codehilite"><pre><span></span><code><span class="n">#define</span><span class="w"> </span><span class="n">MAX_TERMS</span><span class="w"> </span><span class="mi">101</span>
+<span class="n">#define</span><span class="w"> </span><span class="n">MAX_COL</span><span class="w"> </span><span class="mi">10</span>
+
+<span class="n">typedef</span><span class="w"> </span><span class="n">struct</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="nc">int</span><span class="w"> </span><span class="k">row</span><span class="p">;</span>
+<span class="w">    </span><span class="nc">int</span><span class="w"> </span><span class="n">col</span><span class="p">;</span>
+<span class="w">    </span><span class="nc">int</span><span class="w"> </span><span class="k">value</span><span class="p">;</span>
+<span class="err">}</span><span class="w"> </span><span class="n">Term</span><span class="p">;</span>
+
+<span class="n">void</span><span class="w"> </span><span class="n">fastTranspose</span><span class="p">(</span><span class="n">Term</span><span class="w"> </span><span class="n">a</span><span class="err">[]</span><span class="p">,</span><span class="w"> </span><span class="n">Term</span><span class="w"> </span><span class="n">b</span><span class="err">[]</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="nc">int</span><span class="w"> </span><span class="n">rowTerms</span><span class="o">[</span><span class="n">MAX_COL</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">startingPos</span><span class="o">[</span><span class="n">MAX_COL</span><span class="o">]</span><span class="p">;</span>
+
+<span class="w">    </span><span class="nc">int</span><span class="w"> </span><span class="n">numCols</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">.</span><span class="n">col</span><span class="p">;</span>
+<span class="w">    </span><span class="nc">int</span><span class="w"> </span><span class="n">numTerms</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">.</span><span class="k">value</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">b</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">.</span><span class="k">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">numCols</span><span class="p">;</span>
+<span class="w">    </span><span class="n">b</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">.</span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">.</span><span class="k">row</span><span class="p">;</span>
+<span class="w">    </span><span class="n">b</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">.</span><span class="k">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">numTerms</span><span class="p">;</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">numTerms</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="nc">int</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">numCols</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">rowTerms</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="err">}</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">numTerms</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">rowTerms</span><span class="o">[</span><span class="n">a[i</span><span class="o">]</span><span class="p">.</span><span class="n">col</span><span class="err">]</span><span class="o">++</span><span class="p">;</span>
+<span class="w">        </span><span class="err">}</span>
+
+<span class="w">        </span><span class="n">startingPos</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">numCols</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="n">startingPos</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">startingPos</span><span class="o">[</span><span class="n">i - 1</span><span class="o">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">rowTerms</span><span class="o">[</span><span class="n">i - 1</span><span class="o">]</span><span class="p">;</span>
+<span class="w">        </span><span class="err">}</span>
+
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="n">numTerms</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="nc">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">startingPos</span><span class="o">[</span><span class="n">a[i</span><span class="o">]</span><span class="p">.</span><span class="n">col</span><span class="err">]</span><span class="o">++</span><span class="p">;</span>
+<span class="w">            </span><span class="n">b</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="p">.</span><span class="k">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="n">col</span><span class="p">;</span>
+<span class="w">            </span><span class="n">b</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="p">.</span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="k">row</span><span class="p">;</span>
+<span class="w">            </span><span class="n">b</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="p">.</span><span class="k">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="k">value</span><span class="p">;</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+
+<p>基本上就跟counting sort 的內容非常相像</p>
+<h3>2.5.4 矩陣乘法</h3>
+<div class="codehilite"><pre><span></span><code><span class="n">#define</span><span class="w"> </span><span class="n">MAX_TERMS</span><span class="w"> </span><span class="mi">100</span>
+<span class="n">typedef</span><span class="w"> </span><span class="n">struct</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="nc">int</span><span class="w"> </span><span class="k">row</span><span class="p">;</span>
+<span class="w">    </span><span class="nc">int</span><span class="w"> </span><span class="n">col</span><span class="p">;</span>
+<span class="w">    </span><span class="nc">int</span><span class="w"> </span><span class="k">value</span><span class="p">;</span>
+<span class="err">}</span><span class="w"> </span><span class="n">Term</span><span class="p">;</span>
+<span class="n">void</span><span class="w"> </span><span class="n">sparseMatrixMultiplication</span><span class="p">(</span><span class="n">Term</span><span class="w"> </span><span class="n">A</span><span class="err">[]</span><span class="p">,</span><span class="w"> </span><span class="n">Term</span><span class="w"> </span><span class="n">B</span><span class="err">[]</span><span class="p">,</span><span class="w"> </span><span class="n">Term</span><span class="w"> </span><span class="k">result</span><span class="err">[]</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="k">Initialize</span><span class="w"> </span><span class="k">result</span><span class="w"> </span><span class="n">matrix</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="nc">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">MAX_TERMS</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="k">result</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="k">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="k">result</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="k">result</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="k">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="err">}</span>
+
+<span class="w">    </span><span class="o">//</span><span class="w"> </span><span class="n">Multiply</span><span class="w"> </span><span class="n">matrices</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">B</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="nc">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">MAX_TERMS</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="k">value</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="nc">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">MAX_TERMS</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">B</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="p">.</span><span class="k">value</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">j</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="n">col</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">B</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="p">.</span><span class="k">row</span><span class="p">)</span><span class="w"> </span><span class="err">{</span>
+<span class="w">                </span><span class="o">//</span><span class="w"> </span><span class="n">Multiply</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">accumulate</span>
+<span class="w">                </span><span class="k">result</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="k">value</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="k">value</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="p">.</span><span class="k">value</span><span class="p">;</span>
+<span class="w">                </span><span class="k">result</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="k">row</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="k">row</span><span class="p">;</span>
+<span class="w">                </span><span class="k">result</span><span class="o">[</span><span class="n">i</span><span class="o">]</span><span class="p">.</span><span class="n">col</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="o">[</span><span class="n">j</span><span class="o">]</span><span class="p">.</span><span class="n">col</span><span class="p">;</span>
+<span class="w">            </span><span class="err">}</span>
+<span class="w">        </span><span class="err">}</span>
+<span class="w">    </span><span class="err">}</span>
+<span class="err">}</span>
+</code></pre></div>
+            </section>
+            <footer>
+                <p><a href="/index.html">回首頁</a></p>
+            </footer>
+        </body>
+        </html>
+        

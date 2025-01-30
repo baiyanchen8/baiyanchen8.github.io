@@ -9,21 +9,5 @@
             "updated_at": "2025-01-19 13:05:23"
         }
     ],
-    "posts": [
-        {
-            "title": "a",
-            "path": "posts/html/a.html",
-            "updated_at": "2025-01-28 18:12:12"
-        },
-        {
-            "title": "b",
-            "path": "posts/html/b.html",
-            "updated_at": "2025-01-28 18:12:11"
-        },
-        {
-            "title": "a",
-            "path": "posts/html/os/a.html",
-            "updated_at": "2025-01-28 18:12:12"
-        }
-    ]
+    "posts": []
 }

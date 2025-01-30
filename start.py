@@ -8,7 +8,7 @@ import markdown
 # 設定資料夾路徑
 IMAGES_DIR = "asserts/images"
 POSTS_DIR = "posts/html"
-MD_DIR = "posts/md"
+MD_DIR = "md"
 JSON_FILE = "asserts/file-list.json"
 
 def generate_file_list():
