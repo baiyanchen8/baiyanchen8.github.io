@@ -2,33 +2,18 @@
     "images": [
         {
             "path": "asserts/images/473835963_585849400909270_1187584186742331347_n.jpg",
-            "updated_at": "2025-02-05 20:06:57"
+            "updated_at": "2025-01-28 19:11:32"
         },
         {
             "path": "asserts/images/europe_nature_4k_wallpaper_desktop_backgrounds_a580.jpg",
-            "updated_at": "2025-02-05 20:06:57"
+            "updated_at": "2025-01-19 13:05:23"
         }
     ],
     "posts": [
         {
-            "title": "a",
-            "path": "posts/a.html",
-            "updated_at": "2025-02-05 20:06:57"
-        },
-        {
-            "title": "b",
-            "path": "posts/b.html",
-            "updated_at": "2025-02-05 20:06:57"
-        },
-        {
-            "title": "a",
-            "path": "posts/os/a.html",
-            "updated_at": "2025-02-05 20:06:57"
-        },
-        {
-            "title": "index",
-            "path": "posts/os/index.html",
-            "updated_at": "2025-02-05 20:08:45"
+            "title": "teteris",
+            "path": "posts/teteris.html",
+            "updated_at": "2025-02-06 23:07:43"
         }
     ]
 }
