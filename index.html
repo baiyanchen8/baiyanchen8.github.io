@@ -61,8 +61,8 @@
 
         // 動態載入文章（依主題分類）
         const blogList = document.getElementById('blog-list');
-        const sort_key=Object.keys(data.posts).sort();
-        sort_key.forEach(theme => {
+        const sortedThemes=Object.keys(data.posts).sort();
+        sortedThemes.forEach(theme => {
           // 建立主題標題
           const themeHeader = document.createElement('h3');
           themeHeader.textContent = theme;
@@ -70,8 +70,10 @@
 
           // 建立文章清單
           const postList = document.createElement('ul');
-          theme.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
-          theme.forEach(post => {
+          
+          theme
+          .filter(post => post.title.toLowerCase() !== 'index') // 排除 index.html
+          .forEach(post => {
             const li = document.createElement('li');
 
             const a = document.createElement('a');
