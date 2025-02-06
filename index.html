@@ -70,8 +70,7 @@
 
           // 建立文章清單
           const postList = document.createElement('ul');
-          
-          theme
+          data.posts[theme]
           .filter(post => post.title.toLowerCase() !== 'index') // 排除 index.html
           .forEach(post => {
             const li = document.createElement('li');
