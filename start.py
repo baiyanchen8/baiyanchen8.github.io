@@ -15,7 +15,7 @@ def generate_file_list():
     """生成 JSON 檔案清單，支援樹狀結構"""
     file_list = {
         "images": [],
-        "posts": []
+        "posts": {}
     }
 
     # 處理圖片
@@ -25,24 +25,28 @@ def generate_file_list():
                 file_path = os.path.join(root, file_name)
                 file_list["images"].append({
                     "path": file_path.replace("\\", "/"),  # 路徑格式化
-                    "updated_at": os.path.getmtime(file_path)  # 取得最後修改時間
+                    "updated_at": datetime.fromtimestamp(os.path.getmtime(file_path)).strftime('%Y-%m-%d %H:%M:%S')  # 轉換為可讀格式
                 })
 
-    # 處理文章
+    # 處理文章，按主題分類
     for root, _, files in os.walk(POSTS_DIR):
         for file_name in files:
             if file_name.lower().endswith('.html'):
-                file_path = os.path.join(root, file_name)
-                file_list["posts"].append({
-                    "title": file_name.replace(".html", ""),  # 預設以檔名為標題
-                    "path": file_path.replace("\\", "/"),
-                    "updated_at": os.path.getmtime(file_path)
-                })
+                file_path = os.path.join(root, file_name).replace("\\", "/")
+                
+                # 解析主題名稱，例如 "posts/001.game/teteris.html" -> theme = "001.game"
+                parts = file_path.split('/')
+                if len(parts) >= 3:
+                    theme = parts[1]  # 取得主題名稱，例如 "001.game"
 
-    # 將更新時間轉換成人類可讀的格式
-    for section in ["images", "posts"]:
-        for item in file_list[section]:
-            item["updated_at"] = datetime.fromtimestamp(item["updated_at"]).strftime('%Y-%m-%d %H:%M:%S')
+                    if theme not in file_list["posts"]:
+                        file_list["posts"][theme] = []  # 如果主題不存在，先建立
+
+                    file_list["posts"][theme].append({
+                        "title": file_name.replace(".html", ""),  # 以檔名為標題
+                        "path": file_path,
+                        "updated_at": datetime.fromtimestamp(os.path.getmtime(file_path)).strftime('%Y-%m-%d %H:%M:%S')
+                    })
 
     return file_list
 

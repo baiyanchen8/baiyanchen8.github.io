@@ -2,10 +2,10 @@
 <html lang="zh-TW">
 <head>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>我的部落格</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的部落格</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
@@ -26,97 +26,71 @@
   
   <section id="blog">
     <h2>最新文章</h2>
-    <ul id="blog-list">
-      <!-- JavaScript 會動態插入文章連結 -->
-    </ul>
+    <div id="blog-list">
+      <!-- JavaScript 會動態插入文章主題與連結 -->
+    </div>
   </section>
 
   <section id="contact">
     <h2>聯絡我</h2>
     <p>如果你有任何問題或合作提案，歡迎透過以下方式聯絡我：</p>
     <ul>
-      <li>Email: <a href="mailto:yourname@example.com">yourname@example.com</a></li>
+      <li>Email: <a href="mailto:baiyanchen8@example.com">baiyanchen8@example.com</a></li>
       <li>GitHub: <a href="https://github.com/baiyanchen8" target="_blank">baiyanchen8</a></li>
-      <li>LinkedIn: <a href="https://www.linkedin.com/in/your-profile" target="_blank">你的 LinkedIn</a></li>
-      <li>Twitter: <a href="https://twitter.com/yourprofile" target="_blank">@yourprofile</a></li>
+      <li>HackMD: <a href="https://hackmd.io/@baiyanchen8" target="_blank">baiyanchen8 的 HackMD</a></li>
     </ul>
   </section>
-  
 
   <footer>
     <p>© 2025 我的部落格 | <a href="https://github.com/baiyanchen8">GitHub</a></p>
   </footer>
 
-  <script >
+  <script>
     fetch('asserts/file-list.json')
-  .then(response => response.json())
-  .then(data => {
-    // 動態載入圖片
-    const galleryContainer = document.getElementById('gallery-container');
+      .then(response => response.json())
+      .then(data => {
+        // 動態載入圖片
+        const galleryContainer = document.getElementById('gallery-container');
+        data.images.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+        data.images.forEach(image => {
+          const img = document.createElement('img');
+          img.src = image.path;
+          img.alt = '作品';
+          galleryContainer.appendChild(img);
+        });
 
-    // 根據修改時間排序圖片
-    data.images.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+        // 動態載入文章（依主題分類）
+        const blogList = document.getElementById('blog-list');
+        Object.keys(data.posts).forEach(theme => {
+          // 建立主題標題
+          const themeHeader = document.createElement('h3');
+          themeHeader.textContent = theme;
+          blogList.appendChild(themeHeader);
 
-    // 載入已排序的圖片
-    data.images.forEach(image => {
-      const img = document.createElement('img');
-      img.src = image.path;
-      img.alt = '作品';
-      galleryContainer.appendChild(img);
-    });
+          // 建立文章清單
+          const postList = document.createElement('ul');
+          data.posts[theme].sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+          data.posts[theme].forEach(post => {
+            const li = document.createElement('li');
 
-    // 動態載入文章
-    const blogList = document.getElementById('blog-list');
+            const a = document.createElement('a');
+            a.classList.add('a1');
+            a.href = post.path;
+            a.textContent = post.title;
 
-    // 根據修改時間排序文章
-    data.posts.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+            const updatedTimeElement = document.createElement('div');
+            updatedTimeElement.classList.add('updated-time');
+            updatedTimeElement.textContent = `最後更新時間: ${post.updated_at}`;
 
-    // 載入已排序的文章
-    data.posts.forEach(post => {
-      const li = document.createElement('li');
-    
-      // 創建標題和路徑的容器
-      const titlePathContainer = document.createElement('div');
-      titlePathContainer.classList.add('title-path-container');
-    
-      // 創建標題
-      const a = document.createElement('a');
-      a.classList.add('a1');
-      a.href = post.path;
-      a.textContent = post.title;
-    
-      // 創建路徑
-      const pathElement = document.createElement('span');
-      pathElement.classList.add('path-info');
-      pathElement.textContent = `路徑: ${post.path.replace('posts/html/', 'html/')}`;
-    
-      // 創建更新時間
-      const updatedTimeElement = document.createElement('div');
-      updatedTimeElement.classList.add('updated-time');
-      updatedTimeElement.textContent = `最後更新時間: ${new Date(post.updated_at).toLocaleString('zh-TW', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-      })}`;
-    
-      // 添加到容器
-      titlePathContainer.appendChild(a);
-      titlePathContainer.appendChild(pathElement);
-    
-      // 添加容器到 li
-      li.appendChild(titlePathContainer);
-      li.appendChild(updatedTimeElement);
-    
-      // 添加 li 到 blogList
-      blogList.appendChild(li);
-    });
-    
-  })
-  .catch(error => console.error('無法載入 JSON：', error));
+            li.appendChild(a);
+            li.appendChild(updatedTimeElement);
+            postList.appendChild(li);
+          });
 
+          blogList.appendChild(postList);
+        });
+      })
+      .catch(error => console.error('無法載入 JSON：', error));
   </script>
 </body>
 </html>
