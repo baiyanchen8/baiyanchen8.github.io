@@ -1,0 +1,176 @@
+/* 全域設定 */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #121212; /* 黑色背景 */
+  color: #ffffff; /* 白色文字 */
+  word-wrap: break-word; /* 自動換行 */
+  word-break: break-word; /* 長單詞換行 */
+  white-space: normal; /* 允許換行 */
+}
+
+/* 頁首 */
+header {
+  background: #1f1f1f;
+  padding: 1rem;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
+}
+
+/* 導覽連結 */
+nav a {
+  color: #ffffff;
+  margin: 0 1rem;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* 內容區塊 */
+section {
+  padding: 2rem;
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+/* 圖片展示區 */
+.gallery-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.gallery-container img {
+  width: 100%;
+  max-width: 200px;
+  border: 2px solid #333;
+  border-radius: 5px;
+}
+
+/* 列表區塊 */
+li {
+  padding: 10px 0;
+  border-bottom: 1px solid #444;
+}
+
+/* 標題與路徑容器 */
+.title-path-container {
+  display: flex;
+  justify-content: space-between; /* 左右對齊 */
+  align-items: center;
+  margin-bottom: 5px; /* 與更新時間間距 */
+}
+
+/* 標題 */
+.a1 {
+  color: #ffffff;
+  text-decoration: none;
+  flex: 1; /* 自適應寬度 */
+}
+
+/* 路徑 */
+.path-info {
+  color: #888;
+  font-size: 0.9rem;
+  white-space: nowrap; /* 防止換行 */
+}
+
+/* 更新時間 */
+.updated-time {
+  color: #888;
+  font-size: 0.8rem;
+  text-align: right;
+}
+
+/* 表格設定 */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+  background-color: #1f1f1f; /* 深色背景 */
+  color: #ffffff; /* 白色文字 */
+  border: 1px solid #333; /* 表格邊框 */
+  table-layout: auto; /* 自動調整表格寬度 */
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid #333; /* 表格邊框 */
+  word-wrap: break-word; /* 自動換行 */
+  word-break: break-word; /* 遇到長字串換行 */
+  white-space: normal; /* 正常換行 */
+}
+
+th {
+  background-color: #333333; /* 深色背景的表頭 */
+  font-weight: bold; /* 表頭文字加粗 */
+}
+
+td {
+  background-color: #1f1f1f;
+}
+
+tr:nth-child(even) {
+  background-color: #2a2a2a; /* 偶數行背景色 */
+}
+
+tr:hover {
+  background-color: #444444; /* 滑鼠懸停效果 */
+}
+
+/* 調整程式碼區塊的樣式 */
+pre {
+  background-color: #333333; /* 灰色背景 */
+  color: #ffffff; /* 白色文字 */
+  padding: 10px;
+  overflow: auto;
+  border-radius: 5px; /* 圓角 */
+  word-wrap: break-word; /* 自動換行 */
+  word-break: break-word; /* 長字串換行 */
+}
+
+code {
+  font-family: Consolas, monospace; /* 使用固定寬度字型 */
+  background-color: #333333; /* 灰色背景 */
+  color: #ffffff; /* 白色文字 */
+  padding: 2px 5px; /* 增加內邊距 */
+  border-radius: 3px; /* 圓角 */
+}
+
+/* 圖片 */
+img {
+  max-width: 100%;
+  height: auto;
+}
+ul{
+  list-style-type: decimal-leading-zero;
+}
+/* 段落與標題 */
+p, h1, h2, h3, h4, h5, h6, ul, ol, li, blockquote, span, div {
+  word-wrap: break-word; /* 自動換行 */
+  word-break: break-word; /* 長字串換行 */
+  white-space: normal; /* 允許換行 */
+}
+
+/* 頁腳 */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background: #1f1f1f;
+}
+
+footer a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
