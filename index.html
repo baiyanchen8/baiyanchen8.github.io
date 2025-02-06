@@ -25,7 +25,7 @@
   </section>
   
   <section id="blog">
-    <h2>最新文章</h2>
+    <h2>文章</h2>
     <div id="blog-list">
       <!-- JavaScript 會動態插入文章主題與連結 -->
     </div>
@@ -61,7 +61,8 @@
 
         // 動態載入文章（依主題分類）
         const blogList = document.getElementById('blog-list');
-        Object.keys(data.posts).forEach(theme => {
+        const sort_key=Object.keys(data.posts).sort();
+        sort_key.forEach(theme => {
           // 建立主題標題
           const themeHeader = document.createElement('h3');
           themeHeader.textContent = theme;
