@@ -20,10 +20,8 @@
     }
 
     #gameContainer {
-      display: inline-block;
       display: flex;
       align-items: flex-start;
-      justify-content: flex-end;
     }
 
     canvas {
@@ -44,25 +42,16 @@
       background-color: #666;
     }
 
-    select {
-      padding: 5px;
-      background-color: #444;
-      color: white;
-      border: none;
-      font-size: 16px;
-    }
-
     .info-board {
       display: flex;
       flex-direction: column;
-      margin: 10px 0;
       margin-left: 20px;
     }
 
-    #score-block, #lines-cleared, #level-display, #music-controls {
+    #score-block, #level-block, #lines-block {
       display: flex;
       justify-content: center;
-      margin-top: 10px;
+      margin: 5px 0;
     }
 
     #function-button {
@@ -75,15 +64,12 @@
       background-color: #222;
     }
 
-    #difficulty-select {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 10px;
-    }
-
-    #difficulty {
-      margin-left: 10px;
+    select {
+      margin: 5px;
+      padding: 5px;
+      background-color: #444;
+      color: white;
+      border: none;
     }
   </style>
 </head>
@@ -93,16 +79,6 @@
   <canvas width="320" height="640" id="game"></canvas>
 
   <div class="info-board">
-
-    <div id="difficulty-select">
-      難度:
-      <select id="difficulty">
-        <option value="easy">簡單</option>
-        <option value="medium" selected>普通</option>
-        <option value="hard">困難</option>
-      </select>
-    </div>
-
     <div>
       <canvas width="163" height="163" id="nextCanvas"></canvas>
     </div>
@@ -111,11 +87,11 @@
       分數: <span id="score">0</span>
     </div>
 
-    <div id="lines-cleared">
-      已消除行數: <span id="lines">0</span>
+    <div id="lines-block">
+      行數: <span id="lines">0</span>
     </div>
 
-    <div id="level-display">
+    <div id="level-block">
       等級: <span id="level">1</span>
     </div>
 
@@ -124,29 +100,29 @@
       <button id="pauseButton">暫停</button>
     </div>
 
-    <div id="music-controls">
-      <button id="toggleMusicButton">音樂：開</button>
+    <div>
+      難度:
+      <select id="difficultySelect">
+        <option value="1">簡單</option>
+        <option value="2">普通</option>
+        <option value="3">困難</option>
+      </select>
     </div>
-
   </div>
-
 </div>
 
 <script>
-// 工具函式
+// 隨機產生方塊的工具函式
 function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// 生成隨機方塊序列
+// 生成隨機的方塊序列
 function generateSequence() {
   const sequence = ['I', 'J', 'L', 'O', 'S', 'T', 'Z'];
   while (sequence.length) {
     const rand = getRandomInt(0, sequence.length - 1);
-    const name = sequence.splice(rand, 1)[0];
-    tetrominoSequence.push(name);
+    tetrominoSequence.push(sequence.splice(rand, 1)[0]);
   }
 }
 
@@ -162,6 +138,9 @@ function getNextTetromino() {
   const row = name === 'I' ? -1 : -2;
 
   // 更新下一個方塊預覽
+  if (tetrominoSequence.length === 0) {
+    generateSequence();
+  }
   nextTetromino = tetrominoSequence[tetrominoSequence.length - 1];
   drawNextTetromino();
 
@@ -170,13 +149,10 @@ function getNextTetromino() {
 
 // 旋轉方塊
 function rotate(matrix) {
-  const N = matrix.length - 1;
-  return matrix.map((row, i) =>
-    row.map((_, j) => matrix[N - j][i])
-  );
+  return matrix.map((_, i) => matrix.map(row => row[i]).reverse());
 }
 
-// 檢查方塊是否能移動
+// 檢查移動是否合法
 function isValidMove(matrix, cellRow, cellCol) {
   for (let row = 0; row < matrix.length; row++) {
     for (let col = 0; col < matrix[row].length; col++) {
@@ -184,7 +160,7 @@ function isValidMove(matrix, cellRow, cellCol) {
           cellCol + col < 0 ||
           cellCol + col >= playfield[0].length ||
           cellRow + row >= playfield.length ||
-          playfield[cellRow + row][cellCol + col])
+          playfield[cellRow + row]?.[cellCol + col])
         ) {
         return false;
       }
@@ -193,9 +169,9 @@ function isValidMove(matrix, cellRow, cellCol) {
   return true;
 }
 
-// 放置方塊並計算分數與行數
+// 放置方塊並計算分數
 function placeTetromino() {
-  let lineCleared = 0;
+  let linesCleared = 0;
 
   for (let row = 0; row < tetromino.matrix.length; row++) {
     for (let col = 0; col < tetromino.matrix[row].length; col++) {
@@ -208,38 +184,30 @@ function placeTetromino() {
     }
   }
 
-  // 檢查行是否滿
+  // 檢查行數
   for (let row = playfield.length - 1; row >= 0; ) {
     if (playfield[row].every(cell => !!cell)) {
-      lineCleared++;
-      for (let r = row; r > 0; r--) {
-        playfield[r] = [...playfield[r - 1]];
-      }
-      playfield[0] = new Array(10).fill(0);
+      linesCleared++;
+      playfield.splice(row, 1);
+      playfield.unshift(new Array(10).fill(0));
     } else {
       row--;
     }
   }
 
-  if (lineCleared > 0) {
-    lineClearSound.play();
-    linesCleared += lineCleared;
+  // 更新分數與行數
+  if (linesCleared > 0) {
     const points = [0, 100, 300, 500, 800];
-    score += points[lineCleared] * level;
+    score += points[linesCleared];
+    linesClearedTotal += linesCleared;
     updateScoreDisplay();
-    updateLinesDisplay();
-
-    if (linesCleared >= level * 10) {
-      level++;
-      dropSpeed = Math.max(10, dropSpeed - 5);
-      updateLevelDisplay();
-    }
   }
 
+  updateLevel();
   tetromino = getNextTetromino();
 }
 
-// 顯示遊戲結束
+// 顯示 Game Over
 function showGameOver() {
   cancelAnimationFrame(rAF);
   gameOver = true;
@@ -257,16 +225,12 @@ function showGameOver() {
 
 // 重新開始遊戲
 function resetGame() {
-  for (let row = -2; row < 20; row++) {
-    playfield[row] = new Array(10).fill(0);
-  }
+  playfield.forEach((row, idx) => playfield[idx] = Array(10).fill(0));
   score = 0;
-  linesCleared = 0;
+  linesClearedTotal = 0;
   level = 1;
-  dropSpeed = initialDropSpeed;
   updateScoreDisplay();
-  updateLinesDisplay();
-  updateLevelDisplay();
+  updateLevel();
   tetrominoSequence.length = 0;
   tetromino = getNextTetromino();
   gameOver = false;
@@ -275,7 +239,7 @@ function resetGame() {
   rAF = requestAnimationFrame(loop);
 }
 
-// 暫停/繼續遊戲
+// 暫停或繼續遊戲
 function togglePause() {
   if (gameOver) return;
   isPaused = !isPaused;
@@ -285,36 +249,39 @@ function togglePause() {
   }
 }
 
-// 更新分數、行數、等級顯示
+// 更新分數與行數顯示
 function updateScoreDisplay() {
   document.getElementById('score').textContent = score;
+  document.getElementById('lines').textContent = linesClearedTotal;
 }
 
-function updateLinesDisplay() {
-  document.getElementById('lines').textContent = linesCleared;
-}
-
-function updateLevelDisplay() {
+// 更新等級
+function updateLevel() {
+  level = Math.floor(linesClearedTotal / 10) + 1;
   document.getElementById('level').textContent = level;
+  dropInterval = baseDropInterval - (level - 1) * 50;
 }
 
 // 繪製下一個方塊
 function drawNextTetromino() {
   nextContext.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
   const matrix = tetrominos[nextTetromino];
+
+  if (!matrix) return;  // 防止 undefined 錯誤
+
   const color = colors[nextTetromino];
   const size = 32;
   const offsetX = (nextCanvas.width - matrix[0].length * size) / 2;
   const offsetY = (nextCanvas.height - matrix.length * size) / 2;
 
   nextContext.fillStyle = color;
-  for (let row = 0; row < matrix.length; row++) {
-    for (let col = 0; col < matrix[row].length; col++) {
-      if (matrix[row][col]) {
-        nextContext.fillRect(offsetX + col * size, offsetY + row * size, size - 1, size - 1);
+  matrix.forEach((row, rowIndex) => {
+    row.forEach((cell, colIndex) => {
+      if (cell) {
+        nextContext.fillRect(offsetX + colIndex * size, offsetY + rowIndex * size, size - 1, size - 1);
       }
-    }
-  }
+    });
+  });
 }
 
 // 遊戲主循環
@@ -324,18 +291,17 @@ function loop() {
   rAF = requestAnimationFrame(loop);
   context.clearRect(0, 0, canvas.width, canvas.height);
 
-  for (let row = 0; row < 20; row++) {
-    for (let col = 0; col < 10; col++) {
-      if (playfield[row][col]) {
-        const name = playfield[row][col];
-        context.fillStyle = colors[name];
-        context.fillRect(col * grid, row * grid, grid - 1, grid - 1);
+  playfield.forEach((row, rowIndex) => {
+    row.forEach((cell, colIndex) => {
+      if (cell) {
+        context.fillStyle = colors[cell];
+        context.fillRect(colIndex * grid, rowIndex * grid, grid - 1, grid - 1);
       }
-    }
-  }
+    });
+  });
 
   if (tetromino) {
-    if (++count > dropSpeed) {
+    if (++count > dropInterval / difficultyMultiplier) {
       tetromino.row++;
       count = 0;
 
@@ -346,13 +312,13 @@ function loop() {
     }
 
     context.fillStyle = colors[tetromino.name];
-    for (let row = 0; row < tetromino.matrix.length; row++) {
-      for (let col = 0; col < tetromino.matrix[row].length; col++) {
-        if (tetromino.matrix[row][col]) {
-          context.fillRect((tetromino.col + col) * grid, (tetromino.row + row) * grid, grid - 1, grid - 1);
+    tetromino.matrix.forEach((row, rowIndex) => {
+      row.forEach((cell, colIndex) => {
+        if (cell) {
+          context.fillRect((tetromino.col + colIndex) * grid, (tetromino.row + rowIndex) * grid, grid - 1, grid - 1);
         }
-      }
-    }
+      });
+    });
   }
 }
 
@@ -379,43 +345,20 @@ document.addEventListener('keydown', function(e) {
     if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
       tetromino.row = row - 1;
       placeTetromino();
-      return;
+    } else {
+      tetromino.row = row;
     }
-    tetromino.row = row;
   }
 });
 
-// 綁定按鈕事件
+// 綁定按鈕與難度調整
 document.getElementById('restartButton').addEventListener('click', resetGame);
 document.getElementById('pauseButton').addEventListener('click', togglePause);
-document.getElementById('difficulty').addEventListener('change', function(e) {
-  const difficulty = e.target.value;
-  switch (difficulty) {
-    case 'easy':
-      dropSpeed = 50;
-      break;
-    case 'medium':
-      dropSpeed = 35;
-      break;
-    case 'hard':
-      dropSpeed = 20;
-      break;
-  }
+document.getElementById('difficultySelect').addEventListener('change', function() {
+  difficultyMultiplier = parseInt(this.value, 10);
 });
 
-// 音樂控制
-document.getElementById('toggleMusicButton').addEventListener('click', function() {
-  if (isMusicPlaying) {
-    bgMusic.pause();
-    this.textContent = '音樂：關';
-  } else {
-    bgMusic.play();
-    this.textContent = '音樂：開';
-  }
-  isMusicPlaying = !isMusicPlaying;
-});
-
-// 初始化
+// 初始化變數
 const canvas = document.getElementById('game');
 const context = canvas.getContext('2d');
 const grid = 32;
@@ -424,33 +367,21 @@ const nextCanvas = document.getElementById('nextCanvas');
 const nextContext = nextCanvas.getContext('2d');
 
 const tetrominoSequence = [];
-const playfield = [];
+const playfield = Array.from({ length: 20 }, () => Array(10).fill(0));
 
 let count = 0;
 let score = 0;
-let linesCleared = 0;
+let linesClearedTotal = 0;
 let level = 1;
 let gameOver = false;
 let isPaused = false;
 let rAF = null;
 let nextTetromino = null;
-let initialDropSpeed = 35;
-let dropSpeed = initialDropSpeed;
 
-// 音效與背景音樂
-const bgMusic = new Audio('Pixel Dreams.mp3');
-bgMusic.loop = true;
-bgMusic.volume = 0.5;
-bgMusic.play();
+const baseDropInterval = 1000;
+let dropInterval = baseDropInterval;
+let difficultyMultiplier = 1;
 
-const lineClearSound = new Audio('asd.wav');
-let isMusicPlaying = true;
-
-// 建立初始場景
-for (let row = -2; row < 20; row++) {
-  playfield[row] = new Array(10).fill(0);
-}
-              
 // 方塊形狀與顏色
 const tetrominos = {
   'I': [[0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0]],
@@ -472,7 +403,7 @@ const colors = {
   'L': 'orange'
 };
 
-// 開始遊戲
+// 啟動遊戲
 tetromino = getNextTetromino();
 rAF = requestAnimationFrame(loop);
 </script>
