@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-TW">
 <head>
-  <title>Enhanced Tetris Game</title>
   <meta charset="UTF-8">
+  <title>Enhanced Tetris Game</title>
   <style>
     html, body {
       height: 100%;
@@ -20,10 +20,9 @@
     }
 
     #gameContainer {
-      display: inline-block;
       display: flex;
       align-items: flex-start;
-      justify-content: flex-end;
+      justify-content: center;
     }
 
     canvas {
@@ -38,6 +37,7 @@
       color: white;
       border: none;
       cursor: pointer;
+      border-radius: 5px;
     }
 
     button:hover {
@@ -68,7 +68,6 @@
     #function-button {
       display: flex;
       justify-content: center;
-      flex-direction: row;
     }
 
     #nextCanvas {
@@ -84,6 +83,57 @@
 
     #difficulty {
       margin-left: 10px;
+    }
+
+    /* 觸控按鈕樣式 */
+    #touchControls {
+      display: none; /* 預設隱藏，僅在手機顯示 */
+      margin-top: 15px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    #touchControls button {
+      width: 60px;
+      height: 60px;
+      font-size: 24px;
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #touchControls button:hover {
+      background-color: #555;
+    }
+
+    /* 響應式設計 */
+    @media (max-width: 600px) {
+      body {
+        flex-direction: column;
+      }
+
+      #gameContainer {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      canvas {
+        width: 90vw;
+        height: auto;
+      }
+
+      .info-board {
+        margin-left: 0;
+        margin-top: 10px;
+        align-items: center;
+      }
+
+      #touchControls {
+        display: flex; /* 在手機顯示觸控按鈕 */
+      }
     }
   </style>
 </head>
@@ -129,7 +179,14 @@
     </div>
 
   </div>
+</div>
 
+<!-- 觸控按鈕區塊 -->
+<div id="touchControls">
+  <button id="leftButton">←</button>
+  <button id="rotateButton">⟳</button>
+  <button id="rightButton">→</button>
+  <button id="downButton">↓</button>
 </div>
 
 <script>
@@ -157,12 +214,6 @@ function getNextTetromino() {
   }
 
   const name = tetrominoSequence.pop();
-
-  // 新增檢查：若pop後序列為空，重新生成
-  if (tetrominoSequence.length === 0) {
-    generateSequence();
-  }
-
   nextTetromino = tetrominoSequence[tetrominoSequence.length - 1];
   drawNextTetromino();
 
@@ -361,7 +412,7 @@ function loop() {
   }
 }
 
-// 控制方塊移動
+// 鍵盤控制
 document.addEventListener('keydown', function(e) {
   if (gameOver || isPaused) return;
 
@@ -420,6 +471,34 @@ document.getElementById('toggleMusicButton').addEventListener('click', function(
   isMusicPlaying = !isMusicPlaying;
 });
 
+// 觸控按鈕控制
+document.getElementById('leftButton').addEventListener('click', function() {
+  if (isValidMove(tetromino.matrix, tetromino.row, tetromino.col - 1)) {
+    tetromino.col--;
+  }
+});
+
+document.getElementById('rightButton').addEventListener('click', function() {
+  if (isValidMove(tetromino.matrix, tetromino.row, tetromino.col + 1)) {
+    tetromino.col++;
+  }
+});
+
+document.getElementById('rotateButton').addEventListener('click', function() {
+  const rotated = rotate(tetromino.matrix);
+  if (isValidMove(rotated, tetromino.row, tetromino.col)) {
+    tetromino.matrix = rotated;
+  }
+});
+
+document.getElementById('downButton').addEventListener('click', function() {
+  if (isValidMove(tetromino.matrix, tetromino.row + 1, tetromino.col)) {
+    tetromino.row++;
+  } else {
+    placeTetromino();
+  }
+});
+
 // 初始化
 const canvas = document.getElementById('game');
 const context = canvas.getContext('2d');
@@ -455,7 +534,7 @@ let isMusicPlaying = true;
 for (let row = -2; row < 20; row++) {
   playfield[row] = new Array(10).fill(0);
 }
-              
+
 // 方塊形狀與顏色
 const tetrominos = {
   'I': [[0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0]],
