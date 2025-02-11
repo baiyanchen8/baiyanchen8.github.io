@@ -13,33 +13,33 @@
         "003.movie": [
             {
                 "title": "index",
-                "path": "posts/003.movie/index.html",
+                "path": "/posts/003.movie/index.html",
                 "updated_at": "2025-02-06 23:11:29"
             }
         ],
         "999.other": [
             {
                 "title": "index",
-                "path": "posts/999.other/index.html",
+                "path": "/posts/999.other/index.html",
                 "updated_at": "2025-02-06 23:11:31"
             }
         ],
         "001.game": [
             {
                 "title": "index",
-                "path": "posts/001.game/index.html",
-                "updated_at": "2025-02-06 23:11:26"
+                "path": "/posts/001.game/index.html",
+                "updated_at": "2025-02-11 14:39:34"
             },
             {
                 "title": "teteris",
-                "path": "posts/001.game/teteris.html",
+                "path": "/posts/001.game/teteris.html",
                 "updated_at": "2025-02-06 23:07:43"
             }
         ],
         "002.Note": [
             {
                 "title": "index",
-                "path": "posts/002.Note/index.html",
+                "path": "/posts/002.Note/index.html",
                 "updated_at": "2025-02-06 23:11:28"
             }
         ]

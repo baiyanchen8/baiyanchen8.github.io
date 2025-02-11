@@ -44,7 +44,7 @@ def generate_file_list():
 
                     file_list["posts"][theme].append({
                         "title": file_name.replace(".html", ""),  # 以檔名為標題
-                        "path": file_path,
+                        "path": f"/{file_path}",
                         "updated_at": datetime.fromtimestamp(os.path.getmtime(file_path)).strftime('%Y-%m-%d %H:%M:%S')
                     })
 
