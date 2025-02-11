@@ -24,9 +24,12 @@
     </ul>
   </section>
 
-  <footer>
-    <p>© 2025 我的部落格 | <a href="https://github.com/baiyanchen8">GitHub</a></p>
-  </footer>
+  <ul>
+    <li>Email: <a href="mailto:baiyanchen8@gamil.com">baiyanchen8@gamil.com</a></li>
+    <li>GitHub: <a href="https://github.com/baiyanchen8" target="_blank">baiyanchen8</a></li>
+    <li>HackMD: <a href="https://hackmd.io/@baiyanchen8" target="_blank">baiyanchen8 的 HackMD</a></li>
+    <p><a href="/index.html">回首頁</a></p>
+  </ul>
 
   <script>
 
@@ -88,7 +91,7 @@
     const themename = url.split('/').pop() || '我的部落格';
 
     const prettyName = themename.replace(/^\d+\./, '').replace(/\.html$/, ''); // 去掉编号和后缀
-
+    console.log(prettyName);
     // 设置页面标题
     document.getElementById('title').innerText = prettyName;    
   </script>
