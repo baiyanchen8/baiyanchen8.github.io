@@ -80,7 +80,7 @@
     </div>
 
     <div id="function-button">
-      <button id="restartButton">重新開始</button>
+      <button id="restartButton">重開</button>
       <button id="pauseButton">暫停</button>
     </div>
 
@@ -244,7 +244,7 @@ function drawNextTetromino() {
   nextContext.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
   const matrix = tetrominos[nextTetromino];
   const color = colors[nextTetromino];
-  const size = 40;
+  const size = 32;
   
   // 計算讓方塊居中的位置
   const offsetX = (nextCanvas.width - matrix[0].length * size) / 2;
