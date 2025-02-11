@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>我的部落格</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>我的部落格</h1>
+    <h1 id="title">我的部落格</h1>
     <nav>
       <a href="#gallery">作品展示</a>
       <a href="#blog">文章</a>
@@ -17,95 +17,152 @@
     </nav>
   </header>
 
-  <section id="gallery">
-    <h2>作品展示</h2>
-    <div class="gallery-container" id="gallery-container">
-      <!-- JavaScript 會動態插入圖片 -->
-    </div>
-  </section>
-  
-  <section id="blog">
-    <h2>最新文章</h2>
-    <ul id="blog-list">
-      <!-- JavaScript 會動態插入文章連結 -->
-    </ul>
-  </section>
-  
+  <main>
+    <section id="blog">
+      <h2>最新文章</h2>
+      <div id="blog-list"></div>
+    </section>
 
-  <footer>
-    <p>© 2025 我的部落格 | <a href="https://github.com/baiyanchen8">GitHub</a></p>
-  </footer>
+    <section id="contact">
+      <h2>聯絡資訊</h2>
+      <ul class="contact-list">
+        <li>Email: <a href="mailto:baiyanchen8@gamil.com">baiyanchen8@gamil.com</a></li>
+        <li>GitHub: <a href="https://github.com/baiyanchen8" target="_blank">baiyanchen8</a></li>
+        <li>HackMD: <a href="https://hackmd.io/@baiyanchen8" target="_blank">baiyanchen8 的 HackMD</a></li>
+      </ul>
+    </section>
 
-  <script >
-    fetch('asserts/file-list.json')
-  .then(response => response.json())
-  .then(data => {
-    // 動態載入圖片
-    const galleryContainer = document.getElementById('gallery-container');
+    <footer>
+      <p><a href="/index.html">回首頁</a></p>
+    </footer>
+  </main>
 
-    // 根據修改時間排序圖片
-    data.images.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+  <script>
+    // 格式化主題名稱
+    function formatThemeName(theme) {
+      return theme
+        .replace(/^\d+[._-]*/, '') // 移除開頭編號
+        .split(/[._-]/)            // 分割不同單字
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+    }
 
-    // 載入已排序的圖片
-    data.images.forEach(image => {
-      const img = document.createElement('img');
-      img.src = image.path;
-      img.alt = '作品';
-      galleryContainer.appendChild(img);
-    });
+    // 從 URL 中提取當前主題
+    function getCurrentTheme() {
+      const currentPath = window.location.pathname;
+      const themePattern = /\/posts\/([^/]+)\/index\.html$/i;
+      const match = currentPath.match(themePattern);
+      return match ? match[1] : null;
+    }
 
-    // 動態載入文章
-    const blogList = document.getElementById('blog-list');
+    // 設置頁面標題
+    function setDocumentTitle() {
+      const currentTheme = getCurrentTheme();
+      let pageTitle = '我的部落格';
 
-    // 根據修改時間排序文章
-    data.posts.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+      if (currentTheme) {
+        const formattedTheme = formatThemeName(currentTheme);
+        pageTitle = `${formattedTheme} | 我的部落格`;
+        document.getElementById('title').textContent = formattedTheme;
+      } else {
+        document.getElementById('title').textContent = '我的部落格';
+      }
 
-    // 載入已排序的文章
-    data.posts.forEach(post => {
+      document.title = pageTitle;
+    }
+
+    // 顯示錯誤訊息
+    function displayError(message) {
+      const blogList = document.getElementById('blog-list');
+      blogList.innerHTML = `<p class="error">${message}</p>`;
+    }
+
+    // 創建文章元素
+    function createPostElement(post) {
       const li = document.createElement('li');
-    
-      // 創建標題和路徑的容器
-      const titlePathContainer = document.createElement('div');
-      titlePathContainer.classList.add('title-path-container');
-    
-      // 創建標題
-      const a = document.createElement('a');
-      a.classList.add('a1');
-      a.href = post.path;
-      a.textContent = post.title;
-    
-      // 創建路徑
-      const pathElement = document.createElement('span');
-      pathElement.classList.add('path-info');
-      pathElement.textContent = `路徑: ${post.path.replace('posts/html/', 'html/')}`;
-    
-      // 創建更新時間
-      const updatedTimeElement = document.createElement('div');
-      updatedTimeElement.classList.add('updated-time');
-      updatedTimeElement.textContent = `最後更新時間: ${new Date(post.updated_at).toLocaleString('zh-TW', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-      })}`;
-    
-      // 添加到容器
-      titlePathContainer.appendChild(a);
-      titlePathContainer.appendChild(pathElement);
-    
-      // 添加容器到 li
-      li.appendChild(titlePathContainer);
-      li.appendChild(updatedTimeElement);
-    
-      // 添加 li 到 blogList
-      blogList.appendChild(li);
-    });
-    
-  })
-  .catch(error => console.error('無法載入 JSON：', error));
+      const article = document.createElement('article');
 
+      const title = document.createElement('h3');
+      const link = document.createElement('a');
+      link.classList.add('post-link');
+      link.href = post.path;
+      link.textContent = post.title;
+
+      const meta = document.createElement('div');
+      meta.classList.add('post-meta');
+      meta.innerHTML = `
+        <time>${post.created_at || ''}</time>
+        <span class="update-time">最後更新: ${post.updated_at}</span>
+      `;
+
+      title.appendChild(link);
+      article.appendChild(title);
+      article.appendChild(meta);
+      li.appendChild(article);
+      return li;
+    }
+
+    // 渲染文章列表，僅顯示當前主題的文章
+    function renderPosts(data) {
+      const blogList = document.getElementById('blog-list');
+      const currentTheme = getCurrentTheme();
+
+      if (currentTheme && data.posts[currentTheme]) {
+        const posts = data.posts[currentTheme].filter(post => !/index/i.test(post.title));
+
+        if (posts.length === 0) {
+          displayError('目前此主題沒有其他文章。');
+          return;
+        }
+        const postList = document.createElement('ul');
+        postList.classList.add('post-list');
+
+        posts.forEach(post => {
+          postList.appendChild(createPostElement(post));
+        });
+
+        blogList.appendChild(postList);
+      } else if (!currentTheme) {
+        // 如果不在特定主題頁面，顯示所有主題的文章
+        const categories = Object.keys(data.posts).sort();
+
+        categories.forEach(category => {
+          const posts = data.posts[category].filter(post => !/index/i.test(post.title));
+
+          if (posts.length > 0) {
+            const section = document.createElement('section');
+            section.classList.add('category-section');
+
+            const postList = document.createElement('ul');
+            postList.classList.add('post-list');
+
+            posts.forEach(post => {
+              postList.appendChild(createPostElement(post));
+            });
+
+            blogList.appendChild(postList);
+          }
+        });
+      } else {
+        displayError('找不到相關主題或文章。');
+      }
+    }
+
+    // 初始化加載
+    window.addEventListener('DOMContentLoaded', () => {
+      setDocumentTitle();
+
+      fetch('/asserts/file-list.json')
+        .then(response => {
+          if (!response.ok) throw new Error(`HTTP錯誤! 狀態碼: ${response.status}`);
+          return response.json();
+        })
+        .then(renderPosts)
+        .catch(error => {
+          console.error('資料獲取失敗:', error);
+          displayError('無法載入文章列表，請稍後再試或聯繫管理員');
+        });
+    });
   </script>
 </body>
 </html>
