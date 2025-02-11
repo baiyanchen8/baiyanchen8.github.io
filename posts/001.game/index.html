@@ -41,7 +41,7 @@
         const url = window.location.href;
         const indexPost = themePosts.find(post => post.title.toLowerCase() === 'index');
         const  theme1=    url.split('/').pop() || '我的部落格';
-         theme1 = themename.replace(/^\d+\./, '').replace(/\.html$/, ''); // 去掉编号和后缀
+         theme1 = theme1.replace(/^\d+\./, '').replace(/\.html$/, ''); // 去掉编号和后缀
           // 建立文章清單
           const postList = document.createElement('ul');
           data.posts[theme1]
