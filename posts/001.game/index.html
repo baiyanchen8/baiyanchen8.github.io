@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title >我的部落格</title>
+  <title>我的部落格</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,86 +16,107 @@
       <a href="#contact">聯絡</a>
     </nav>
   </header>
-  
-  <section id="blog">
-    <h2>最新文章</h2>
-    <ul id="blog-list">
-      <!-- JavaScript 會動態插入文章連結 -->
-    </ul>
-  </section>
 
-  <section id="contact">
-    <h2>聯絡我</h2>
-    <p>如果你有任何問題或合作提案，歡迎透過以下方式聯絡我：</p>
-    <ul>
-      <li>Email: <a href="mailto:baiyanchen8@gamil.com">baiyanchen8@gamil.com</a></li>
-      <li>GitHub: <a href="https://github.com/baiyanchen8" target="_blank">baiyanchen8</a></li>
-      <li>HackMD: <a href="https://hackmd.io/@baiyanchen8" target="_blank">baiyanchen8 的 HackMD</a></li>
-    </ul>
-  </section>
+  <main>
+    <section id="blog">
+      <h2>最新文章</h2>
+      <div id="blog-list"></div>
+    </section>
 
-  <footer> <p><a href="/index.html">回首頁</a></p></footer>
+    <section id="contact">
+      <h2>聯絡資訊</h2>
+      <ul class="contact-list">
+        <li>Email: <a href="mailto:baiyanchen8@gamil.com">baiyanchen8@gamil.com</a></li>
+        <li>GitHub: <a href="https://github.com/baiyanchen8" target="_blank">baiyanchen8</a></li>
+        <li>HackMD: <a href="https://hackmd.io/@baiyanchen8" target="_blank">baiyanchen8 的 HackMD</a></li>
+      </ul>
+      <p><a href="/index.html">回首頁</a></p>
+    </section>
+  </main>
+
   <script>
-
-
-    function loadPosts(data) {
+    function displayError(message) {
       const blogList = document.getElementById('blog-list');
-      const sortedThemes=Object.keys(data.posts).sort();
-        sortedThemes.forEach(theme => {
-        const themePosts = data.posts[theme];
-      const indexPost = themePosts.find(post => post.title.toLowerCase() === 'index');
-        // const url = window.location.href;
-       // const  theme1=    url.split('/').pop() || '我的部落格';
-        //  theme1 = theme1.replace(/^\d+\./, '').replace(/\.html$/, ''); // 去掉编号和后缀
-          // 建立文章清單
-          const postList = document.createElement('ul');
-          data.posts[theme]
-          .filter(post => post.title.toLowerCase() !== 'index') // 排除 index.html
+      blogList.innerHTML = `<p class="error">${message}</p>`;
+    }
+
+    function createPostElement(post) {
+      const li = document.createElement('li');
+      const article = document.createElement('article');
+      
+      const title = document.createElement('h3');
+      const link = document.createElement('a');
+      link.classList.add('post-link');
+      link.href = post.path;
+      link.textContent = post.title;
+      
+      const meta = document.createElement('div');
+      meta.classList.add('post-meta');
+      meta.innerHTML = `
+        <time>${post.created_at}</time>
+        <span class="update-time">最後更新: ${post.updated_at}</span>
+      `;
+
+      title.appendChild(link);
+      article.appendChild(title);
+      article.appendChild(meta);
+      li.appendChild(article);
+      return li;
+    }
+
+    function renderPosts(data) {
+      const blogList = document.getElementById('blog-list');
+      const categories = Object.keys(data.posts).sort();
+
+      categories.forEach(category => {
+        const section = document.createElement('section');
+        section.classList.add('category-section');
+        
+        const heading = document.createElement('h3');
+        heading.textContent = category;
+        
+        const postList = document.createElement('ul');
+        postList.classList.add('post-list');
+
+        data.posts[category]
+          .filter(post => !post.title.match(/index/i))
           .forEach(post => {
-            const li = document.createElement('li');
-            const a = document.createElement('a');
-            a.classList.add('a1');
-            a.href = post.path;   
-            a.textContent = post.title;
-
-            const updatedTimeElement = document.createElement('div');
-            updatedTimeElement.classList.add('updated-time');
-            updatedTimeElement.textContent = `最後更新時間: ${post.updated_at}`;
-
-            li.appendChild(a);
-            li.appendChild(updatedTimeElement);
-            postList.appendChild(li);
+            postList.appendChild(createPostElement(post));
           });
 
-          blogList.appendChild(postList);
+        section.appendChild(heading);
+        section.appendChild(postList);
+        blogList.appendChild(section);
       });
     }
 
-    fetch('/asserts/file-list.json')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('無法載入 JSON 數據');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log(data);
-        loadPosts(data);
-      })
-      .catch(error => {
-        console.error('錯誤：', error);
-        alert('無法載入數據，請稍後再試。');
-      });
+    function setDocumentTitle() {
+      const pathSegments = window.location.pathname.split('/');
+      let title = pathSegments[pathSegments.length - 1]
+        .replace(/^\d+[-_]?/, '')
+        .replace(/.html$/, '')
+        .replace(/-/g, ' ');
 
-    // 动态设置页面标题
-    const url = window.location.href;
-    console.log(url);
-    const themename = url.split('/').pop() || '我的部落格';
+      if (!title || title === 'index') title = '我的部落格';
+      document.title = `${title} | 我的部落格`;
+      document.getElementById('title').textContent = title;
+    }
 
-    const prettyName = themename.replace(/^\d+\./, '').replace(/\.html$/, ''); // 去掉编号和后缀
-    console.log(prettyName);
-    // 设置页面标题
-    document.getElementById('title').innerText = prettyName;    
+    // 初始化加載
+    window.addEventListener('DOMContentLoaded', () => {
+      setDocumentTitle();
+
+      fetch('/asserts/file-list.json')
+        .then(response => {
+          if (!response.ok) throw new Error(`HTTP錯誤! 狀態碼: ${response.status}`);
+          return response.json();
+        })
+        .then(renderPosts)
+        .catch(error => {
+          console.error('資料獲取失敗:', error);
+          displayError('無法載入文章列表，請稍後再試或聯繫管理員');
+        });
+    });
   </script>
 </body>
 </html>
