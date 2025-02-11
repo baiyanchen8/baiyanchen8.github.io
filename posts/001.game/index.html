@@ -30,10 +30,10 @@
         <li>GitHub: <a href="https://github.com/baiyanchen8" target="_blank">baiyanchen8</a></li>
         <li>HackMD: <a href="https://hackmd.io/@baiyanchen8" target="_blank">baiyanchen8 的 HackMD</a></li>
       </ul>
-      
     </section>
+
     <footer>
-    <p><a href="/index.html">回首頁</a></p>
+      <p><a href="/index.html">回首頁</a></p>
     </footer>
   </main>
 
@@ -42,38 +42,33 @@
     function formatThemeName(theme) {
       return theme
         .replace(/^\d+[._-]*/, '') // 移除開頭編號
-        .split(/[._-]/) // 分割不同單字
+        .split(/[._-]/)            // 分割不同單字
         .map(word => word.charAt(0).toUpperCase() + word.slice(1))
         .join(' ');
     }
 
-    // 設置頁面標題
-    function setDocumentTitle() {
+    // 從 URL 中提取當前主題
+    function getCurrentTheme() {
       const currentPath = window.location.pathname;
       const themePattern = /\/posts\/([^/]+)\/index\.html$/i;
       const match = currentPath.match(themePattern);
+      return match ? match[1] : null;
+    }
 
-      let titleText = '我的部落格';
+    // 設置頁面標題
+    function setDocumentTitle() {
+      const currentTheme = getCurrentTheme();
       let pageTitle = '我的部落格';
 
-      if (match && match[1]) {
-        const theme = match[1];
-        titleText = formatThemeName(theme);
-        pageTitle = `${titleText} | ${pageTitle}`;
+      if (currentTheme) {
+        const formattedTheme = formatThemeName(currentTheme);
+        pageTitle = `${formattedTheme} | 我的部落格`;
+        document.getElementById('title').textContent = formattedTheme;
       } else {
-        // 處理非文章頁的標題
-        const pathSegments = currentPath.split('/');
-        const fileName = pathSegments.pop() || '';
-        const baseName = fileName.replace(/(^\d+[._-]*)|(\.html$)/gi, '');
-
-        if (baseName && baseName !== 'index') {
-          titleText = formatThemeName(baseName);
-          pageTitle = `${titleText} | ${pageTitle}`;
-        }
+        document.getElementById('title').textContent = '我的部落格';
       }
 
       document.title = pageTitle;
-      document.getElementById('title').textContent = titleText;
     }
 
     // 顯示錯誤訊息
@@ -96,7 +91,7 @@
       const meta = document.createElement('div');
       meta.classList.add('post-meta');
       meta.innerHTML = `
-        <time>${post.created_at}</time>
+        <time>${post.created_at || ''}</time>
         <span class="update-time">最後更新: ${post.updated_at}</span>
       `;
 
@@ -107,31 +102,64 @@
       return li;
     }
 
-    // 渲染文章列表
+    // 渲染文章列表，僅顯示當前主題的文章
     function renderPosts(data) {
       const blogList = document.getElementById('blog-list');
-      const categories = Object.keys(data.posts).sort();
+      const currentTheme = getCurrentTheme();
 
-      categories.forEach(category => {
+      if (currentTheme && data.posts[currentTheme]) {
+        const posts = data.posts[currentTheme].filter(post => !/index/i.test(post.title));
+
+        if (posts.length === 0) {
+          displayError('目前此主題沒有其他文章。');
+          return;
+        }
+
         const section = document.createElement('section');
         section.classList.add('category-section');
 
         const heading = document.createElement('h3');
-        heading.textContent = category;
+        heading.textContent = formatThemeName(currentTheme); // 顯示格式化的主題名稱
 
         const postList = document.createElement('ul');
         postList.classList.add('post-list');
 
-        data.posts[category]
-          .filter(post => !post.title.match(/index/i))
-          .forEach(post => {
-            postList.appendChild(createPostElement(post));
-          });
+        posts.forEach(post => {
+          postList.appendChild(createPostElement(post));
+        });
 
         section.appendChild(heading);
         section.appendChild(postList);
         blogList.appendChild(section);
-      });
+      } else if (!currentTheme) {
+        // 如果不在特定主題頁面，顯示所有主題的文章
+        const categories = Object.keys(data.posts).sort();
+
+        categories.forEach(category => {
+          const posts = data.posts[category].filter(post => !/index/i.test(post.title));
+
+          if (posts.length > 0) {
+            const section = document.createElement('section');
+            section.classList.add('category-section');
+
+            const heading = document.createElement('h3');
+            heading.textContent = formatThemeName(category);
+
+            const postList = document.createElement('ul');
+            postList.classList.add('post-list');
+
+            posts.forEach(post => {
+              postList.appendChild(createPostElement(post));
+            });
+
+            section.appendChild(heading);
+            section.appendChild(postList);
+            blogList.appendChild(section);
+          }
+        });
+      } else {
+        displayError('找不到相關主題或文章。');
+      }
     }
 
     // 初始化加載
