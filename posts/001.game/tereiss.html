@@ -438,7 +438,7 @@ let initialDropSpeed = 35;
 let dropSpeed = initialDropSpeed;
 
 // 音效與背景音樂
-const bgMusic = new Audio('background-music.mp3');
+const bgMusic = new Audio('Pixel Dreams.mp3');
 bgMusic.loop = true;
 bgMusic.volume = 0.5;
 bgMusic.play();
@@ -450,7 +450,7 @@ let isMusicPlaying = true;
 for (let row = -2; row < 20; row++) {
   playfield[row] = new Array(10).fill(0);
 }
-
+              
 // 方塊形狀與顏色
 const tetrominos = {
   'I': [[0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0]],
