@@ -114,12 +114,6 @@
           displayError('目前此主題沒有其他文章。');
           return;
         }
-
-        const section = document.createElement('section');
-
-        const heading = document.createElement('h3');
-        heading.textContent = formatThemeName(currentTheme); // 顯示格式化的主題名稱
-
         const postList = document.createElement('ul');
         postList.classList.add('post-list');
 
@@ -127,7 +121,7 @@
           postList.appendChild(createPostElement(post));
         });
 
-        section.appendChild(postList);
+        blogList.appendChild(postList);
       } else if (!currentTheme) {
         // 如果不在特定主題頁面，顯示所有主題的文章
         const categories = Object.keys(data.posts).sort();
@@ -146,7 +140,7 @@
               postList.appendChild(createPostElement(post));
             });
 
-            section.appendChild(postList);
+            blogList.appendChild(postList);
           }
         });
       } else {
