@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html>
 <head>
-  <meta charset="UTF-8">
   <title>Enhanced Tetris Game</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     html, body {
       height: 100%;
@@ -20,9 +21,10 @@
     }
 
     #gameContainer {
+      display: inline-block;
       display: flex;
       align-items: flex-start;
-      justify-content: center;
+      justify-content: flex-end;
     }
 
     canvas {
@@ -37,7 +39,6 @@
       color: white;
       border: none;
       cursor: pointer;
-      border-radius: 5px;
     }
 
     button:hover {
@@ -68,6 +69,7 @@
     #function-button {
       display: flex;
       justify-content: center;
+      flex-direction: row;
     }
 
     #nextCanvas {
@@ -85,54 +87,20 @@
       margin-left: 10px;
     }
 
-    /* 觸控按鈕樣式 */
-    #touchControls {
-      display: none; /* 預設隱藏，僅在手機顯示 */
-      margin-top: 15px;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
+    #mobile-controls {
+      display: none;
+      justify-content: space-around;
+      margin-top: 20px;
     }
 
-    #touchControls button {
-      width: 60px;
-      height: 60px;
-      font-size: 24px;
-      background-color: #333;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
+    #mobile-controls button {
+      padding: 15px;
+      font-size: 18px;
     }
 
-    #touchControls button:hover {
-      background-color: #555;
-    }
-
-    /* 響應式設計 */
     @media (max-width: 600px) {
-      body {
-        flex-direction: column;
-      }
-
-      #gameContainer {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      canvas {
-        width: 90vw;
-        height: auto;
-      }
-
-      .info-board {
-        margin-left: 0;
-        margin-top: 10px;
-        align-items: center;
-      }
-
-      #touchControls {
-        display: flex; /* 在手機顯示觸控按鈕 */
+      #mobile-controls {
+        display: flex;
       }
     }
   </style>
@@ -179,14 +147,14 @@
     </div>
 
   </div>
+
 </div>
 
-<!-- 觸控按鈕區塊 -->
-<div id="touchControls">
-  <button id="leftButton">←</button>
-  <button id="rotateButton">⟳</button>
-  <button id="rightButton">→</button>
-  <button id="downButton">↓</button>
+<div id="mobile-controls">
+  <button id="mobileLeft">←</button>
+  <button id="mobileRotate">↻</button>
+  <button id="mobileRight">→</button>
+  <button id="mobileDown">↓</button>
 </div>
 
 <script>
@@ -214,6 +182,12 @@ function getNextTetromino() {
   }
 
   const name = tetrominoSequence.pop();
+
+  // 新增檢查：若pop後序列為空，重新生成
+  if (tetrominoSequence.length === 0) {
+    generateSequence();
+  }
+
   nextTetromino = tetrominoSequence[tetrominoSequence.length - 1];
   drawNextTetromino();
 
@@ -412,7 +386,7 @@ function loop() {
   }
 }
 
-// 鍵盤控制
+// 控制方塊移動
 document.addEventListener('keydown', function(e) {
   if (gameOver || isPaused) return;
 
@@ -471,32 +445,40 @@ document.getElementById('toggleMusicButton').addEventListener('click', function(
   isMusicPlaying = !isMusicPlaying;
 });
 
-// 觸控按鈕控制
-document.getElementById('leftButton').addEventListener('click', function() {
-  if (isValidMove(tetromino.matrix, tetromino.row, tetromino.col - 1)) {
-    tetromino.col--;
+// 手機控制
+document.getElementById('mobileLeft').addEventListener('click', function() {
+  if (gameOver || isPaused) return;
+  const col = tetromino.col - 1;
+  if (isValidMove(tetromino.matrix, tetromino.row, col)) {
+    tetromino.col = col;
   }
 });
 
-document.getElementById('rightButton').addEventListener('click', function() {
-  if (isValidMove(tetromino.matrix, tetromino.row, tetromino.col + 1)) {
-    tetromino.col++;
+document.getElementById('mobileRight').addEventListener('click', function() {
+  if (gameOver || isPaused) return;
+  const col = tetromino.col + 1;
+  if (isValidMove(tetromino.matrix, tetromino.row, col)) {
+    tetromino.col = col;
   }
 });
 
-document.getElementById('rotateButton').addEventListener('click', function() {
-  const rotated = rotate(tetromino.matrix);
-  if (isValidMove(rotated, tetromino.row, tetromino.col)) {
-    tetromino.matrix = rotated;
+document.getElementById('mobileRotate').addEventListener('click', function() {
+  if (gameOver || isPaused) return;
+  const matrix = rotate(tetromino.matrix);
+  if (isValidMove(matrix, tetromino.row, tetromino.col)) {
+    tetromino.matrix = matrix;
   }
 });
 
-document.getElementById('downButton').addEventListener('click', function() {
-  if (isValidMove(tetromino.matrix, tetromino.row + 1, tetromino.col)) {
-    tetromino.row++;
-  } else {
+document.getElementById('mobileDown').addEventListener('click', function() {
+  if (gameOver || isPaused) return;
+  const row = tetromino.row + 1;
+  if (!isValidMove(tetromino.matrix, row, tetromino.col)) {
+    tetromino.row = row - 1;
     placeTetromino();
+    return;
   }
+  tetromino.row = row;
 });
 
 // 初始化
@@ -534,7 +516,7 @@ let isMusicPlaying = true;
 for (let row = -2; row < 20; row++) {
   playfield[row] = new Array(10).fill(0);
 }
-
+              
 // 方塊形狀與顏色
 const tetrominos = {
   'I': [[0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0]],
