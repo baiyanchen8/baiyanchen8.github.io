@@ -4,12 +4,12 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>我的部落格</title>
+  <title id="title">我的部落格</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>我的部落格</h1>
+    <h1 id="title">我的部落格</h1>
     <nav>
       <a href="#gallery">作品展示</a>
       <a href="#blog">文章</a>
@@ -106,6 +106,13 @@
   })
   .catch(error => console.error('無法載入 JSON：', error));
 
+  // 获取当前页面的 URL
+  const url = window.location.href;
+  // 从 URL 中提取文件名
+  const fileName = url.split('/').pop();
+  const themename = url.split('/').pop();
+ const title=document.getElementById("title");
+ title.innerText=themename;
   </script>
 </body>
 </html>
