@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Basic Tetris HTML Game</title>
+  <title>Enhanced Tetris Game</title>
   <meta charset="UTF-8">
   <style>
     html, body {
@@ -24,7 +24,7 @@
     }
 
     button {
-      margin-top: 10px;
+      margin: 5px;
       padding: 10px 20px;
       font-size: 16px;
       background-color: #444;
@@ -37,8 +37,16 @@
       background-color: #666;
     }
 
-    .score-board {
+    .info-board {
+      display: flex;
+      justify-content: space-between;
+      width: 320px;
       margin: 10px 0;
+    }
+
+    #nextCanvas {
+      background-color: #222;
+      margin-left: 20px;
     }
   </style>
 </head>
@@ -46,11 +54,18 @@
 
 <canvas width="320" height="640" id="game"></canvas>
 
-<div class="score-board">
-  分數: <span id="score">0</span>
+<div class="info-board">
+  <div>
+    分數: <span id="score">0</span>
+  </div>
+  <div>
+    下一個方塊:
+    <canvas width="128" height="128" id="nextCanvas"></canvas>
+  </div>
 </div>
 
 <button id="restartButton">重新開始</button>
+<button id="pauseButton">暫停</button>
 
 <script>
 // 隨機產生方塊的工具函式
@@ -80,6 +95,10 @@ function getNextTetromino() {
   const matrix = tetrominos[name];
   const col = playfield[0].length / 2 - Math.ceil(matrix[0].length / 2);
   const row = name === 'I' ? -1 : -2;
+
+  // 更新下一個方塊預覽
+  nextTetromino = tetrominoSequence[tetrominoSequence.length - 1];
+  drawNextTetromino();
 
   return { name, matrix, row, col };
 }
@@ -178,8 +197,19 @@ function resetGame() {
   tetrominoSequence.length = 0;
   tetromino = getNextTetromino();
   gameOver = false;
+  isPaused = false;
   cancelAnimationFrame(rAF);
   rAF = requestAnimationFrame(loop);
+}
+
+// 暫停或繼續遊戲
+function togglePause() {
+  if (gameOver) return;
+  isPaused = !isPaused;
+  document.getElementById('pauseButton').textContent = isPaused ? '繼續' : '暫停';
+  if (!isPaused) {
+    rAF = requestAnimationFrame(loop);
+  }
 }
 
 // 更新分數顯示
@@ -187,8 +217,27 @@ function updateScoreDisplay() {
   document.getElementById('score').textContent = score;
 }
 
+// 繪製下一個方塊預覽
+function drawNextTetromino() {
+  nextContext.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
+  const matrix = tetrominos[nextTetromino];
+  const color = colors[nextTetromino];
+  const size = 32;
+
+  nextContext.fillStyle = color;
+  for (let row = 0; row < matrix.length; row++) {
+    for (let col = 0; col < matrix[row].length; col++) {
+      if (matrix[row][col]) {
+        nextContext.fillRect(col * size, row * size, size - 1, size - 1);
+      }
+    }
+  }
+}
+
 // 遊戲主循環
 function loop() {
+  if (isPaused) return;
+
   rAF = requestAnimationFrame(loop);
   context.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -226,7 +275,7 @@ function loop() {
 
 // 控制方塊移動
 document.addEventListener('keydown', function(e) {
-  if (gameOver) return;
+  if (gameOver || isPaused) return;
 
   if (e.which === 37 || e.which === 39) {
     const col = e.which === 37 ? tetromino.col - 1 : tetromino.col + 1;
@@ -253,19 +302,27 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-// 綁定重新開始按鈕
+// 綁定按鈕事件
 document.getElementById('restartButton').addEventListener('click', resetGame);
+document.getElementById('pauseButton').addEventListener('click', togglePause);
 
 // 初始化變數
 const canvas = document.getElementById('game');
 const context = canvas.getContext('2d');
 const grid = 32;
+
+const nextCanvas = document.getElementById('nextCanvas');
+const nextContext = nextCanvas.getContext('2d');
+
 const tetrominoSequence = [];
 const playfield = [];
+
 let count = 0;
 let score = 0;
 let gameOver = false;
+let isPaused = false;
 let rAF = null;
+let nextTetromino = null;
 
 for (let row = -2; row < 20; row++) {
   playfield[row] = [];
