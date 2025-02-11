@@ -11,6 +11,7 @@
 
     body {
       background: black;
+      display: flex;
       flex-direction: row;
       align-items: center;
       justify-content: center;
@@ -20,7 +21,8 @@
 
     #gameContainer {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
+      justify-content: flex-end;
     }
 
     canvas {
@@ -47,7 +49,15 @@
       width: 320px;
       margin: 10px 0;
     }
-
+    #score-block{
+      display: flex;
+      justify-content: center;
+    }
+    #function-button{
+      display: flex;
+      justify-content: center;
+      flex-direction: row;
+    }
     #nextCanvas {
       background-color: #222;
       margin-left: 20px;
@@ -65,10 +75,10 @@
     </div>
   </div>
 </div>
-<div>
+<div id="score-block">
   分數: <span id="score">0</span>
 </div>
-<div>
+<div id="function-button">
   <button id="restartButton">重新開始</button>
   <button id="pauseButton">暫停</button>
 </div>
