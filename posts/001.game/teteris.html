@@ -12,11 +12,16 @@
     body {
       background: black;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
       justify-content: center;
       color: white;
       font-family: monospace;
+    }
+
+    #gameContainer {
+      display: flex;
+      align-items: center;
     }
 
     canvas {
@@ -52,15 +57,17 @@
 </head>
 <body>
 
-<canvas width="320" height="640" id="game"></canvas>
+<div id="gameContainer">
+  <canvas width="320" height="640" id="game"></canvas>
 
-<div class="info-board">
-  <div>
-    分數: <span id="score">0</span>
-  </div>
-  <div>
-    下一個方塊:
-    <canvas width="128" height="128" id="nextCanvas"></canvas>
+  <div class="info-board">
+    <div>
+      分數: <span id="score">0</span>
+    </div>
+    <div>
+      下一個方塊:
+      <canvas width="128" height="128" id="nextCanvas"></canvas>
+    </div>
   </div>
 </div>
 
@@ -93,7 +100,7 @@ function getNextTetromino() {
 
   const name = tetrominoSequence.pop();
   const matrix = tetrominos[name];
-  const col = playfield[0].length / 2 - Math.ceil(matrix[0].length / 2);
+  const col = Math.floor((playfield[0].length - matrix[0].length) / 2);
   const row = name === 'I' ? -1 : -2;
 
   // 更新下一個方塊預覽
@@ -223,12 +230,16 @@ function drawNextTetromino() {
   const matrix = tetrominos[nextTetromino];
   const color = colors[nextTetromino];
   const size = 32;
+  
+  // 計算讓方塊居中的位置
+  const offsetX = (nextCanvas.width - matrix[0].length * size) / 2;
+  const offsetY = (nextCanvas.height - matrix.length * size) / 2;
 
   nextContext.fillStyle = color;
   for (let row = 0; row < matrix.length; row++) {
     for (let col = 0; col < matrix[row].length; col++) {
       if (matrix[row][col]) {
-        nextContext.fillRect(col * size, row * size, size - 1, size - 1);
+        nextContext.fillRect(offsetX + col * size, offsetY + row * size, size - 1, size - 1);
       }
     }
   }
