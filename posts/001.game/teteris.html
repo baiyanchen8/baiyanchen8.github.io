@@ -72,7 +72,7 @@
   <div class="info-board">
 
     <div>
-      <canvas width="128" height="128" id="nextCanvas"></canvas>
+      <canvas width="200" height="200" id="nextCanvas"></canvas>
     </div>
 
     <div id="score-block">
@@ -244,7 +244,7 @@ function drawNextTetromino() {
   nextContext.clearRect(0, 0, nextCanvas.width, nextCanvas.height);
   const matrix = tetrominos[nextTetromino];
   const color = colors[nextTetromino];
-  const size = 32;
+  const size = 40;
   
   // 計算讓方塊居中的位置
   const offsetX = (nextCanvas.width - matrix[0].length * size) / 2;
