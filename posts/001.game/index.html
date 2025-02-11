@@ -38,8 +38,10 @@
           // 建立主題標題
         const themePosts = data.posts[theme];
       // 檢查是否有 index.html
+        const url = window.location.href;
         const indexPost = themePosts.find(post => post.title.toLowerCase() === 'index');
-          theme=
+        const  theme=    url.split('/').pop() || '我的部落格';
+         theme = themename.replace(/^\d+\./, '').replace(/\.html$/, ''); // 去掉编号和后缀
           // 建立文章清單
           const postList = document.createElement('ul');
           data.posts[theme]
