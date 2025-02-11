@@ -84,6 +84,7 @@
 
     // 动态设置页面标题
     const url = window.location.href;
+    console.log(url);
     const themename = url.split('/').pop() || '我的部落格';
 
     const prettyName = themename.replace(/^\d+\./, '').replace(/\.html$/, ''); // 去掉编号和后缀
