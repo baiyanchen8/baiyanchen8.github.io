@@ -14,33 +14,38 @@
             {
                 "title": "index",
                 "path": "/posts/003.movie/index.html",
-                "updated_at": "2025-02-06 23:11:29"
+                "updated_at": "2025-02-11 15:03:30"
             }
         ],
         "999.other": [
             {
                 "title": "index",
                 "path": "/posts/999.other/index.html",
-                "updated_at": "2025-02-06 23:11:31"
+                "updated_at": "2025-02-11 15:03:32"
             }
         ],
         "001.game": [
             {
+                "title": "tereiss",
+                "path": "/posts/001.game/tereiss.html",
+                "updated_at": "2025-02-11 20:00:39"
+            },
+            {
                 "title": "index",
                 "path": "/posts/001.game/index.html",
-                "updated_at": "2025-02-11 14:39:34"
+                "updated_at": "2025-02-11 14:52:04"
             },
             {
                 "title": "teteris",
                 "path": "/posts/001.game/teteris.html",
-                "updated_at": "2025-02-06 23:07:43"
+                "updated_at": "2025-02-11 18:16:14"
             }
         ],
         "002.Note": [
             {
                 "title": "index",
                 "path": "/posts/002.Note/index.html",
-                "updated_at": "2025-02-06 23:11:28"
+                "updated_at": "2025-02-11 15:06:39"
             }
         ]
     }
