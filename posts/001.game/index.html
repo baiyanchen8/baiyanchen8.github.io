@@ -16,13 +16,6 @@
       <a href="#contact">聯絡</a>
     </nav>
   </header>
-
-  <section id="gallery">
-    <h2>作品展示</h2>
-    <div class="gallery-container" id="gallery-container">
-      <!-- JavaScript 會動態插入圖片 -->
-    </div>
-  </section>
   
   <section id="blog">
     <h2>最新文章</h2>
@@ -36,50 +29,38 @@
   </footer>
 
   <script>
-    function loadImages(data) {
-      const galleryContainer = document.getElementById('gallery-container');
-      data.images.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
-      data.images.forEach(image => {
-        const img = document.createElement('img');
-        img.src = image.path;
-        img.alt = '作品';
-        img.onerror = function() {
-          this.src = 'path/to/placeholder-image.png';
-          this.alt = '圖片加載失敗';
-        };
-        galleryContainer.appendChild(img);
-      });
-    }
+
 
     function loadPosts(data) {
       const blogList = document.getElementById('blog-list');
-      data.posts.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
-      data.posts.forEach(post => {
-        const li = document.createElement('li');
-        const titlePathContainer = document.createElement('div');
-        titlePathContainer.classList.add('title-path-container');
-        const a = document.createElement('a');
-        a.classList.add('a1');
-        a.href = post.path;
-        a.textContent = post.title;
-        const pathElement = document.createElement('span');
-        pathElement.classList.add('path-info');
-        pathElement.textContent = `文件名: ${post.path.split('/').pop()}`;
-        const updatedTimeElement = document.createElement('div');
-        updatedTimeElement.classList.add('updated-time');
-        updatedTimeElement.textContent = `最後更新時間: ${new Date(post.updated_at).toLocaleString('zh-TW', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-        })}`;
-        titlePathContainer.appendChild(a);
-        titlePathContainer.appendChild(pathElement);
-        li.appendChild(titlePathContainer);
-        li.appendChild(updatedTimeElement);
-        blogList.appendChild(li);
+      const sortedThemes=Object.keys(data.posts).sort();
+        sortedThemes.forEach(theme => {
+          // 建立主題標題
+        const themePosts = data.posts[theme];
+      // 檢查是否有 index.html
+        const indexPost = themePosts.find(post => post.title.toLowerCase() === 'index');
+          theme=
+          // 建立文章清單
+          const postList = document.createElement('ul');
+          data.posts[theme]
+          .filter(post => post.title.toLowerCase() !== 'index') // 排除 index.html
+          .forEach(post => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.classList.add('a1');
+            a.href = post.path;   
+            a.textContent = post.title;
+
+            const updatedTimeElement = document.createElement('div');
+            updatedTimeElement.classList.add('updated-time');
+            updatedTimeElement.textContent = `最後更新時間: ${post.updated_at}`;
+
+            li.appendChild(a);
+            li.appendChild(updatedTimeElement);
+            postList.appendChild(li);
+          });
+
+          blogList.appendChild(postList);
       });
     }
 
@@ -91,7 +72,7 @@
         return response.json();
       })
       .then(data => {
-        loadImages(data);
+        console.log(data);
         loadPosts(data);
       })
       .catch(error => {
