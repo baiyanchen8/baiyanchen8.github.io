@@ -157,13 +157,18 @@ function getNextTetromino() {
   }
 
   const name = tetrominoSequence.pop();
+
+  // 新增檢查：若pop後序列為空，重新生成
+  if (tetrominoSequence.length === 0) {
+    generateSequence();
+  }
+
+  nextTetromino = tetrominoSequence[tetrominoSequence.length - 1];
+  drawNextTetromino();
+
   const matrix = tetrominos[name];
   const col = Math.floor((playfield[0].length - matrix[0].length) / 2);
   const row = name === 'I' ? -1 : -2;
-
-  // 更新下一個方塊預覽
-  nextTetromino = tetrominoSequence[tetrominoSequence.length - 1];
-  drawNextTetromino();
 
   return { name, matrix, row, col };
 }
